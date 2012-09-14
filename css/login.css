@@ -1,0 +1,130 @@
+@charset "utf-8";
+.login_grey_crn_l {
+	background-image: url(../images/l_cr_grey.png);
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	float: left;
+	height: 40px;
+	width: 20px;
+}
+.login_grey_crn_r {
+	background-image: url(../images/r_cr_grey.png);
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	float: right;
+	height: 40px;
+	width: 20px;
+}
+/* CSS Document */
+
+
+.login_end {
+	background-color: #E9EAEB;
+	width: 450px;
+	margin-right: auto;
+	margin-left: auto;
+	height: 40px;
+}
+.login_iproc_logo {
+	height: 70px;
+	text-align: center;
+	vertical-align: bottom;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #999999;
+}
+.login_j_logo {
+	background-image: url(../images/j_logo_big.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 120px;
+	width: 380px;
+}
+.login_menu_c {
+	height: 20px;
+	text-align: center;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #000000;
+	background-color: #FFFFFF;
+}
+.login_menu_l {
+	background-image: url(../images/l_menu_grey.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 20px;
+	width: 20px;
+}
+.login_menu_r {
+	background-image: url(../images/r_menu_grey.png);
+	background-repeat: no-repeat;
+	background-position: right top;
+	height: 20px;
+	width: 20px;
+}
+.login_mid {
+	background-color: #E9EAEB;
+	height: 100%;
+	margin-right: auto;
+}
+.login_table_blue {
+	height: 10px;
+	width: 20%;
+	background-image: url(../images/blue.png);
+	background-repeat: repeat-x;
+	background-position: left top;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #000000;
+}
+.login_table_content {
+	background-color: #FFFFFF;
+	height: 100%;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-right-color: #000000;
+	border-left-color: #000000;
+	margin-right: auto;
+	margin-left: auto;
+	width: 900px;
+}
+.login_table_orn_green {
+	height: 10px;
+	width: 20%;
+	background-image: url(../images/green.png);
+	background-repeat: repeat-x;
+	background-position: left top;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #000000;
+}
+.login_table_header {
+	height: 120px;
+	padding-right: 18px;
+	padding-left: 18px;
+	vertical-align: top;
+	text-align: center;
+}
+.login_table_title {
+	height: 120px;
+	width: 940px;
+}
+.login_j_logo_l {
+	background-image: url(../images/j_logo_big_l.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 120px;
+	width: 280px;
+}
+.login_j_logo_r {
+	background-image: url(../images/j_logo_big_r.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 120px;
+	width: 280px;
+}
+.login_table {
+	width: 850px;
+}

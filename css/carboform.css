@@ -1,0 +1,80 @@
+.cm-clear {
+	clear: both;
+	display: block;
+}
+.cm-left {
+	float: left;
+	display: block;
+}
+.cm-right {
+	float: right;
+	display: block;
+}
+.cm-error {
+	margin: 10px 0;
+	padding: 10px;
+}
+.cm-error .ui-icon {
+	margin-right: 10px;
+}
+.cm-error ul {
+	margin: 0;
+	padding: 0;
+}
+.cm-error ul li {
+	margin: 0 0 3px 10px;
+	list-style: disc;
+	font-size: 1.1em;
+}
+.cm-form {
+	font-size: 1.1em;
+}
+.cm-form .cm-group {
+	margin: 0 0 10px 0;
+}
+.cm-form .cm-group-header {
+	padding: 0.5em;
+}
+.cm-form .cm-group-header .ui-icon {
+	cursor: pointer;
+}
+.cm-form .cm-group-content {
+	padding: 0.5em 0;
+}
+.cm-form input, .cm-form select, .cm-form textarea, .cm-form label {
+	margin: 3px;
+	display: inline-block;
+}
+.cm-form label {
+	display: inline-block;
+	width: 30%;
+	line-height: 23px;
+	text-align: right;
+	font-size: 1.1em;
+}
+.cm-form .cm-label-div {
+	width: 30%;
+	margin: 3px;
+}
+.cm-form .cm-label-div label {
+	width: auto;
+	margin: 0;
+	float: right;
+}
+.cm-form .cm-input-div {
+	width: 60%;
+	margin: 3px;
+}
+.cm-form .cm-input-div textarea {
+	width: 90%;
+}
+input.cm-checkbox {
+	border: 0;
+}
+input.cm-short {
+	width: 50px;
+}
+input.cm-long {
+	width: 200px;
+}
+

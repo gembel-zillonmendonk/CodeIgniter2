@@ -1,0 +1,138 @@
+.cg-block {
+	position: absolute;
+	z-index: 100;
+}
+.cg-block-message {
+	position: relative;
+	z-index: 101;
+	top: 35%;
+	margin: 0 auto;
+	width: 30%;
+	height: 30%;
+	text-align: center;
+}
+.cg-loading {
+	width: 16px;
+	float: left;
+	line-height: 27px;
+	margin: 0.5em 0.4em;
+	padding: 0;
+}
+.cg-hidden {
+	display: none;
+}
+.cg-left {
+	float: left;
+}
+.cg-right {
+	float: right;
+}
+.cg-clear {
+	clear: both;
+}
+.cg-button .ui-button-text {
+	padding: 0 1em 0 2.1em;
+	height: 24px;
+	line-height: 24px;
+}
+.carbogrid {
+	font-size: 11px;
+	font-family: arial, helvetica, verdana;
+}
+.carbogrid input, .carbogrid select {
+	margin: 0;
+}
+.carbogrid input.filter, .carbogrid select.filter, .carbogrid textarea.filter {
+}
+.carbogrid .cg-toolbar {
+	height: 26px;
+	padding: 10px 0;
+	position: relative;
+}
+.carbogrid .cg-columns-list {
+	width: auto;
+	padding: 0.4em 1em;
+	line-height: 23px;
+	position: absolute;
+	top: 36px;
+	left: 0;
+}
+.carbogrid .cg-columns-list td {
+	white-space: nowrap;
+}
+.carbogrid table.cg-grid {
+	width: 100%;
+	border-collapse: collapse;
+}
+.carbogrid table.cg-grid tfoot td {
+	font-weight: normal;
+	vertical-align: center;
+}
+.carbogrid table.cg-grid tfoot td span {
+	display: block;
+	line-height: 29px;
+}
+.carbogrid table.cg-grid th {
+	padding: 5px;
+	text-align: left;
+	vertical-align: center;
+	white-space: nowrap;
+	line-height: 16px;
+}
+.carbogrid table.cg-grid th a {
+}
+.carbogrid table.cg-grid th span {
+	display: block;
+}
+.carbogrid table.cg-grid th.cg-select {
+	width: 1%;
+	padding: 5px;
+}
+.carbogrid table.cg-grid th.cg-action {
+	/*width: 100%;*/
+	padding: 5px;
+	text-align: right;
+}
+.carbogrid table.cg-grid td {
+	padding: 5px;
+	text-align: left;
+	vertical-align: center;
+	line-height: 16px;
+	/*white-space: nowrap;*/
+}
+.carbogrid table.cg-grid td.cg-select {
+	padding: 5px;
+}
+.carbogrid table.cg-grid td.cg-action {
+	padding: 5px;
+	text-align: right;
+}
+.carbogrid table.cg-grid td.cg-action a.cg-icon {
+	font-size: 8px;
+}
+.carbogrid table.cg-grid tr.cg-odd td {
+	/*background: #fff;*/
+}
+.carbogrid table.cg-grid tr.cg-even td {
+	/*background: #f8e1f0;*/
+}
+.carbogrid table.cg-grid tr.cg-first td {
+	border-top: 0;
+}
+.carbogrid table.cg-grid tr.cg-last td {
+	border-bottom: 0;
+}
+.carbogrid table.cg-grid tr.cg-selected td {
+	font-weight: bold;
+}
+.carbogrid table.cg-grid tr td.ui-state-hover {
+	border: inherit;
+	font-weight: inherit;
+}
+.carbogrid table.cg-grid tr td.ui-state-highlight {
+	border: inherit;
+	font-weight: inherit;
+}
+.carbogrid select.cg-filter {
+	width: 150px;
+}

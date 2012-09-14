@@ -1,0 +1,118 @@
+.brcrumbs_off {
+	font-size: 11px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: #DEE1E2;
+	height: 10px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #BDC4C6;
+}
+.form_band {
+	background-color: #383F41;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+	width: 100%;
+	height: 10px;
+}
+.form_header {
+	height: 77px;
+	padding-right: 10px;
+	padding-left: 10px;
+	vertical-align: bottom;
+}
+.form_bar {
+	background-color: #CFD1D3;
+	height: 50px;
+	vertical-align: bottom;
+}
+.form_tabs_container {
+	font-size: 11px;
+	text-align: center;
+	width: 100%;
+}
+.form_tabs_item_off {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #989CA0;
+	background-image: url(../images/frm_tab_off.png);
+	background-repeat: repeat-x;
+	background-position: left top;
+	height: 30px;
+	width: 220px;
+	color: #778386;
+}
+.form_tabs_item_on {
+	background-image: url(../images/frm_tab_on.png);
+	background-repeat: repeat-x;
+	background-position: left top;
+	width: 220px;
+	height: 30px;
+	color: #000000;
+	font-weight: bold;
+}
+.form_title {
+	font-size: 20px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: right;
+	padding-top: 6px;
+	padding-bottom: 10px;
+}
+.form_tab_l_on {
+	background-image: url(../images/frm_tab_on_l.png);
+	background-repeat: no-repeat;
+	background-position: right top;
+	height: 40px;
+	width: 7px;
+}
+.form_tab_r_on {
+	background-image: url(../images/frm_tab_on_r.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 40px;
+	width: 7px;
+}
+.form_tab_l_off {
+	background-image: url(../images/frm_tab_off_l.png);
+	background-repeat: no-repeat;
+	background-position: right top;
+	height: 40px;
+	width: 7px;
+}
+.form_tab_r_off {
+	background-image: url(../images/frm_tab_off_r.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 40px;
+	width: 7px;
+}
+.form_side {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #989CA0;
+}
+.form_sublink_container {
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+}
+.form_sublink_item {
+	width: 20%;
+	vertical-align: top;
+}
+.form_sublink_item_on {
+	width: 20%;
+	border-bottom-width: 5px;
+	border-bottom-style: solid;
+	border-bottom-color: #BDC4C6;
+	vertical-align: top;
+	height: 27px;
+	color: #999999;
+}
+.form_backto {
+	text-align: center;
+	vertical-align: top;
+	height: 50px;
+}
