@@ -12,6 +12,53 @@
  */
 class MY_Loader extends CI_Loader {
 
+    public function database($params = '', $return = FALSE, $active_record = NULL) {
+        // Grab the super object
+        $CI = & get_instance();
+
+        // Do we even need to load the database class?
+        if (class_exists('CI_DB') AND $return == FALSE AND $active_record == NULL AND isset($CI->db) AND is_object($CI->db)) {
+            return FALSE;
+        }
+
+        require_once(BASEPATH . 'database/DB.php');
+
+        // Load the DB class
+        $db = & DB($params, $active_record);
+
+        $my_driver = config_item('subclass_prefix') . 'DB_' . $db->dbdriver . '_driver';
+        $my_driver_file = APPPATH . 'core/drivers/' . $db->dbdriver . '/' . $my_driver . EXT;
+
+        if (file_exists($my_driver_file)) {
+            require_once($my_driver_file);
+            $db = new $my_driver(get_object_vars($db));
+        }
+
+        if ($return === TRUE) {
+            return $db;
+        }
+        
+        // Initialize the db variable.  Needed to prevent
+        // reference errors with some configurations
+        $CI->db = '';
+        $CI->db = $db;
+        
+        //print_r($db->list_columns('EP_VENDOR'));
+        /*
+          if ($return === TRUE) {
+          return DB($params, $active_record);
+          }
+         
+
+        // Initialize the db variable.  Needed to prevent
+        // reference errors with some configurations
+        $CI->db = '';
+
+        // Load the DB class
+        $CI->db = & DB($params, $active_record);
+         */
+    }
+
     public function model($model, $name = '', $db_conn = FALSE) {
         if (is_array($model)) {
             foreach ($model as $babe) {
@@ -51,6 +98,7 @@ class MY_Loader extends CI_Loader {
         $model = strtolower($model);
 
         foreach ($this->_ci_model_paths as $mod_path) {
+
             if (!file_exists($mod_path . 'models/' . $path . $model . '.php')) {
                 continue;
             }
@@ -70,15 +118,14 @@ class MY_Loader extends CI_Loader {
             require_once($mod_path . 'models/' . $path . $model . '.php');
 
             $model = ucfirst($model);
-echo "xxxxa";
+
             if (func_num_args() > 3) {
-                
                 $refl = new ReflectionClass($model);
                 $CI->$name = $refl->newInstanceArgs(array_slice(func_get_args(), 3));
             } else {
                 $CI->$name = new $model();
             }
-            
+
             //$CI->$name = new $model();
 
             $this->_ci_models[] = $name;

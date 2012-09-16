@@ -6,25 +6,25 @@ if (!defined('BASEPATH'))
 class MY_DBColumnModel {
 
     public $name;
-    public $rawName;
-    public $allowNull;
-    public $dbType;
+    public $raw_name;
+    public $allow_null;
+    public $db_type;
     public $type;
-    public $defaultValue;
+    public $default_value;
     public $size;
     public $precision;
     public $scale;
-    public $isPrimaryKey;
-    public $isForeignKey;
-    public $autoIncrement = false;
+    public $is_primary_key;
+    public $is_foreign_key;
+    public $auto_increment = false;
 
     public function __construct(&$params) {
         $dbType = $params['type'];
         $defaultValue = $params['default_value'];
         $this->name = $params['name'];
-        $this->rawName = $params['name'];
-        $this->allowNull = $params['not_null'] ? false : true;
-        $this->dbType = $dbType;
+        $this->raw_name = $params['name'];
+        $this->allow_null = $params['not_null'] ? false : true;
+        $this->db_type = $dbType;
         $this->extractType($dbType);
         $this->extractLimit($dbType);
         if ($defaultValue !== null)
@@ -52,7 +52,7 @@ class MY_DBColumnModel {
     public function typecast($value) {
         if (gettype($value) === $this->type || $value === null || $value instanceof CDbExpression)
             return $value;
-        if ($value === '' && $this->allowNull)
+        if ($value === '' && $this->allow_null)
             return $this->type === 'string' ? '' : null;
         switch ($this->type) {
             case 'string': return (string) $value;
@@ -104,9 +104,9 @@ class MY_DBColumnModel {
      */
     protected function extractDefault($defaultValue) {
         if (stripos($defaultValue, 'timestamp') !== false)
-            $this->defaultValue = null;
+            $this->default_value = null;
         else
-            $this->defaultValue = $this->typecast($defaultValue);
+            $this->default_value = $this->typecast($defaultValue);
     }
 
 }

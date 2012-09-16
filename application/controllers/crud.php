@@ -25,29 +25,78 @@ class Crud extends CI_Controller {
         //$this->load->view('welcome_message');
     }
 
-    public function form($model = null, $id = null) {
+    public function modal_form($model = null) {
+        // check and load model
+        $model = $this->_load_model($model);
         
-        $this->model = isset($model) ? $model : $this->model;
-        $this->load->model('model', 'crud_model', true, $this->model);
+        // form submited do insert / update
         
-        $name = 'newForm';
-        $id = 'newForm';
-        
-        if ($this->is_ajax_request()) {
-            echo "sss";
+        if ($this->_is_ajax_request() && isset($_REQUEST['jqform']) && $_REQUEST['jqform'] == 'save') {
+            $attributes = $_REQUEST[$model->table];
+            print_r($model->save($attributes));
             exit();
         }
+        
+        // edit request 
+        $keys = $model->primary_keys;
+        if(array_intersect(array_keys($_REQUEST), $keys) === $keys) { // check wheater primary key was supplied or not
+            $where = array();
+            foreach ($keys as $key) $where[$key] = $_REQUEST[$key];
+            
+            $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
+            $model->attributes = $query; // set model attributes
+        }
+        
+        $name = strtolower($model->table);
+        $id = 'form_' . strtolower($model->table);
+        
+        $this->load->view('Crud/modal_form', array(
+            'name' => $name,
+            'id' => $id,
+            'model' => $model,
+        ));
+    }
+    
+    public function form($model = null) {
+        // check and load model
+        $model = $this->_load_model($model);
+        
+        // form submited do insert / update
+        if ($this->_is_ajax_request()) {
+            $attributes = $_REQUEST[$model->table];
+            print_r($model->save($attributes));
+            exit();
+        }
+
+        // edit request 
+        $keys = $model->primary_keys;
+        if(array_intersect(array_keys($_REQUEST), $keys) === $keys) { // check wheater primary key was supplied or not
+            $where = array();
+            foreach ($keys as $key) $where[$key] = $_REQUEST[$key];
+            
+            $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
+            $model->attributes = $query; // set model attributes
+        }
+        
+        $name = strtolower($model->table);
+        $id = 'form_' . strtolower($model->table);
         
         $this->layout->view('Crud/form', array(
             'name' => $name,
             'id' => $id,
-            'model' => $this->crud_model,
+            'model' => $model,
         ));
     }
 
     public function grid($model = null) {
-        $this->model = isset($model) ? $model : $this->model;
+        // check and load model
+        $model = $this->_load_model($model);
 
+        $gopts = array(
+            'page'=>(isset($_REQUEST['page']) ? $_REQUEST['page'] : 1),
+            'rows'=>(isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15),
+        );
+        
         $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
         $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15;
         $filter = null;
@@ -61,7 +110,7 @@ class Crud extends CI_Controller {
 
 
         $this->db->start_cache();
-        $this->db->from($this->model);
+        $this->db->from($model->sql_select);
         if ($filter !== null)
             $this->db->where($filter);
         $this->db->stop_cache();
@@ -77,7 +126,7 @@ class Crud extends CI_Controller {
 
         $this->db->flush_cache();
 
-        if ($this->is_ajax_request()) {
+        if ($this->_is_ajax_request()) {
             echo json_encode(array(
                 "records" => $count,
                 "page" => $page,
@@ -92,17 +141,19 @@ class Crud extends CI_Controller {
 
         $read_only = false;
 
-        preg_match("/select/", $this->model, $matches);
+        /*
+        preg_match("/select/", $model->sql_select, $matches);
         if (count($matches) > 0) {
             $this->model = false;
             $read_only = true;
         }
+        */
         $this->layout->view('Crud/grid', array(
             'query' => $query,
             'rows' => $rows,
             'page' => $page,
             'read_only' => $read_only,
-            'model' => $this->model,
+            'model' => $model,
         ));
         //$this->load->view('Crud/grid', array('query' => $query, 'rows'=>$rows, 'page'=>$page));
     }
@@ -119,7 +170,22 @@ class Crud extends CI_Controller {
         
     }
 
-    private function is_ajax_request() {
+    private function _load_model($model, $return = true) {
+        if (file_exists(APPPATH . 'models/' . strtolower($model) . '.php'))
+            $this->load->model(strtolower($model), 'crud_model', true);
+        else
+            $this->load->model('model', 'crud_model', true, $this->model);
+        
+        $model = $this->crud_model;
+        unset($this->crud_model);
+        
+        if($return)
+            return $model;                
+        else
+            $this->model = $model;        
+    }
+    
+    private function _is_ajax_request() {
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
     }
 

@@ -290,14 +290,7 @@ class CI_Loader {
 
             $model = ucfirst($model);
 
-            if (func_num_args() > 3) {
-                $refl = new ReflectionClass($model);
-                $CI->$name = $refl->newInstanceArgs(array_slice(func_get_args(), 3));
-            } else {
-                $CI->$name = new $model();
-            }
-
-            //$CI->$name = new $model();
+            $CI->$name = new $model();
 
             $this->_ci_models[] = $name;
             return;

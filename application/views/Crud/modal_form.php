@@ -4,7 +4,8 @@ $CI = & get_instance();
 $CI->load->library('ci_jqForm', array('method' => 'post', 'name' => $name, 'id' => $id), 'f');
 
 // Set url
-$CI->f->setUrl($model->table);
+$url = site_url('crud/modal_form/' . $model->table);
+$CI->f->setUrl($url);
 // Set parameters 
 $params = array();
 // Set SQL Command, table, keys 

@@ -80,7 +80,8 @@ class ci_jqGrid extends jqGridRender {
                 $this->colModel = $model;
                 if ($this->primaryKey) {
                     $this->setColProperty($this->primaryKey, array("key" => true));
-                } return true;
+                } 
+                return true;
             }
 
             if ($this->query->stmt_id !== null) {

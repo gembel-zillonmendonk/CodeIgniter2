@@ -10,12 +10,7 @@
  *
  * @author farid
  */
-class Form {
-    public $url = 'save';
-    public $title = 'Form';
-    public $params = array();
-    public $table = '';
-    public $primary_keys = array();
+class MY_Form extends MY_Model {
     
 }
 
