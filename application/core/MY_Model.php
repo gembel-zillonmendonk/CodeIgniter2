@@ -32,6 +32,7 @@ class MY_Model extends CI_Model {
         'is_readonly' => false,
         'auto_increment' => false,
         'rules' => array(),
+        'key' => 0,
     );
     public $meta_columns;
     public $table; // must be initialize by override class
@@ -81,6 +82,7 @@ class MY_Model extends CI_Model {
             $this->meta_columns[$k]['type'] = $this->extract_type($v['db_type']);
             $this->meta_columns[$k]['is_primary_key'] = ($v['key'] == 'P') ? 1 : 0;
             $this->meta_columns[$k]['is_foreign_key'] = ($v['key'] == 'R') ? 1 : 0;
+            $this->meta_columns[$k]['key'] = ($v['key'] == 'P') ? 1 : 0;
             $this->meta_columns[$k]['is_searchable'] = true;
             $this->meta_columns[$k]['is_readonly'] = false;
             $this->meta_columns[$k]['auto_increment'] = false;

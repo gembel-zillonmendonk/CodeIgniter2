@@ -15,7 +15,7 @@ $CI->f->serialKey = false;
 // Set Form layout 
 $CI->f->setColumnLayout('twocolumn');
 // Set the style for the table
-$CI->f->setTableStyles('width: 940px; margin:0 auto; border:none; border-spacing:none; border-collapse:collapse;');
+$CI->f->setTableStyles('border:1px solid; border-spacing:none; border-collapse:collapse;');
 
 // Add elements
 foreach ($model->columns as $k => $v) {

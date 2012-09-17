@@ -8,185 +8,186 @@
         <link href="<?php echo base_url('css/ui.jqgrid.css') ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('css/ui.jqform.css') ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('css/superfish.css') ?>" rel="stylesheet" media="screen" /> 
-        <link href="<?php echo base_url('css/format.css') ?>" rel="stylesheet" type="text/css">
-            <link href="<?php echo base_url('css/text.css') ?>" rel="stylesheet" type="text/css">
-                <link href="<?php echo base_url('css/data.css') ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url('css/format.css') ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo base_url('css/text.css') ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo base_url('css/data.css') ?>" rel="stylesheet" type="text/css"/>
 
-                    <script type="text/javascript" src="<?php echo base_url('js/jquery-1.8.0.min.js') ?>"></script>         
-                    <script type="text/javascript" src="<?php echo base_url('js/i18n/grid.locale-en.js') ?>" ></script>
-                    <script type="text/javascript" src="<?php echo base_url('js/jquery.jqGrid.min.js') ?>"></script>
-                    <script type="text/javascript" src="<?php echo base_url('js/jquery-ui-1.8.23.custom.min.js') ?>"></script>
-                    <script type="text/javascript" src="<?php echo base_url('js/jquery.form.js') ?>"></script>         
-                    <script type="text/javascript">
-                        $.jgrid.no_legacy_api = true;
-                        $.jgrid.useJSON = true;
-                    </script>
+        <script type="text/javascript" src="<?php echo base_url('js/jquery-1.8.0.min.js') ?>"></script>         
+        <script type="text/javascript" src="<?php echo base_url('js/i18n/grid.locale-en.js') ?>" ></script>
+        <script type="text/javascript" src="<?php echo base_url('js/jquery.jqGrid.min.js') ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('js/jquery-ui-1.8.23.custom.min.js') ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('js/jquery.form.js') ?>"></script>         
+        <script type="text/javascript">
+            $.jgrid.no_legacy_api = true;
+            $.jgrid.useJSON = true;
+        </script>
 
-                    <script type="text/javascript" src="<?php echo base_url('js/hoverIntent.js') ?>"></script> 
-                    <script type="text/javascript" src="<?php echo base_url('js/superfish.js') ?>"></script> 
-                    <script type="text/javascript" src="<?php echo base_url('js/supersubs.js') ?>"></script> 
-                    <script>  
-                        $(document).ready(function() { 
-                            $('ul.sf-menu').supersubs({ 
-                                minWidth:    12,   // minimum width of sub-menus in em units 
-                                maxWidth:    27,   // maximum width of sub-menus in em units 
-                                extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
-                                // due to slight rounding differences and font-family 
-                            }).superfish(); 
-                        }); 
+        <script type="text/javascript" src="<?php echo base_url('js/hoverIntent.js') ?>"></script> 
+        <script type="text/javascript" src="<?php echo base_url('js/superfish.js') ?>"></script> 
+        <script type="text/javascript" src="<?php echo base_url('js/supersubs.js') ?>"></script> 
+        <script>  
+            $(document).ready(function() { 
+                $('ul.sf-menu').supersubs({ 
+                    minWidth:    12,   // minimum width of sub-menus in em units 
+                    maxWidth:    27,   // maximum width of sub-menus in em units 
+                    extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+                    // due to slight rounding differences and font-family 
+                }).superfish(); 
+            }); 
 
-                    </script>
-                    <script type="text/javascript">
-                        var $base_url = '<?php echo base_url() ?>';
-                        var $images_url = $base_url + '/images/';
-                        var $js_url = $base_url + '/js/';
-                        var $css_url = $base_url + '/css/';
-                    </script>
-                    <script type="text/javascript" src="<?php echo base_url('js/stmenu.js') ?>"></script>
-                    <script type="text/javascript" src="<?php echo base_url('js/swap.js') ?>"></script>
-                    </head>
+        </script>
+        <script type="text/javascript">
+            var $base_url = '<?php echo base_url() ?>';
+            var $site_url = '<?php echo site_url() ?>';
+            var $images_url = $base_url + '/images/';
+            var $js_url = $base_url + '/js/';
+            var $css_url = $base_url + '/css/';
+        </script>
+        <script type="text/javascript" src="<?php echo base_url('js/stmenu.js') ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('js/swap.js') ?>"></script>
+    </head>
 
-                    <body onLoad="MM_preloadImages('<?php echo base_url('images/pass_on.png') ?>','<?php echo base_url('images/logout_on.png') ?>','<?php echo base_url('images/delg_on.png') ?>')">
-                        <table class="table_main_container" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td class="table_band">
-                                    <table class="table_band_container" border="0" cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <td class="txt_logged">Anda Masuk Sebagai : <span class="txt_orange">Application Administrator</span></td>
-                                            <td class="txt_date">Senin, 01 September 2008</td>
-                                            <td class="tools_container">
-                                                <div class="tools_item"><a href="default.htm"><img src="<?php echo base_url('images/logout.png') ?>" alt="Keluar Aplikasi" name="logout" width="20" height="18" border="0" id="logout" onMouseOver="MM_swapImage('logout','','<?php echo base_url('images/logout_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
-                                                <div class="tools_item"><a href="#"><img src="<?php echo base_url('images/pass.png') ?>" alt="Rubah Password" name="chg_pass" width="20" height="18" border="0" id="chg_pass" onMouseOver="MM_swapImage('chg_pass','','<?php echo base_url('images/pass_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
-                                                <div class="tools_item"><a href="#"><img src="<?php echo base_url('images/delg.png') ?>" alt="Pendelegasian User" name="delg" width="20" height="18" border="0" id="delg" onMouseOver="MM_swapImage('delg','','<?php echo base_url('images/delg_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table_header">
-                                    <div class="iproc_logo">&nbsp;</div>
-                                    <div class="j_logo"><div class="j_logo_l">&nbsp;</div></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table_menu_container">
-                                    <div class="menu_bg">
-                                        <div class="menu_l">&nbsp;</div>
-                                        <div class="menu_r">&nbsp;</div>
-                                        <div class="menu_c">
-                                            <div class="mn_item_container">
-                                                <!--<script type="text/javascript" src="<?php echo base_url('js/menu.js') ?>"></script>-->
-                                                <ul class="sf-menu">
-                                                    <li><a href="#">HOME</a>
+    <body onLoad="MM_preloadImages('<?php echo base_url('images/pass_on.png') ?>','<?php echo base_url('images/logout_on.png') ?>','<?php echo base_url('images/delg_on.png') ?>')">
+        <table class="table_main_container" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="table_band">
+                    <table class="table_band_container" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="txt_logged">Anda Masuk Sebagai : <span class="txt_orange">Application Administrator</span></td>
+                            <td class="txt_date">Senin, 01 September 2008</td>
+                            <td class="tools_container">
+                                <div class="tools_item"><a href="default.htm"><img src="<?php echo base_url('images/logout.png') ?>" alt="Keluar Aplikasi" name="logout" width="20" height="18" border="0" id="logout" onMouseOver="MM_swapImage('logout','','<?php echo base_url('images/logout_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
+                                <div class="tools_item"><a href="#"><img src="<?php echo base_url('images/pass.png') ?>" alt="Rubah Password" name="chg_pass" width="20" height="18" border="0" id="chg_pass" onMouseOver="MM_swapImage('chg_pass','','<?php echo base_url('images/pass_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
+                                <div class="tools_item"><a href="#"><img src="<?php echo base_url('images/delg.png') ?>" alt="Pendelegasian User" name="delg" width="20" height="18" border="0" id="delg" onMouseOver="MM_swapImage('delg','','<?php echo base_url('images/delg_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="table_header">
+                    <div class="iproc_logo">&nbsp;</div>
+                    <div class="j_logo"><div class="j_logo_l">&nbsp;</div></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="table_menu_container">
+                    <div class="menu_bg">
+                        <div class="menu_l">&nbsp;</div>
+                        <div class="menu_r">&nbsp;</div>
+                        <div class="menu_c">
+                            <div class="mn_item_container">
+                                <!--<script type="text/javascript" src="<?php echo base_url('js/menu.js') ?>"></script>-->
+                                <ul class="sf-menu">
+                                    <li><a href="#">HOME</a>
 
-                                                    </li>
-                                                    <li><a href="#">MANAJEMEN PENGADAAN</a>
-                                                        <ul>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Pekerjaan</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Pengadaan</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Mengajukan Sanggahan</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Sanggahan</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#">MANAJEMEN KONTRAK</a>
-                                                        <ul>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Pekerjaan</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Kontrak</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Adendum Kontrak</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>"></a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Membuat Permohonan Adendum Kontrak</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>"></a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Progress Work Order</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Progress Milestone</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Progress Termin Pembayaran</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>"></a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Progress Work Order</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Progress Milestone</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Progress Termin Pembayaran</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#">PROFIL VENDOR</a>
-                                                        <ul>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Lihat Profil</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Profil</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Update Profil</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#">PERTOLONGAN</a>
-                                                        <ul>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Fitur Aplikasi</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Registrasi Vendor</a></li>
-                                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Transaksi Vendor</a></li>
-                                                        </ul>                                        
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table_content_container">
-                                    <table class="table_content" border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td class="brcrumbs_link">Anda berada di sini : <span class="txt_blue">Home</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="table_of_contents">
-                                                <?php echo $content_for_layout ?>
+                                    </li>
+                                    <li><a href="#">MANAJEMEN PENGADAAN</a>
+                                        <ul>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Pekerjaan</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Pengadaan</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Mengajukan Sanggahan</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Sanggahan</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">MANAJEMEN KONTRAK</a>
+                                        <ul>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Pekerjaan</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Kontrak</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Adendum Kontrak</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>"></a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Membuat Permohonan Adendum Kontrak</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>"></a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Progress Work Order</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Progress Milestone</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Progress Termin Pembayaran</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>"></a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Progress Work Order</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Progress Milestone</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Progress Termin Pembayaran</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">PROFIL VENDOR</a>
+                                        <ul>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Lihat Profil</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Profil</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Update Profil</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">PERTOLONGAN</a>
+                                        <ul>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Fitur Aplikasi</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Registrasi Vendor</a></li>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Transaksi Vendor</a></li>
+                                        </ul>                                        
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="table_content_container">
+                    <table class="table_content" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="brcrumbs_link">Anda berada di sini : <span class="txt_blue">Home</span></td>
+                        </tr>
+                        <tr>
+                            <td class="table_of_contents">
+                                <?php echo $content_for_layout ?>
 
-                                                <table class="table_content_form" style="width: 940px" align="center" border="0" cellspacing="0" cellpadding="0">
-                                                    <tbody><tr>
-                                                            <td class="data_main_title" colspan="2">KONTAK PERSON</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="data_search_lt">Nama</td>
-                                                            <td class="data_search_rt"><input name="textfield" type="text" id="textfield" size="90"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="data_search_lt">Jabatan (*)</td>
-                                                            <td class="data_search_rt"><input name="textfield" type="text" id="textfield" size="90"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="data_search_lt">Nomor Telepon (*)</td>
-                                                            <td class="data_search_rt"><input name="textfield7" type="text" id="textfield7" size="30"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="data_search_lt">Alamat e-mail (*)</td>
-                                                            <td class="data_search_rt"><input name="textfield" type="text" id="textfield" size="90"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="data_end" colspan="2"><img src="images/blank.gif" width="10" height="10"></td>
-                                                        </tr>
-                                                    </tbody></table>
-                                            </td>
+                                <table class="table_content_form" style="width: 940px" align="center" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody><tr>
+                                            <td class="data_main_title" colspan="2">KONTAK PERSON</td>
                                         </tr>
                                         <tr>
-                                            <td class="table_iproc_logo">&nbsp;</td>
+                                            <td class="data_search_lt">Nama</td>
+                                            <td class="data_search_rt"><input name="textfield" type="text" id="textfield" size="90"></td>
                                         </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table_ornament">
-                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                         <tr>
-                                            <td class="table_orn_purple"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
-                                            <td class="table_orn_green"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
-                                            <td class="table_orn_orange"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
-                                            <td class="table_orn_blue"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
-                                            <td class="table_orn_yl_green"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
+                                            <td class="data_search_lt">Jabatan (*)</td>
+                                            <td class="data_search_rt"><input name="textfield" type="text" id="textfield" size="90"></td>
                                         </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table_footer">© 2008 Copyright <b>ADW Consulting</b> - All Right Reserved</td>
-                            </tr>
-                            <tr>
-                                <td class="table_end"><img src="<?php echo base_url('images/blank.gif') ?>" width="995" height="1"></td>
-                            </tr>
-                        </table>
-                    </body>
-                    </html>
+                                        <tr>
+                                            <td class="data_search_lt">Nomor Telepon (*)</td>
+                                            <td class="data_search_rt"><input name="textfield7" type="text" id="textfield7" size="30"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="data_search_lt">Alamat e-mail (*)</td>
+                                            <td class="data_search_rt"><input name="textfield" type="text" id="textfield" size="90"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="data_end" colspan="2"><img src="images/blank.gif" width="10" height="10"></td>
+                                        </tr>
+                                    </tbody></table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table_iproc_logo">&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="table_ornament">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="table_orn_purple"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
+                            <td class="table_orn_green"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
+                            <td class="table_orn_orange"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
+                            <td class="table_orn_blue"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
+                            <td class="table_orn_yl_green"><img src="<?php echo base_url('images/blank.gif') ?>" width="10" height="5"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="table_footer">© 2008 Copyright <b>ADW Consulting</b> - All Right Reserved</td>
+            </tr>
+            <tr>
+                <td class="table_end"><img src="<?php echo base_url('images/blank.gif') ?>" width="995" height="1"></td>
+            </tr>
+        </table>
+    </body>
+</html>
