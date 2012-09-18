@@ -17,6 +17,9 @@
         <script type="text/javascript" src="<?php echo base_url('js/jquery.jqGrid.min.js') ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('js/jquery-ui-1.8.23.custom.min.js') ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('js/jquery.form.js') ?>"></script>         
+        
+        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.js') ?>"></script>         
+        <script type="text/javascript" src="<?php echo base_url('js/jquery.metadata.js') ?>"></script>         
         <script type="text/javascript">
             $.jgrid.no_legacy_api = true;
             $.jgrid.useJSON = true;

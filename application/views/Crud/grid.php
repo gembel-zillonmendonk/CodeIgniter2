@@ -1,5 +1,5 @@
 <?php
-$obj = get_class($model);
+$obj = strtolower(get_class($model));
 $grid_id = 'grid_' . $obj;
 $pager_id = 'pager_' . $obj;
 $toolbar_id = 'toolbar_' . $obj;
@@ -38,7 +38,7 @@ $form_id = 'form_' . $obj;
                 }
             },
             "gridview": true,
-            "url": "Ep_vendor",
+            //"url": $obj,
             "editurl": "xx",
             "cellurl": "Ep_vendor",
             "rownumbers": true,
@@ -183,14 +183,10 @@ $form_id = 'form_' . $obj;
             title: 'Edit Row',
             position:'first',
             onClickButton : function (){
-                
-                var gsr = jQuery($grid_id).jqGrid('getGridParam','selrow');
-                JSON.stringify(jQuery($grid_id).jqGrid('getRowData',gsr));
-                //console.debug(jQuery($grid_id).jqGrid('getRowData',gsr));
-                
                 var selected = $($grid_id).jqGrid('getGridParam', 'selrow');
-                selected = jQuery($grid_id).jqGrid('getRowData',selected);
+                
                 if (selected) {
+                    selected = jQuery($grid_id).jqGrid('getRowData',selected);
                     var keys = <?php echo json_encode($model->primary_keys); ?>;
                     var count = 0;
                 
@@ -203,18 +199,20 @@ $form_id = 'form_' . $obj;
                     });
                     
                     console.debug(data);
+                    
+                    jQuery($form_id).load($site_url + '/crud/modal_form/' + $obj + '?' + str).dialog({ //dialog form use for popup after click button in pager
+                        autoOpen:false,
+                        width: 630,
+                        modal:true,
+                        position:'top'
+                    });
+                    jQuery($form_id).dialog("open");
                 } else {
                     alert('Please select a row to edit');
                     return;
                 }
                 
-                jQuery($form_id).load($site_url + '/crud/modal_form/' + $obj + '?' + str).dialog({ //dialog form use for popup after click button in pager
-                    autoOpen:false,
-                    width: 630,
-                    modal:true,
-                    position:'top'
-                });
-                jQuery($form_id).dialog("open");
+                
             }
         });
         
@@ -226,12 +224,25 @@ $form_id = 'form_' . $obj;
             title: 'Add new row',
             position:'first',
             onClickButton : function (){
-                jQuery($form_id).load($site_url + '/crud/modal_form/' + $obj).dialog({ //dialog form use for popup after click button in pager
+                jQuery($form_id)
+                .load($site_url + '/crud/modal_form/' + $obj)
+                .dialog({ //dialog form use for popup after click button in pager
                     autoOpen:false,
                     width: 630,
-                    modal:false,
-                    position:'top'
+                    modal:true,
+                    position:'top',
+                    buttons: {
+                        "SUBMIT": function() {
+                            jQuery("form", this).submit();
+                            //jQuery("input[type=submit]", this).ajaxSubmit();
+                            
+                        }, 
+                        "CANCEL": function() { 
+                            $(this).dialog("close");
+                        } 
+                    }
                 });
+                
                 jQuery($form_id).dialog("open");
             }
         });

@@ -10,6 +10,8 @@
  *
  * @author farid
  */
+require_once(APPPATH . 'libraries/jqSuitePHP/jqUtils.php');
+
 class MY_Model extends CI_Model {
 
     public $columns;
@@ -40,8 +42,18 @@ class MY_Model extends CI_Model {
     public $primary_keys;
     public $foreign_keys;
     public $show_columns;
-
     public $attributes;
+
+    public $encoding = 'utf-8';
+    public $select = "";
+    public $datearray = array();
+    
+    protected $dbdateformat = 'Y-m-d';
+    protected $dbtimeformat = 'Y-m-d H:i:s';
+    protected $userdateformat = 'd/m/Y';
+    protected $usertimeformat = 'd/m/Y H:i:s';
+    protected $I = '';
+    protected $GridParams = array("page" => "page", "rows" => "rows", "sort" => "sidx", "order" => "sord", "search" => "_search", "nd" => "nd", "id" => "id", "filter" => "filters", "searchField" => "searchField", "searchOper" => "searchOper", "searchString" => "searchString", "oper" => "oper", "query" => "grid", "addoper" => "add", "editoper" => "edit", "deloper" => "del", "excel" => "excel", "subgrid" => "subgrid", "totalrows" => "totalrows", "autocomplete" => "autocmpl");
     
     public function __construct() {
         parent::__construct();
@@ -57,13 +69,13 @@ class MY_Model extends CI_Model {
         //$CI = & get_instance();
         //$this->primary_keys = $CI->adodb->MetaPrimaryKeys($this->table);
         //$this->foreign_keys = $CI->adodb->MetaForeignKeys($this->table);
-
         //$this->primary_keys = $this->db->list_columns($this->table);
         $this->foreign_keys = $this->db->list_constraints($this->table);
 
         $this->meta_columns = $this->db->list_columns($this->table);
+
         $intial_columns = (count($this->show_columns) > 0) ? true : false;
-        
+
         foreach ($this->meta_columns as $k => $v) {
 
             // set primary keys 
@@ -77,7 +89,7 @@ class MY_Model extends CI_Model {
 
             $this->meta_columns[$k]['index'] = $v['name'];
             $this->meta_columns[$k]['sort_type'] = $this->extract_type($v['db_type']);
-            
+
             $this->meta_columns[$k]['label'] = $this->extract_label($v['name']);
             $this->meta_columns[$k]['type'] = $this->extract_type($v['db_type']);
             $this->meta_columns[$k]['is_primary_key'] = ($v['key'] == 'P') ? 1 : 0;
@@ -100,9 +112,10 @@ class MY_Model extends CI_Model {
             }
         else
             $this->columns = $this->meta_columns;
-        
+
         // set default select query for grid
-        if(! isset($this->sql_select)) $this->sql_select = $this->table;
+        if (!isset($this->sql_select))
+            $this->sql_select = $this->table;
     }
 
     public function is_primary_key($column) {
@@ -121,12 +134,11 @@ class MY_Model extends CI_Model {
         $this->columns[$column][$attr] = $val;
     }
 
-    public function save($attributes)
-    {
+    public function save($attributes) {
         // cek if record new
-        if(count($this->primary_keys) == 0)
-            show_error ("Table doesn't have a primary key");
-        
+        if (count($this->primary_keys) == 0)
+            show_error("Table doesn't have a primary key");
+
         $where = array();
         foreach ($this->primary_keys as $key) {
             $where[$key] = $attributes[$key];
@@ -134,23 +146,21 @@ class MY_Model extends CI_Model {
 
         $this->db->where($where);
         $is_new = ($this->db->count_all_results($this->table) > 0 ? false : true);
-        
-        if($is_new)
+
+        if ($is_new)
             return $this->_insert($attributes);
         else
             return $this->_update($attributes, $where);
     }
-    
-    public function delete()
-    {
+
+    public function delete() {
         
     }
-    
-    public function is_new_record()
-    {
+
+    public function is_new_record() {
         
     }
-    
+
     public function typecast($value) {
         if (gettype($value) === $this->type || $value === null || $value instanceof CDbExpression)
             return $value;
@@ -168,15 +178,15 @@ class MY_Model extends CI_Model {
     protected function _insert($attributes) {
         return $this->db->insert($this->table, $attributes);
     }
-    
+
     protected function _update($attributes, $where) {
-        $this->db->update($this->table, $attributes, $where);
+        return $this->db->update($this->table, $attributes, $where);
     }
-    
+
     protected function _delete() {
         
     }
-    
+
     protected function extractOraType($dbType) {
         if (strpos($dbType, 'FLOAT') !== false)
             return 'NUMBER';
@@ -204,6 +214,121 @@ class MY_Model extends CI_Model {
 
     protected function extract_label($name) {
         return str_replace('_', ' ', $name);
+    }
+
+    protected function _buildSearch(array $prm = null, $str_filter = '') {
+        $filters = ($str_filter && strlen($str_filter) > 0 ) ? $str_filter : jqGridUtils::GetParam($this->GridParams["filter"], "");
+        //$filters = ($str_filter && strlen($str_filter) > 0 ) ? $str_filter : null;
+        $jsona = NULL;
+        $rules = "";
+        if ($filters) {
+            $count = 0;
+            $filters = str_replace('$', '\$', $filters, $count);
+            if (function_exists('json_decode') && strtolower(trim($this->encoding)) == "utf-8" && $count == 0) {
+                $jsona = json_decode($filters, true);
+            } else {
+                $jsona = jqGridUtils::decode($filters);
+            } if (is_array($jsona)) {
+                $gopr = $jsona['groupOp'];
+                $rules[0]['data'] = 'dummy';
+            }
+        } 
+        
+        else if (jqGridUtils::GetParam($this->GridParams['searchField'], '')) {
+            $gopr = '';
+            $rules[0]['field'] = jqGridUtils::GetParam($this->GridParams['searchField'], '');
+            $rules[0]['op'] = jqGridUtils::GetParam($this->GridParams['searchOper'], '');
+            $rules[0]['data'] = jqGridUtils::GetParam($this->GridParams['searchString'], '');
+            $jsona = array();
+            $jsona['groupOp'] = "AND";
+            $jsona['rules'] = $rules;
+            $jsona['groups'] = array();
+        }
+        
+        $ret = array("", $prm);         
+        if ($jsona) {
+            if ($rules && count($rules) > 0) {
+                if (!is_array($prm)) {
+                    $prm = array();
+                } $ret = $this->_getStringForGroup($jsona, $prm);
+                if (count($ret[1]) == 0)
+                    $ret[1] = null;
+            }
+        } return $ret;
+    }
+
+    protected function _getStringForGroup($group, $prm) {
+        $i_ = $this->I;
+        $sopt = array('eq' => "=", 'ne' => "<>", 'lt' => "<", 'le' => "<=", 'gt' => ">", 'ge' => ">=", 'bw' => " {$i_}LIKE ", 'bn' => " NOT {$i_}LIKE ", 'in' => ' IN ', 'ni' => ' NOT IN', 'ew' => " {$i_}LIKE ", 'en' => " NOT {$i_}LIKE ", 'cn' => " {$i_}LIKE ", 'nc' => " NOT {$i_}LIKE ", 'nu' => 'IS NULL', 'nn' => 'IS NOT NULL');
+        $s = "(";
+        if (isset($group['groups']) && is_array($group['groups']) && count($group['groups']) > 0) {
+            for ($j = 0; $j < count($group['groups']); $j++) {
+                if (strlen($s) > 1) {
+                    $s .= " " . $group['groupOp'] . " ";
+                } try {
+                    $dat = $this->_getStringForGroup($group['groups'][$j], $prm);
+                    $s .= $dat[0];
+                    $prm = $prm + $dat[1];
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }
+        } if (isset($group['rules']) && count($group['rules']) > 0) {
+            try {
+                foreach ($group['rules'] as $key => $val) {
+                    if (strlen($s) > 1) {
+                        $s .= " " . $group['groupOp'] . " ";
+                    } $field = $val['field'];
+                    $op = $val['op'];
+                    $v = $val['data'];
+                    if (strtolower($this->encoding) != 'utf-8') {
+                        $v = iconv("utf-8", $this->encoding . "//TRANSLIT", $v);
+                    } if ($op) {
+                        if (in_array($field, $this->datearray)) {
+                            $v = jqGridUtils::parseDate($this->userdateformat, $v, $this->dbdateformat);
+                        } switch ($op) {
+                            case 'bw': case 'bn': $s .= $field . ' ' . $sopt[$op] . " ?";
+                                $prm[] = "$v%";
+                                break;
+                            case 'ew': case 'en': $s .= $field . ' ' . $sopt[$op] . " ?";
+                                $prm[] = "%$v";
+                                break;
+                            case 'cn': case 'nc': $s .= $field . ' ' . $sopt[$op] . " ?";
+                                $prm[] = "%$v%";
+                                break;
+                            case 'in': case 'ni': $s .= $field . ' ' . $sopt[$op] . "( ?)";
+                                $prm[] = $v;
+                                break;
+                            case 'nu': case 'nn': $s .= $field . ' ' . $sopt[$op] . " ";
+                                break;
+                            default : $s .= $field . ' ' . $sopt[$op] . " ?";
+                                $prm[] = $v;
+                                break;
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        } $s .= ")";
+        if ($s == "()") {
+            return array("", $prm);
+        } else {
+            return array($s, $prm);
+        }
+    }
+
+    public function buildSearch($filter, $otype = 'str') {
+        $ret = $this->_buildSearch(null, $filter);
+        if ($otype === 'str') {
+            $s2a = explode("?", $ret[0]);
+            $csa = count($s2a);
+            $s = "";
+            for ($i = 0; $i < $csa - 1; $i++) {
+                $s .= $s2a[$i] . " '" . $ret[1][$i] . "' ";
+            } $s .= $s2a[$csa - 1];
+            return $s;
+        } return $ret;
     }
 
 }

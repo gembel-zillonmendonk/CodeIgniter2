@@ -1,52 +1,117 @@
-<?php
+<style>
 
-$CI = & get_instance();
-$CI->load->library('ci_jqForm', array('method' => 'post', 'name' => $name, 'id' => $id), 'f');
+    /**********************************
 
-// Set url
-$url = site_url('crud/modal_form/' . $model->table);
-$CI->f->setUrl($url);
-// Set parameters 
-$params = array();
-// Set SQL Command, table, keys 
-$CI->f->table = $model->table;
-$CI->f->setPrimaryKeys('OrderID');
-$CI->f->serialKey = false;
-// Set Form layout 
-$CI->f->setColumnLayout('twocolumn');
-// Set the style for the table
-$CI->f->setTableStyles('border:1px solid; border-spacing:none; border-collapse:collapse;');
+Use: cmxform template
 
-// Add elements
-foreach ($model->columns as $k => $v) {
-    $prop = array(
-        'label' => $v['label'],
-        'id' => $name . $v['name'],        
-        'maxlength' => $v['size'],
-        'style' => 'width:100%',
-        'size' => $v['size'],
-        'value' => (isset($model->attributes[$k]) ? $model->attributes[$k] : $v['default_value']),
-    );
-    
-    if($v['allow_null']) $prop['required'] = "1";
-    
-    $CI->f->addElement($model->table . '[' .$v['name'] .']', $v['type'], $prop);
-}
+***********************************/
+    form.cmxform fieldset {
+        margin-bottom: 10px;
+    }
 
-$elem_8[] = $CI->f->createElement('newSubmit', 'submit', array('value' => 'Submit'));
-$CI->f->addGroup("newGroup", $elem_8, array('style' => 'text-align:right;', 'id' => 'newForm_newGroup'));
-// Add events
-// Add ajax submit events
-//$x = "function(x) {alert('sdsd')}";
-$CI->f->setAjaxOptions(array('dataType' => null,
-    'resetForm' => false,
-    'clearForm' => false,
-    'iframe' => false,
-    'forceSync' => false,
-        //'success' => $x,
-));
-// Demo mode - no input 
-//$CI->f->demo = true;
-// Render the form 
-echo $CI->f->renderForm($params);
-?>
+    form.cmxform legend {
+        padding: 0 2px;
+        font-weight: bold;
+        _margin: 0 -7px; /* IE Win */
+    }
+
+    form.cmxform label {
+        display: inline-block;
+        line-height: 1.8;
+        vertical-align: top;
+        cursor: hand;
+    }
+
+    form.cmxform fieldset p {
+        list-style: none;
+        padding: 5px;
+        margin: 0;
+    }
+
+    form.cmxform fieldset fieldset {
+        border: none;
+        margin: 3px 0 0;
+    }
+
+    form.cmxform fieldset fieldset legend {
+        padding: 0 0 5px;
+        font-weight: normal;
+    }
+
+    form.cmxform fieldset fieldset label {
+        display: block;
+        width: auto;
+    }
+
+    form.cmxform label { width: 100px; } /* Width of labels */
+    form.cmxform fieldset fieldset label { margin-left: 103px; } /* Width plus 3 (html space) */
+    form.cmxform label.error {
+        margin-left: 103px;
+        width: 220px;
+    }
+
+    form.cmxform input.submit {
+        margin-left: 103px;
+    }
+
+    /*\*//*/ form.cmxform legend { display: inline-block; } /* IE Mac legend fix */
+
+</style>
+
+<?php $this->load->helper('form'); ?>
+<?php echo form_open('crud/modal_form/' . $model->table, array('class' => 'cmxform')); ?>
+<fieldset>
+    <legend>Please provide your name, email address (won't be published) and a comment</legend>
+    <?php foreach ($model->columns as $k => $v): ?>
+        <p>
+            <?php echo form_label($v['label'], $name . '-' . $v['name']) ?>
+            <?php
+            $prop = array(
+                'name' => $model->table . '[' . $v['name'] . ']',
+                'id' => $name . '-' . $v['name'],
+                'maxlength' => $v['size'],
+                'style' => 'width:100%',
+                'size' => $v['size'],
+                'value' => (isset($model->attributes[$k]) ? $model->attributes[$k] : $v['default_value']),
+            );
+
+            /*
+              if ($v['allow_null'])
+              $prop['required'] = "required";
+             */
+            switch ($v['type']) {
+                case 'number':
+                    echo form_input(array_merge($prop, array('class' => '{validate:{required:true,number:true}}')));
+                    break;
+                case 'number':
+                    echo form_input($prop);
+                    break;
+                case 'number':
+                    echo form_input($prop);
+                    break;
+                case 'number':
+                    echo form_input($prop);
+                    break;
+                case 'number':
+                    echo form_input($prop);
+                    break;
+                default:
+                    echo form_input(array_merge($prop, array('class' => '{validate:{required:true,minlength:3}}')));
+            }
+            ?>
+
+        </p>
+    <?php endforeach; ?>
+</fieldset>
+</form>
+
+<script>
+    $("form").validate({
+        meta: "validate",
+        submitHandler: function(form) {
+            jQuery(form).ajaxSubmit({
+                //target: "#result"
+            });
+        }
+    });
+</script>

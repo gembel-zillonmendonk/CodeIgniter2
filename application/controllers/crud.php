@@ -9,7 +9,7 @@ class Crud extends CI_Controller {
 
     public function __construct() {
         //print_r($_REQUEST);
-        $this->model = '(select * from EP_NOMORURUT)';
+        //$this->model = '(select * from EP_NOMORURUT)';
         parent::__construct();
 
         //$this->load->model('model', 'crud_model', true, $this->model);
@@ -69,15 +69,15 @@ class Crud extends CI_Controller {
         }
 
         // edit request 
+        
         $keys = $model->primary_keys;
-        if(array_intersect(array_keys($_REQUEST), $keys) === $keys) { // check wheater primary key was supplied or not
+        if(count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys) { // check wheater primary key was supplied or not
             $where = array();
             foreach ($keys as $key) $where[$key] = $_REQUEST[$key];
             
             $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
             $model->attributes = $query; // set model attributes
         }
-        
         $name = strtolower($model->table);
         $id = 'form_' . strtolower($model->table);
         
@@ -101,8 +101,8 @@ class Crud extends CI_Controller {
         $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15;
         $filter = null;
         if (isset($_REQUEST['filters'])) {
-            $this->load->library('jqGrid', null, 'jq');
-            $filter = $this->jq->buildSearch($_REQUEST['filters']);
+            //$this->load->library('jqGrid', null, 'jq');
+            $filter = $model->buildSearch($_REQUEST['filters']);
         }
 
         $filter = strlen($filter) > 0 ? $filter : null;
@@ -171,10 +171,12 @@ class Crud extends CI_Controller {
     }
 
     private function _load_model($model, $return = true) {
-        if (file_exists(APPPATH . 'models/' . strtolower($model) . '.php'))
+        
+        if (file_exists(APPPATH . 'models/' . strtolower($model) . '.php')) {
             $this->load->model(strtolower($model), 'crud_model', true);
-        else
-            $this->load->model('model', 'crud_model', true, $this->model);
+        } else {
+            $this->load->model('model', 'crud_model', true, $model);
+        }
         
         $model = $this->crud_model;
         unset($this->crud_model);
