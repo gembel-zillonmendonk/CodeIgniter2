@@ -3,12 +3,12 @@ $obj = strtolower(get_class($model));
 $grid_id = 'grid_' . $obj;
 $pager_id = 'pager_' . $obj;
 $toolbar_id = 'toolbar_' . $obj;
-$form_id = 'form_' . $obj;
+$form_id = 'modal_form_' . $obj;
 ?>
-<table id="<?php echo $form_id ?>"/>
-<table id="<?php echo $grid_id ?>"/>
-<table id="<?php echo $toolbar_id ?>"/>
-<table id="<?php echo $pager_id ?>"/>
+<div id="<?php echo $form_id ?>"></div>
+<table id="<?php echo $grid_id ?>"></table>
+<table id="<?php echo $toolbar_id ?>"></table>
+<div id="<?php echo $pager_id ?>"></div>
 <script>
     var $obj = "<?php echo $obj ?>";
     var $grid_id = "#<?php echo $grid_id ?>";
@@ -16,7 +16,7 @@ $form_id = 'form_' . $obj;
     var $pager_id = "#<?php echo $pager_id ?>";
     var $box_id = "#gbox_<?php echo $grid_id ?>";
     var $form_id = "#<?php echo $form_id ?>";
-    var $col_model = <?php echo json_encode(array_values($model->columns)) ?>;
+    var $col_model = <?php echo json_encode(array_values($model->meta_columns)) ?>;
     
     
     jQuery(document).ready(function ($) {
@@ -198,13 +198,25 @@ $form_id = 'form_' . $obj;
                         count++; 
                     });
                     
-                    console.debug(data);
+                    //console.debug(data);
                     
-                    jQuery($form_id).load($site_url + '/crud/modal_form/' + $obj + '?' + str).dialog({ //dialog form use for popup after click button in pager
+                    jQuery($form_id)
+                    .load($site_url + '/crud/modal_form/' + $obj + '?' + str)
+                    .dialog({ //dialog form use for popup after click button in pager
                         autoOpen:false,
-                        width: 630,
+                        width:800,
                         modal:true,
-                        position:'top'
+                        position:'top',
+                        buttons: {
+                            "SUBMIT": function() {
+                                jQuery("form", this).submit();
+                                //jQuery("input[type=submit]", this).ajaxSubmit();
+                            
+                            }, 
+                            "CANCEL": function() { 
+                                $(this).dialog("close");
+                            } 
+                        }
                     });
                     jQuery($form_id).dialog("open");
                 } else {
@@ -228,7 +240,7 @@ $form_id = 'form_' . $obj;
                 .load($site_url + '/crud/modal_form/' + $obj)
                 .dialog({ //dialog form use for popup after click button in pager
                     autoOpen:false,
-                    width: 630,
+                    width: 800,
                     modal:true,
                     position:'top',
                     buttons: {

@@ -1,292 +1,327 @@
 @charset "utf-8";
 
 body {
-	margin: 0px;
-	background-color: #A7E463;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	background-image: url(../images/bg.png);
-	background-repeat: repeat-x;
+    margin: 0px;
+    background-color: #A7E463;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-image: url(../images/bg.png);
+    background-repeat: repeat-x;
+    font-size: 11px;
 }
 input {
-	font-size: 12px;
-	height: 22px;
+    font-size: 12px;
+    height: 22px;
 }
 .brcrumbs_container {
-	background-color: #DEE1E2;
-	height: 5px;
-	text-align: center;
+    background-color: #DEE1E2;
+    height: 5px;
+    text-align: center;
 }
 .brcrumbs_link {
-	font-size: 11px;
-	padding-right: 20px;
-	padding-left: 20px;
-	background-color: #E9EAEB;
-	height: 32px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #BDC4C6;
+    font-size: 11px;
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: #E9EAEB;
+    height: 32px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #BDC4C6;
 }
 .brcrumbs_mn_item {
-	height: 5px;
-	width: 840px;
-	text-align: center;
-	margin-right: auto;
-	margin-left: auto;
+    height: 5px;
+    width: 840px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
 }
 .iproc_logo {
-	background-image: url(../images/iproc_logo.png);
-	background-repeat: no-repeat;
-	background-position: left -1px;
-	float: left;
-	height: 77px;
-	width: 450px;
+    background-image: url(../images/iproc_logo.png);
+    background-repeat: no-repeat;
+    background-position: left -1px;
+    float: left;
+    height: 77px;
+    width: 450px;
 }
 .j_logo {
-	background-image: url(../images/j_logo.png);
-	background-repeat: no-repeat;
-	background-position: right top;
-	float: right;
-	height: 77px;
-	width: 525px;
+    background-image: url(../images/j_logo.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+    float: right;
+    height: 77px;
+    width: 525px;
 }
 .menu_bg {
-	background-image: url(../images/menu.png);
-	background-repeat: repeat-x;
-	background-position: left bottom;
-	height: 40px;
-	width: 100%;
+    background-image: url(../images/menu.png);
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    height: 40px;
+    width: 100%;
 }
 .menu_c {
-	height: 40px;
-	margin-right: 10px;
-	margin-left: 13px;
-	top: 4px;
-	position: relative;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 13px;
+    top: 4px;
+    position: relative;
 }
 .menu_l {
-	background-image: url(../images/l_menu.png);
-	background-repeat: no-repeat;
-	background-position: left bottom;
-	height: 40px;
-	float: left;
-	width: 10px;
+    background-image: url(../images/l_menu.png);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    height: 40px;
+    float: left;
+    width: 10px;
 }
 .menu_r {
-	background-image: url(../images/r_menu.png);
-	background-repeat: no-repeat;
-	background-position: right bottom;
-	height: 40px;
-	float: right;
-	width: 10px;
+    background-image: url(../images/r_menu.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    height: 40px;
+    float: right;
+    width: 10px;
 }
 
 .mn_item_180_off {
-	height: 5px;
-	width: 180px;
-	float: left;
+    height: 5px;
+    width: 180px;
+    float: left;
 }
 .mn_item_180_on {
-	height: 5px;
-	width: 180px;
-	float: left;
-	background-color: #FF9900;
+    height: 5px;
+    width: 180px;
+    float: left;
+    background-color: #FF9900;
 }
 
 .mn_item_200_off {
-	height: 5px;
-	width: 205px;
-	float: left;
+    height: 5px;
+    width: 205px;
+    float: left;
 }
 .mn_item_200_on {
-	height: 5px;
-	width: 205px;
-	float: left;
-	background-color: #FF9900;
+    height: 5px;
+    width: 205px;
+    float: left;
+    background-color: #FF9900;
 }
 .mn_item_70_off {
-	height: 5px;
-	width: 70px;
-	float: left;
+    height: 5px;
+    width: 70px;
+    float: left;
 }
 .mn_item_70_on {
-	height: 5px;
-	width: 70px;
-	float: left;
-	background-color: #FF9900;
+    height: 5px;
+    width: 70px;
+    float: left;
+    background-color: #FF9900;
 }
 .mn_item_container {
-	height: 40px;
-	width: 900px;
-	text-align: left;
+    height: 40px;
+    width: 900px;
+    text-align: left;
 }
 .table_band {
-	background-color: #383F41;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #000000;
-	width: 100%;
-	font-size: 10px;
-	color: #FFFFFF;
-	padding-right: 18px;
-	padding-left: 18px;
-	text-align: center;
-	height: 25px;
+    background-color: #383F41;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #000000;
+    width: 100%;
+    font-size: 10px;
+    color: #FFFFFF;
+    padding-right: 18px;
+    padding-left: 18px;
+    text-align: center;
+    height: 25px;
 }
 .table_band_container {
-	height: 24px;
-	width: 100%;
-	font-size: 10px;
-	color: #FFFFFF;
+    height: 24px;
+    width: 100%;
+    font-size: 10px;
+    color: #FFFFFF;
 }
 
 .table_content {
-	background-color: #FFFFFF;
-	height: 100%;
-	width: 100%;
-	border-right-width: 1px;
-	border-left-width: 1px;
-	border-right-style: solid;
-	border-left-style: solid;
-	border-right-color: #000000;
-	border-left-color: #000000;
+    background-color: #FFFFFF;
+    height: 100%;
+    width: 100%;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-right-color: #000000;
+    border-left-color: #000000;
 }
 
 .table_content_container {
-	height: 100%;
-	width: 100%;
-	padding-right: 10px;
-	padding-left: 10px;
-	vertical-align: top;
-	text-align: center;
+    height: 100%;
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+    vertical-align: top;
+    #text-align: center;
 }
 .table_end {
-	background-color: #383F41;
+    background-color: #383F41;
 }
 
 .table_footer {
-	background-color: #383F41;
-	border-top-width: 1px;
-	border-top-style: solid;
-	border-top-color: #000000;
-	width: 100%;
-	font-size: 10px;
-	color: #FFFFFF;
-	text-align: center;
-	height: 25px;
+    background-color: #383F41;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #000000;
+    width: 100%;
+    font-size: 10px;
+    color: #FFFFFF;
+    text-align: center;
+    height: 25px;
 }
 .table_header {
-	height: 77px;
-	padding-left: 10px;
-	vertical-align: top;
+    height: 77px;
+    padding-left: 10px;
+    vertical-align: top;
 }
 .table_main_container {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 .table_menu_container {
-	height: 20px;
-	padding-right: 10px;
-	padding-left: 10px;
+    height: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 .table_of_contents {
-	vertical-align: top;
-	padding-top: 20px;
-	padding-right: 10px;
-	padding-bottom: 30px;
-	padding-left: 10px;
-	text-align: center;
+    vertical-align: top;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    #text-align: center;
 }
 .table_ornament {
-	height: 5px;
-	width: 100%;
-	padding-right: 10px;
-	padding-left: 10px;
-	text-align: center;
+    height: 5px;
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+    text-align: center;
 }
 .table_orn_blue {
-	height: 10px;
-	width: 20%;
-	background-image: url(../images/blue.png);
-	background-repeat: repeat-x;
-	background-position: left top;
+    height: 10px;
+    width: 20%;
+    background-image: url(../images/blue.png);
+    background-repeat: repeat-x;
+    background-position: left top;
 }
 .table_orn_green {
-	height: 10px;
-	width: 20%;
-	background-image: url(../images/green.png);
-	background-repeat: repeat-x;
-	background-position: left top;
+    height: 10px;
+    width: 20%;
+    background-image: url(../images/green.png);
+    background-repeat: repeat-x;
+    background-position: left top;
 }
 .table_orn_orange {
-	height: 10px;
-	width: 20%;
-	background-image: url(../images/orange.png);
-	background-repeat: repeat-x;
-	background-position: left top;
+    height: 10px;
+    width: 20%;
+    background-image: url(../images/orange.png);
+    background-repeat: repeat-x;
+    background-position: left top;
 }
 .table_orn_purple {
-	height: 10px;
-	width: 20%;
-	background-image: url(../images/purpl.png);
-	background-repeat: repeat-x;
-	background-position: left top;
-	border-left-width: 1px;
-	border-left-style: solid;
-	border-left-color: #000000;
+    height: 10px;
+    width: 20%;
+    background-image: url(../images/purpl.png);
+    background-repeat: repeat-x;
+    background-position: left top;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: #000000;
 }
 .table_orn_yl_green {
-	height: 10px;
-	width: 20%;
-	background-image: url(../images/yl_green.png);
-	background-repeat: repeat-x;
-	background-position: left top;
-	border-right-width: 1px;
-	border-right-style: solid;
-	border-right-color: #000000;
+    height: 10px;
+    width: 20%;
+    background-image: url(../images/yl_green.png);
+    background-repeat: repeat-x;
+    background-position: left top;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #000000;
 }
 .tools_container {
-	width: 35%;
+    width: 35%;
 }
 .tools_item {
-	float: right;
-	height: 18px;
-	width: 30px;
-	text-align: right;
+    float: right;
+    height: 18px;
+    width: 30px;
+    text-align: right;
 }
 .frm_butt {
-	background-image: url(../images/butt_grad.gif);
-	background-repeat: repeat-x;
-	height: 22px;
-	font-size: 10px;
-	border-top-width: 1px;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: solid;
-	border-left-style: solid;
-	border-top-color: #BEBEBE;
-	border-right-color: #8B8B8B;
-	border-bottom-color: #8B8B8B;
-	border-left-color: #BEBEBE;
-	background-position: bottom;
-	cursor: pointer;
+    background-image: url(../images/butt_grad.gif);
+    background-repeat: repeat-x;
+    height: 22px;
+    font-size: 10px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-color: #BEBEBE;
+    border-right-color: #8B8B8B;
+    border-bottom-color: #8B8B8B;
+    border-left-color: #BEBEBE;
+    background-position: bottom;
+    cursor: pointer;
 }
 .table_wht_bar {
-	background-color: #FFFFFF;
+    background-color: #FFFFFF;
 }
 .j_logo_l {
-	background-image: url(../images/iproc_logo_l.png);
-	background-repeat: no-repeat;
-	background-position: right top;
-	float: left;
-	height: 77px;
-	width: 235px;
+    background-image: url(../images/iproc_logo_l.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+    float: left;
+    height: 77px;
+    width: 235px;
 }
 .table_iproc_logo {
-	background-image: url(../images/iproc_logo_big.png);
-	background-repeat: no-repeat;
-	background-position: center top;
-	height: 80px;
+    background-image: url(../images/iproc_logo_big.png);
+    background-repeat: no-repeat;
+    background-position: center top;
+    height: 80px;
+}
+
+form h3 span {
+    display: block;
+    padding: 5px 20px;
+}
+form h3 {
+    margin: 0;
+    background: #373D3E;
+    color: white;
+    font-size: 15px;
+    border: 1px solid #57A700;
+    border-bottom: none;
+}
+form fieldset {
+    margin-bottom: 10px;
+    border:0;
+    padding-bottom: 1em;
+}
+form legend {
+    padding: 0 2px;
+    font-weight: bold;
+    display: none;
+}
+form label {
+    display: inline-block;
+    line-height: 1.8;
+    vertical-align: top;
+}
+form p {
+    margin: .5em 20px;
+}
+form label {
+    width: 200px; /* Width of labels */
 }

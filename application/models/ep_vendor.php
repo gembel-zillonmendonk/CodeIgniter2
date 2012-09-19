@@ -13,8 +13,8 @@
 class Ep_vendor extends MY_Model {
 
     public $table = "EP_VENDOR";
-    public $show_columns = array('KODE_VENDOR', 'NAMA_VENDOR', 'KODE_LOGIN');
-    public $sql_select = "(select * from EP_VENDOR)";
+    public $show_columns = array('KODE_VENDOR', 'NAMA_VENDOR', 'KODE_LOGIN','ALAMAT_EMAIL');
+    public $sql_select = "(select KODE_VENDOR, (1) as \"ad\" from EPROC.EP_VENDOR)";
 
     /*
       public $columns = array(

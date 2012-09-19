@@ -116,3 +116,27 @@
 	vertical-align: top;
 	height: 50px;
 }
+
+
+
+form fieldset {
+  margin-bottom: 10px;
+  border: 1px solid #B0B7B9;
+}
+form legend {
+  padding: 0 2px;
+  font-weight: bold;
+}
+form label {
+  display: inline-block;
+  line-height: 1.8;
+  vertical-align: top;
+}
+form em {
+  font-weight: bold;
+  font-style: normal;
+  color: #f00;
+}
+form label {
+  width: 200px; /* Width of labels */
+}
