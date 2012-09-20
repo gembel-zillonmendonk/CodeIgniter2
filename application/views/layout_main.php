@@ -12,7 +12,7 @@
         <link href="<?php echo base_url('css/text.css') ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo base_url('css/data.css') ?>" rel="stylesheet" type="text/css"/>
 
-        <script type="text/javascript" src="<?php echo base_url('js/jquery-1.8.0.min.js') ?>"></script>         
+        <script type="text/javascript" src="<?php echo base_url('js/jquery-1.8.0.min.js') ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('js/i18n/grid.locale-en.js') ?>" ></script>
         <script type="text/javascript" src="<?php echo base_url('js/jquery.jqGrid.min.js') ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('js/jquery-ui-1.8.23.custom.min.js') ?>"></script>
@@ -140,62 +140,7 @@
                             <td class="table_of_contents">
                                 <?php echo $content_for_layout ?>
 
-                                <table class="table_content_form" style="width: 940px" align="center" border="0" cellspacing="0" cellpadding="0">
-                                    <tbody><tr>
-                                            <td class="data_main_title" colspan="4">NAMA PERUSAHAAN</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="data_search_lt">Prefiks</td>
-                                            <td class="data_search_rt25_mid">
-                                                <select name="select" id="select">
-                                                    <option selected="">----- Pilih -----</option>
-                                                    <option>PT</option>
-                                                    <option>CV</option>
-                                                    <option>Lainnya</option>
-                                                </select>
-                                            </td>
-                                            <td class="data_search_lt25">Lainnya</td>
-                                            <td class="data_search_rt25"><input type="text" name="textfield" id="textfield"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="data_search_lt">Nama (*)</td>
-                                            <td class="data_search_rt" colspan="3"><input type="text" name="textfield" id="textfield" style="width: 400px"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="data_search_lt">Sufiks</td>
-                                            <td class="data_search_rt25_mid">
-                                                <select name="select" id="select">
-                                                    <option selected="">----- Pilih -----</option>
-                                                    <option>TBK</option>
-                                                    <option>Gmbh</option>
-                                                    <option>NV</option>
-                                                    <option>BV</option>
-                                                    <option>Bhd</option>
-                                                    <option>Pte Ltd</option>
-                                                    <option>Lainnya</option>
-                                                </select>
-                                            </td>
-                                            <td class="data_search_lt25">Lainnya</td>
-                                            <td class="data_search_rt25"><input type="text" name="textfield" id="textfield"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="data_search_lt">Tipe Perusahaan (*)</td>
-                                            <td class="data_search_rt" colspan="3">
-                                                <select name="select2" size="4" multiple="" id="select2">
-                                                    <option value="GENERAL SUPPLIER">GENERAL SUPPLIER</option>
-                                                    <option selected="selected" value="MANUFACTURE">MANUFACTURE</option>
-                                                    <option value="DISTRIBUTOR">DISTRIBUTOR</option>
-                                                    <option selected="selected" value="SERVICE">SERVICE</option>
-                                                    <option value="KONSULTAN">KONSULTAN</option>
-                                                    <option selected="selected" value="GENERAL CONTRACTOR">GENERAL CONTRACTOR</option>
-                                                </select>
-                                                (Tekan tombol keyboard CTRL jika pilihan lebih dari 1)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="data_end" colspan="4"><img src="images/blank.gif" width="10" height="10"></td>
-                                        </tr>
-                                    </tbody></table>
+                                <table></table>
                             </td>
                         </tr>
                         <tr>

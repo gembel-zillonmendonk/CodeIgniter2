@@ -1,5 +1,8 @@
 <?php
-$obj = strtolower(get_class($model));
+//echo "<pre>";
+//print_r($grid->columns);
+//die();
+$obj = strtolower($grid->model);
 $grid_id = 'grid_' . $obj;
 $pager_id = 'pager_' . $obj;
 $toolbar_id = 'toolbar_' . $obj;
@@ -16,10 +19,11 @@ $form_id = 'modal_form_' . $obj;
     var $pager_id = "#<?php echo $pager_id ?>";
     var $box_id = "#gbox_<?php echo $grid_id ?>";
     var $form_id = "#<?php echo $form_id ?>";
-    var $col_model = <?php echo json_encode(array_values($model->meta_columns)) ?>;
+    var $col_model = <?php echo json_encode(array_values($grid->columns)) ?>;
     
     
     jQuery(document).ready(function ($) {
+                
         jQuery($grid_id).jqGrid({
             "shrinkToFit": false,
             "autoWidth": true,
@@ -38,7 +42,7 @@ $form_id = 'modal_form_' . $obj;
                 }
             },
             "gridview": true,
-            //"url": $obj,
+            "url": "<?php echo site_url($grid->url) ?>",
             "editurl": "xx",
             "cellurl": "Ep_vendor",
             "rownumbers": true,
@@ -187,7 +191,7 @@ $form_id = 'modal_form_' . $obj;
                 
                 if (selected) {
                     selected = jQuery($grid_id).jqGrid('getRowData',selected);
-                    var keys = <?php echo json_encode($model->primary_keys); ?>;
+                    var keys = <?php echo json_encode($grid->primary_keys); ?>;
                     var count = 0;
                 
                     var data = {};
@@ -208,12 +212,26 @@ $form_id = 'modal_form_' . $obj;
                         modal:true,
                         position:'top',
                         buttons: {
-                            "SUBMIT": function() {
-                                jQuery("form", this).submit();
-                                //jQuery("input[type=submit]", this).ajaxSubmit();
+                            "SIMPAN": function() {
+                                //jQuery("form", this).submit();
+                                var d = this;
+                                if($("form", this).valid()){
+                                    jQuery("form", this).ajaxSubmit({
+                                        debug:true,
+                                        success:function(x){                                
+                                            if(x == ""){
+                                                alert("success");
+                                                $(d).dialog("close");
+                                            }
+                                            else
+                                                alert("error : " + x);
+                                        }
+                                    });
+
+                                }
                             
                             }, 
-                            "CANCEL": function() { 
+                            "BATAL": function() { 
                                 $(this).dialog("close");
                             } 
                         }
@@ -236,6 +254,7 @@ $form_id = 'modal_form_' . $obj;
             title: 'Add new row',
             position:'first',
             onClickButton : function (){
+                
                 jQuery($form_id)
                 .load($site_url + '/crud/modal_form/' + $obj)
                 .dialog({ //dialog form use for popup after click button in pager
@@ -244,12 +263,24 @@ $form_id = 'modal_form_' . $obj;
                     modal:true,
                     position:'top',
                     buttons: {
-                        "SUBMIT": function() {
-                            jQuery("form", this).submit();
-                            //jQuery("input[type=submit]", this).ajaxSubmit();
-                            
+                        "SIMPAN": function(x) {                            
+                            var d = this;
+                            if($("form", this).valid()){
+                                jQuery("form", this).ajaxSubmit({
+                                    debug:true,
+                                    success:function(x){                                
+                                        if(x == ""){
+                                            alert("success");
+                                            $(d).dialog("close");
+                                        }
+                                        else
+                                            alert("failed!!");
+                                    }
+                                });
+
+                            }
                         }, 
-                        "CANCEL": function() { 
+                        "BATAL": function() { 
                             $(this).dialog("close");
                         } 
                     }
@@ -258,9 +289,6 @@ $form_id = 'modal_form_' . $obj;
                 jQuery($form_id).dialog("open");
             }
         });
-        
-        
-        
         
         $($grid_id).jqGrid("setGridWidth", $($box_id).parent().width() , false);
     });

@@ -27,13 +27,17 @@ class Crud extends CI_Controller {
 
     public function modal_form($model = null) {
         // check and load model
-        $model = $this->_load_model($model, 'form');
+        $model = $this->_load_model($model);
 
         // form submited do insert / update
 
+//        echo "<pre>";
+//        print_r($_SERVER);
+//        print_r($_REQUEST[$model->table]);
+//        die();
         if ($this->_is_ajax_request() && isset($_REQUEST[$model->table])) {
             $attributes = $_REQUEST[$model->table];
-            print_r($model->save($attributes));
+            $model->save($attributes);
             exit();
         }
 
@@ -64,9 +68,9 @@ class Crud extends CI_Controller {
 
 
         $form = new MY_Form($model);
-        $form->form_view = 'crud/modal_form';
+        $form->view = 'crud/modal_form';
         $form->action = 'crud/modal_form/' . $model->table;
-        $this->load->view($form->form_view, array(
+        $this->load->view($form->view, array(
 //            'name' => $name,
 //            'id' => $id,
 //            'model' => $model,
@@ -76,7 +80,7 @@ class Crud extends CI_Controller {
 
     public function form($model = null) {
         // check and load model
-        $model = $this->_load_model($model, 'form');
+        $model = $this->_load_model($model);
 
 //        $this->load->library('MY_Form', array('model' => $model), 'form');
 //        $form = $this->form;
@@ -102,8 +106,7 @@ class Crud extends CI_Controller {
 //        $id = 'form_' . strtolower($model->table);
 
         $form = new MY_Form($model);
-        $form->action = 'crud/form/' . $model->table;
-        $this->layout->view($form->form_view, array(
+        $this->layout->view($form->view, array(
 //            'name' => $name,
 //            'id' => $id,
 //            'model' => $model,
@@ -132,14 +135,14 @@ class Crud extends CI_Controller {
         //$query = $this->db->get('USERS', 10, $page);
 
 
-        
+
         $src = $model->table;
         preg_match("/select/", $model->sql_select, $matches);
         if (count($matches) > 0) {
             $src = $model->sql_select;
             $read_only = true;
         }
-        
+
         $this->db->start_cache();
         $this->db->from($src);
         if ($filter !== null)
@@ -157,20 +160,37 @@ class Crud extends CI_Controller {
 
         $this->db->flush_cache();
 
+        $grid = new MY_Grid($model);
         if ($this->_is_ajax_request()) {
-            echo json_encode(array(
-                "records" => $count,
-                "page" => $page,
-                "total" => $total_pages,
-                "rows" => $query->result_array));
-            exit();
+            if (isset($_REQUEST['oper'])) {
+                echo json_encode(array(
+                    "records" => $count,
+                    "page" => $page,
+                    "total" => $total_pages,
+                    "rows" => $query->result_array));
+
+                exit();
+            } else {
+
+                $this->load->view('Crud/grid', array(
+//                    'query' => $query,
+//                    'rows' => $rows,
+//                    'page' => $page,
+//                    'read_only' => $read_only,
+                    //'model' => $model,
+                    'grid' => $grid,
+                ));
+            }
+        } else {
+            $this->layout->view('Crud/grid', array(
+//            'query' => $query,
+//            'rows' => $rows,
+//            'page' => $page,
+//            'read_only' => $read_only,
+                //'model' => $model,
+                'grid' => $grid,
+            ));
         }
-
-
-        // load layout
-        //$this->load->library('My_DBTableModel', $params, 'model');
-
-        $read_only = false;
 
         /*
           preg_match("/select/", $model->sql_select, $matches);
@@ -179,13 +199,7 @@ class Crud extends CI_Controller {
           $read_only = true;
           }
          */
-        $this->layout->view('Crud/grid', array(
-            'query' => $query,
-            'rows' => $rows,
-            'page' => $page,
-            'read_only' => $read_only,
-            'model' => $model,
-        ));
+
         //$this->load->view('Crud/grid', array('query' => $query, 'rows'=>$rows, 'page'=>$page));
     }
 

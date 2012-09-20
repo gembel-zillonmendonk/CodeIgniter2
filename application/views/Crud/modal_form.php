@@ -10,7 +10,7 @@
     <legend>Fields with remark (*) is required.</legend>
     <?php foreach ($form->elements as $k => $v): ?>
         <p>
-            <?php echo form_label($v['label'], $v['name']) ?>
+            <?php echo form_label($v['label'] . " " . ($form->validation[$k]['validate']['required'] == true ? "*" : ""), $v['name']) ?>
             <?php
             //echo str_replace('"', '', json_encode($form->validation[$k]));
             switch ($v['type']) {
@@ -29,23 +29,23 @@
                 case 'date':
                     echo form_input($v);
                     break;
+                case 'file':
+                    echo form_input($v);
+                    break;
                 default:
                     echo form_input(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
             }
             ?>
 
         </p>
+
     <?php endforeach; ?>
 </fieldset>
 </form>
 
 <script>
-        $("#<?php echo $form->id; ?>").validate({
-            meta: "validate",
-            submitHandler: function(form) {
-                jQuery(form).ajaxSubmit({
-                    //target: "#result"
-                });
-            }
-        });
+    $("#<?php echo $form->id; ?>").validate({
+        meta: "validate",
+        debug:true
+    });
 </script>

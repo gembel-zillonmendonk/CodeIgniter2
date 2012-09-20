@@ -1,19 +1,20 @@
 <?php $this->load->helper('form'); ?>
 <?php
-//print_r($form);
+//print_r($form->elements);
 //die("xx");
 ?>
 
 <?php echo form_open($form->action, $form->form_params); ?>
-<h3><span>Form Detail</span></h3>
-<fieldset>
+<h3 class="ui-widget ui-widget-header ui-corner-all"><span>Form Detail</span></h3>
+<fieldset class="ui-widget-content">
     <legend>Fields with remark (*) is required.</legend>
     <?php foreach ($form->elements as $k => $v): ?>
         <p>
-            <?php echo form_label($v['label'], $v['name']) ?>
+            <?php echo form_label($v['label'] . " " . ($form->validation[$k]['validate']['required'] == true ? "*" : ""), $v['name']) ?>
             <?php
             //echo str_replace('"', '', json_encode($form->validation[$k]));
-            switch ($v['type']) {
+            switch ($v['type'])
+            {
                 case 'number':
                     echo form_input(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
                     break;
@@ -37,18 +38,22 @@
         </p>
     <?php endforeach; ?>
     <p>
-        <input class="submit" type="submit" value="Submit"/>
+        <label></label>
+        <input type="submit" value="Submit" />
     </p>
 </fieldset>
 </form>
 
 <script>
-        $("#<?php echo $form->id; ?>").validate({
-            meta: "validate",
-            submitHandler: function(form) {
-                jQuery(form).ajaxSubmit({
-                    //target: "#result"
-                });
-            }
-        });
+    $(function() {
+        $( "input:submit, button").button();
+    });
+    $("#<?php echo $form->id; ?>").validate({
+        meta: "validate",
+        submitHandler: function(form) {
+            jQuery(form).ajaxSubmit({
+                //target: "#result"
+            });
+        }
+    });
 </script>
