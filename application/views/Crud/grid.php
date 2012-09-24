@@ -5,26 +5,15 @@
 $obj = strtolower($grid->model);
 $grid_id = 'grid_' . $obj;
 $pager_id = 'pager_' . $obj;
-$toolbar_id = 'toolbar_' . $obj;
 $form_id = 'modal_form_' . $obj;
 ?>
 <div id="<?php echo $form_id ?>"></div>
 <table id="<?php echo $grid_id ?>"></table>
-<table id="<?php echo $toolbar_id ?>"></table>
 <div id="<?php echo $pager_id ?>"></div>
 <script>
-    var $obj = "<?php echo $obj ?>";
-    var $grid_id = "#<?php echo $grid_id ?>";
-    var $toolbar_id = "#<?php echo $toolbar_id ?>";
-    var $pager_id = "#<?php echo $pager_id ?>";
-    var $box_id = "#gbox_<?php echo $grid_id ?>";
-    var $form_id = "#<?php echo $form_id ?>";
-    var $col_model = <?php echo json_encode(array_values($grid->columns)) ?>;
-    
-    
     jQuery(document).ready(function ($) {
                 
-        jQuery($grid_id).jqGrid({
+        jQuery('#<?php echo $grid_id ?>').jqGrid({
             "shrinkToFit": false,
             "autoWidth": true,
             "hoverrows": true,
@@ -43,8 +32,8 @@ $form_id = 'modal_form_' . $obj;
             },
             "gridview": true,
             "url": "<?php echo site_url($grid->url) ?>",
-            "editurl": "xx",
-            "cellurl": "Ep_vendor",
+            "editurl": '<?php echo $obj ?>',
+            "cellurl": '<?php echo $obj ?>',
             "rownumbers": true,
             "rownumWidth": 40,
             "rowNum": 15,
@@ -53,8 +42,8 @@ $form_id = 'modal_form_' . $obj;
             "altRows": true,
             "sortable": true,
             "datatype": "json",
-            "colModel": $col_model,
-            "toolbar" : [true,"top"],
+            "colModel": <?php echo json_encode(array_values($grid->columns)) ?>,
+            "toolbar" : [false,"top"],
             "postData": {
                 "oper": "grid"
             },
@@ -89,10 +78,9 @@ $form_id = 'modal_form_' . $obj;
                     alert(xhr.responseText);
                 }
             },
-            "pager": $pager_id
-        });
-        
-        jQuery($grid_id).jqGrid('navGrid', $pager_id, {
+            "pager": '#<?php echo $pager_id ?>'
+        })
+        .jqGrid('navGrid', '#<?php echo $pager_id ?>', {
             "edit": true,
             "add": false,
             "del": false,
@@ -135,21 +123,19 @@ $form_id = 'modal_form_' . $obj;
             "resize": true,
             "closeOnEscape": true,
             "dataheight": 150
-        });
-        
-        
+        })
         /// start button configuration ///
-        jQuery($grid_id).jqGrid('navButtonAdd',$pager_id,{
+        .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
             id: 'pager_columns',
             caption: '',
             buttonicon:'ui-icon-carat-2-e-w', 
             title: 'Reorder Columns',
             position:'first',
             onClickButton : function (){
-                jQuery($grid_id).jqGrid('columnChooser');
+                jQuery('#<?php echo $grid_id ?>').jqGrid('columnChooser');
             }
-        });
-        jQuery($grid_id).jqGrid('navButtonAdd', $pager_id, {
+        })
+        .jqGrid('navButtonAdd', '#<?php echo $pager_id ?>', {
             id: 'pager_excel',
             caption: '',
             buttonicon: 'ui-icon-newwin',
@@ -157,7 +143,7 @@ $form_id = 'modal_form_' . $obj;
             position:'first',
             onClickButton: function (e) {
                 try {
-                    jQuery($grid_id).jqGrid('excelExport', {
+                    jQuery('#<?php echo $grid_id ?>').jqGrid('excelExport', {
                         tag: 'excel',
                         url: 'Ep_vendor'
                     });
@@ -165,32 +151,30 @@ $form_id = 'modal_form_' . $obj;
                     window.location = 'Ep_vendor?oper=excel';
                 }
             }
-        });
-        
+        })        
         /// delete button
-        jQuery($grid_id).jqGrid('navButtonAdd',$pager_id,{
+        .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
             id: 'pager_delete',
             caption: '',
             buttonicon:'ui-icon-trash', 
-            title: 'Delete row',
+            title: 'Hapus Data',
             position:'first',
             onClickButton : function (){
-                jQuery($grid_id).jqGrid('columnChooser');
+                jQuery('#<?php echo $grid_id ?>').jqGrid('columnChooser');
             }
-        });
-        
+        })
         /// edit button
-        jQuery($grid_id).jqGrid('navButtonAdd',$pager_id,{
+        .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
             id: 'pager_edit',
             caption: '',
             buttonicon:'ui-icon-pencil', 
-            title: 'Edit Row',
+            title: 'Ubah Data',
             position:'first',
             onClickButton : function (){
-                var selected = $($grid_id).jqGrid('getGridParam', 'selrow');
+                var selected = $('#<?php echo $grid_id ?>').jqGrid('getGridParam', 'selrow');
                 
                 if (selected) {
-                    selected = jQuery($grid_id).jqGrid('getRowData',selected);
+                    selected = jQuery('#<?php echo $grid_id ?>').jqGrid('getRowData',selected);
                     var keys = <?php echo json_encode($grid->primary_keys); ?>;
                     var count = 0;
                 
@@ -204,8 +188,8 @@ $form_id = 'modal_form_' . $obj;
                     
                     //console.debug(data);
                     
-                    jQuery($form_id)
-                    .load($site_url + '/crud/modal_form/' + $obj + '?' + str)
+                    jQuery('#<?php echo $form_id ?>')
+                    .load($site_url + '/crud/modal_form/<?php echo $obj ?>?' + str)
                     .dialog({ //dialog form use for popup after click button in pager
                         autoOpen:false,
                         width:800,
@@ -220,11 +204,11 @@ $form_id = 'modal_form_' . $obj;
                                         debug:true,
                                         success:function(x){                                
                                             if(x == ""){
-                                                alert("success");
+                                                alert("Data berhasil disimpan");
                                                 $(d).dialog("close");
                                             }
                                             else
-                                                alert("error : " + x);
+                                                alert("Data gagal disimpan : " + x);
                                         }
                                     });
 
@@ -236,27 +220,27 @@ $form_id = 'modal_form_' . $obj;
                             } 
                         }
                     });
-                    jQuery($form_id).dialog("open");
+                    jQuery('#<?php echo $form_id ?>').dialog("open");
                 } else {
-                    alert('Please select a row to edit');
+                    alert('Harap pilih data yang akan diubah');
                     return;
                 }
                 
                 
             }
-        });
-        
+        })
         /// add button
-        jQuery($grid_id).jqGrid('navButtonAdd',$pager_id,{
+        .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
             id: 'pager_add',
             caption: '',
             buttonicon:'ui-icon-plus', 
-            title: 'Add new row',
+            title: 'Tambah Data',
             position:'first',
             onClickButton : function (){
                 
-                jQuery($form_id)
-                .load($site_url + '/crud/modal_form/' + $obj)
+                jQuery('#<?php echo $form_id; ?>')
+                //.load($site_url + '/crud/modal_form/' + $obj)
+                .load($site_url + '/crud/modal_form/<?php echo $obj ?>')
                 .dialog({ //dialog form use for popup after click button in pager
                     autoOpen:false,
                     width: 800,
@@ -270,11 +254,11 @@ $form_id = 'modal_form_' . $obj;
                                     debug:true,
                                     success:function(x){                                
                                         if(x == ""){
-                                            alert("success");
+                                            alert("Data berhasil disimpan");
                                             $(d).dialog("close");
                                         }
                                         else
-                                            alert("failed!!");
+                                            alert("Data gagal disimpan : " + x);
                                     }
                                 });
 
@@ -286,10 +270,10 @@ $form_id = 'modal_form_' . $obj;
                     }
                 });
                 
-                jQuery($form_id).dialog("open");
+                jQuery('#<?php echo $form_id ?>').dialog("open");
             }
         });
         
-        $($grid_id).jqGrid("setGridWidth", $($box_id).parent().width() , false);
+        $('#<?php echo $grid_id ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid_id ?>').parent().width() , false);
     });
 </script>

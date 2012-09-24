@@ -58,14 +58,20 @@ ul.sf-menu li li li.sfHover ul {
     margin-top:	0.5em;
     font: bold 11px Verdana;
 }
-.sf-menu a {
+.sf-menu a:link {
     /*border-left:	1px solid #fff;*/
     /*border-top:		1px solid #CFDEFF;*/
     /*padding: 		.75em 1em;*/
+    color:			#FFF;
     padding: 		.75em 1em;
     text-decoration:none;
 }
 
+.sf-menu li li a:link {
+    color:			#000;
+    padding: 		.75em 1em;
+    text-decoration:none;
+}
 
 .sf-menu a, .sf-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
     color:			#FFF;
