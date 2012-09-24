@@ -194,7 +194,7 @@ $form_id = 'modal_form_' . $obj;
                         autoOpen:false,
                         width:800,
                         modal:true,
-                        position:'top',
+                        //position:'top',
                         buttons: {
                             "SIMPAN": function() {
                                 //jQuery("form", this).submit();
@@ -245,7 +245,7 @@ $form_id = 'modal_form_' . $obj;
                     autoOpen:false,
                     width: 800,
                     modal:true,
-                    position:'top',
+                    //position:'auto',
                     buttons: {
                         "SIMPAN": function(x) {                            
                             var d = this;
