@@ -3,11 +3,12 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Crud extends CI_Controller {
-
+class Crud extends CI_Controller
+{
     public $model;
 
-    public function __construct() {
+    public function __construct()
+    {
         //print_r($_REQUEST);
         //$this->model = '(select * from EP_NOMORURUT)';
         parent::__construct();
@@ -20,31 +21,34 @@ class Crud extends CI_Controller {
     /**
      * Index Page for this controller.
      */
-    public function index() {
+    public function index()
+    {
         $this->layout->view('index');
         //$this->load->view('welcome_message');
     }
 
-    public function modal_form($model = null) {
+    public function modal_form($model = null)
+    {
         // check and load model
         $model = $this->_load_model($model);
 
         // form submited do insert / update
-
 //        echo "<pre>";
 //        print_r($_SERVER);
 //        print_r($_REQUEST[$model->table]);
 //        die();
-        if ($this->_is_ajax_request() && isset($_REQUEST[$model->table])) {
-            $attributes = $_REQUEST[$model->table];
-            $model->save($attributes);
+        if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
+        {
+            $model->attributes = $_REQUEST[$model->table];
+            $model->save();
             exit();
         }
 
         // edit request 
         $keys = $model->primary_keys;
 
-        if (array_intersect(array_keys($_REQUEST), $keys) === $keys) {
+        if (array_intersect(array_keys($_REQUEST), $keys) === $keys)
+        {
             // check wheater primary key was supplied or not
             $where = array();
             foreach ($keys as $key)
@@ -78,22 +82,25 @@ class Crud extends CI_Controller {
         ));
     }
 
-    public function form($model = null) {
+    public function form($model = null)
+    {
         // check and load model
         $model = $this->_load_model($model);
 
 //        $this->load->library('MY_Form', array('model' => $model), 'form');
 //        $form = $this->form;
         // form submited do insert / update
-        if ($this->_is_ajax_request()) {
-            $attributes = $_REQUEST[$model->table];
-            print_r($model->save($attributes));
+        if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
+        {
+            $model->attributes = $_REQUEST[$model->table];
+            print_r($model->save());
             exit();
         }
 
         // edit request 
         $keys = $model->primary_keys;
-        if (count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys) { // check wheater primary key was supplied or not
+        if (count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys)
+        { // check wheater primary key was supplied or not
             $where = array();
             foreach ($keys as $key)
                 $where[$key] = $_REQUEST[$key];
@@ -106,15 +113,29 @@ class Crud extends CI_Controller {
 //        $id = 'form_' . strtolower($model->table);
 
         $form = new MY_Form($model);
-        $this->layout->view($form->view, array(
+        if ($this->_is_ajax_request())
+        {
+            $this->load->view($form->view, array(
 //            'name' => $name,
 //            'id' => $id,
 //            'model' => $model,
-            'form' => $form,
-        ));
+                'form' => $form,
+            ));
+        }
+        else
+        {
+            
+            $this->layout->view($form->view, array(
+//            'name' => $name,
+//            'id' => $id,
+//            'model' => $model,
+                'form' => $form,
+            ));
+        }
     }
 
-    public function grid($model = null) {
+    public function grid($model = null)
+    {
         // check and load model
         $model = $this->_load_model($model);
 
@@ -126,7 +147,8 @@ class Crud extends CI_Controller {
         $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
         $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15;
         $filter = null;
-        if (isset($_REQUEST['filters'])) {
+        if (isset($_REQUEST['filters']))
+        {
             //$this->load->library('jqGrid', null, 'jq');
             $filter = $model->buildSearch($_REQUEST['filters']);
         }
@@ -138,7 +160,8 @@ class Crud extends CI_Controller {
 
         $src = $model->table;
         preg_match("/select/", $model->sql_select, $matches);
-        if (count($matches) > 0) {
+        if (count($matches) > 0)
+        {
             $src = $model->sql_select;
             $read_only = true;
         }
@@ -161,8 +184,10 @@ class Crud extends CI_Controller {
         $this->db->flush_cache();
 
         $grid = new MY_Grid($model);
-        if ($this->_is_ajax_request()) {
-            if (isset($_REQUEST['oper'])) {
+        if ($this->_is_ajax_request())
+        {
+            if (isset($_REQUEST['oper']))
+            {
                 echo json_encode(array(
                     "records" => $count,
                     "page" => $page,
@@ -170,7 +195,9 @@ class Crud extends CI_Controller {
                     "rows" => $query->result_array));
 
                 exit();
-            } else {
+            }
+            else
+            {
 
                 $this->load->view('Crud/grid', array(
 //                    'query' => $query,
@@ -181,7 +208,9 @@ class Crud extends CI_Controller {
                     'grid' => $grid,
                 ));
             }
-        } else {
+        }
+        else
+        {
             $this->layout->view('Crud/grid', array(
 //            'query' => $query,
 //            'rows' => $rows,
@@ -203,23 +232,30 @@ class Crud extends CI_Controller {
         //$this->load->view('Crud/grid', array('query' => $query, 'rows'=>$rows, 'page'=>$page));
     }
 
-    public function create() {
+    public function create()
+    {
         
     }
 
-    public function update() {
+    public function update()
+    {
         
     }
 
-    public function delete() {
+    public function delete()
+    {
         
     }
 
-    private function _load_model($model, $type = 'grid', $return = true) {
+    private function _load_model($model, $type = 'grid', $return = true)
+    {
 
-        if (file_exists(APPPATH . 'models/' . strtolower($model) . '.php')) {
+        if (file_exists(APPPATH . 'models/' . strtolower($model) . '.php'))
+        {
             $this->load->model(strtolower($model), 'crud_model', true);
-        } else {
+        }
+        else
+        {
             /*
               if($type == 'grid')
               {
@@ -249,11 +285,11 @@ class Crud extends CI_Controller {
             $this->model = $model;
     }
 
-    private function _is_ajax_request() {
+    private function _is_ajax_request()
+    {
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
     }
 
 }
-
 /* End of file welcome.php */
 /* Location: ./application/controllers/welcome.php */

@@ -40,23 +40,23 @@
 
     <div id="tabs-2">
         <div class="accordion">
-            <h3 href="#">AKTA PENDIRIAN</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_akta') ?>">AKTA PENDIRIAN</h3>
             <div></div>
-            <h3 href="#">DOMISILI PERUSAHAAN</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_domisili') ?>">DOMISILI PERUSAHAAN</h3>
             <div></div>
-            <h3 href="#">NPWP</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_npwp') ?>">NPWP</h3>
             <div></div>
-            <h3 href="#">JENIS MITRA KERJA</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_mitra') ?>">JENIS MITRA KERJA</h3>
             <div></div>
-            <h3 href="#">SIUP</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_siup') ?>">SIUP</h3>
             <div></div>
-            <h3 href="#">IJIN LAIN-LAIN (OPSIONAL)</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_ijin') ?>">IJIN LAIN-LAIN (OPSIONAL)</h3>
             <div></div>
-            <h3 href="#">TDP</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_tdp') ?>">TDP</h3>
             <div></div>
-            <h3 href="#">SURAT KEAGENAN/DISTRIBUTORSHIP (OPSIONAL)</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_agen') ?>">SURAT KEAGENAN/DISTRIBUTORSHIP (OPSIONAL)</h3>
             <div></div>
-            <h3 href="#">ANGKA PENGENAL IMPORTIR (OPSIONAL)</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_akta') ?>">ANGKA PENGENAL IMPORTIR (OPSIONAL)</h3>
             <div></div>
         </div>
     </div>
@@ -139,7 +139,24 @@
 <script>
     $(function() {
         // Tabs
-        $('.tabs').tabs();
+        $('.tabs').tabs({
+            show: function(event, ui) {
+                $(".accordion", ui.panel).each(function(){
+                    //alert("test");
+                
+                    $('h3', $(this)).each(function(){
+                        var uri = $(this).attr('href');
+                        if(uri != '' && uri != '#'){
+                            var ctn = $(this).next();
+                            //alert($(ctn).width());
+                            //alert(uri);
+                            if(ctn.html() == '')
+                                ctn.load(uri);
+                        }
+                    });
+                });
+            }
+        });
 
         /*
         $('.accordion').accordion({
@@ -184,6 +201,7 @@
         
         
         $(document).ready(function(){
+            /*
             $(".accordion").each(function(){
                 //alert("test");
                 
@@ -198,7 +216,7 @@
                     }
                 });
             });
-           
+           */
             /*
             $('.tabs div').each(function(){
                 //alert($(this).html());

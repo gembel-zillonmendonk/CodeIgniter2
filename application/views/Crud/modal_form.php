@@ -14,23 +14,32 @@
             <?php
             //echo str_replace('"', '', json_encode($form->validation[$k]));
             switch ($v['type']) {
+                case 'textarea':
+                    echo form_textarea(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
+                    break;
                 case 'number':
                     echo form_input(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
                     break;
-                case 'select':
-                    echo form_input($v);
+                case 'dropdown':
+                    $opt = array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k]))));
+                    
+                    $opt = $form->implodeAssoc(' ', $opt);
+                    echo form_dropdown($v['name'], $v['options'], $v['value'], $opt);
+                    break;
+                case 'multiselect':
+                    echo form_multiselect(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
                     break;
                 case 'checkbox':
-                    echo form_input($v);
+                    echo form_checkbox(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
                     break;
                 case 'radiobutton':
-                    echo form_input($v);
+                    echo form_radio(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
                     break;
                 case 'date':
-                    echo form_input($v);
+                    echo form_input(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
                     break;
                 case 'file':
-                    echo form_input($v);
+                    echo form_upload(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));
                     break;
                 default:
                     echo form_input(array_merge($v, array('class' => str_replace('"', '', json_encode($form->validation[$k])))));

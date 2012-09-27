@@ -58,6 +58,7 @@ class MY_Model extends CI_Model
     public $grid_columns;
     public $elements_conf;
     public $columns_conf;
+    public $validation;
 
     public function __construct()
     {
@@ -165,7 +166,7 @@ class MY_Model extends CI_Model
         $this->columns[$column][$attr] = $val;
     }
 
-    public function save($attributes)
+    public function save()
     {
         // cek if record new
         if (count($this->primary_keys) == 0)
@@ -174,14 +175,14 @@ class MY_Model extends CI_Model
         $where = array();
         foreach ($this->primary_keys as $key)
         {
-            $where[$key] = $attributes[$key];
+            $where[$key] = $this->attributes[$key];
         }
 
         $this->db->where($where);
-        if (! $this->db->count_all_results($this->table))
-            return $this->_insert($attributes);
+        if (!$this->db->count_all_results($this->table))
+            return $this->_insert();
         else
-            return $this->_update($attributes, $where);
+            return $this->_update($where);
     }
 
     public function delete()
@@ -215,17 +216,55 @@ class MY_Model extends CI_Model
         }
     }
 
-    protected function _insert($attributes)
+    protected function _insert()
     {
-        return $this->db->insert($this->table, $attributes);
+        $this->_before_insert();
+        $ret = $this->db->insert($this->table, $this->attributes);
+        $this->_after_insert();
+        return $ret;
     }
 
-    protected function _update($attributes, $where)
+    protected function _update($where)
     {
-        return $this->db->update($this->table, $attributes, $where);
+        $this->_before_update();
+        $ret = $this->db->update($this->table, $this->attributes, $where);
+        $this->_after_update();
+        return $ret;
     }
 
     protected function _delete()
+    {
+        
+    }
+    
+    protected function _before_save()
+    {
+        
+    }
+
+    protected function _after_save()
+    {
+        
+    }
+
+    protected function _before_insert()
+    {
+        $this->attributes['TGL_REKAM'] = new date();
+        $this->attributes['PETUGAS_REKAM'] = $_SESSION['user_id'];
+    }
+
+    protected function _after_insert()
+    {
+        
+    }
+
+    protected function _before_update()
+    {
+        $this->attributes['TGL_UBAH'] = new date();
+        $this->attributes['PETUGAS_UBAH'] = $_SESSION['user_id'];
+    }
+
+    protected function _after_update()
     {
         
     }
@@ -443,14 +482,15 @@ class MY_Form
             $this->id = 'id_form_' . $model->table;
 
         $this->view = $model->form_view;
-        $this->form_params = array('id' => $this->id, 'name' => $this->name, "method"=>"POST", "enctype"=>"multipart/form-data");
+        $this->form_params = array('id' => $this->id, 'name' => $this->name, "method" => "POST", "enctype" => "multipart/form-data");
         // set elements and validation
         $el = $r = array();
         $attributes = $model->get_attributes();
         foreach ($model->columns as $k => $v)
         {
-
-            if (isset($model->elements_conf) && !in_array($k, $model->elements_conf))
+            // dont show columns were not in elements_conf
+            if (isset($model->elements_conf) &&
+                    !in_array($k, (isset($model->elements_conf[$k]) && is_array($model->elements_conf[$k]) ? array_keys($model->elements_conf) : $model->elements_conf)))
                 continue;
 
             $r[$k]['validate'] = array(
@@ -468,6 +508,22 @@ class MY_Form
                 'style' => '',
                 'value' => (isset($attributes[$k]) ? $attributes[$k] : $v['default_value']),
             );
+
+            if (isset($model->elements_conf[$k]) && is_array($model->elements_conf[$k])) // override configuration defined in $model 
+            {
+                foreach ($model->elements_conf[$k] as $key => $value)
+                {
+                    $el[$k][$key] = $value;
+                }
+            }
+            
+            if (isset($model->validation[$k]) && is_array($model->validation[$k])) // override configuration defined in $model 
+            {
+                foreach ($model->validation[$k] as $key => $value)
+                {
+                    $r[$k]['validate'][$key] = $value;
+                }
+            }
         }
         $this->elements = $el;
         $this->validation = $r;
@@ -476,6 +532,37 @@ class MY_Form
 //echo "<pre>";
 //print_r(str_replace('"', '', json_encode($this->validation['KODE_VENDOR'])));
 //die();
+    }
+
+    /**
+     * @name implodeAssoc($glue,$arr) 
+     * @description makes a string from an assiciative array 
+     * @parameter glue: the string to glue the parts of the array with 
+     * @parameter arr: array to implode 
+     */
+    function implodeAssoc($glue, $arr)
+    {
+//        $keys = array_keys($arr);
+//        $values = array_values($arr);
+//        return(implode($glue, $keys) . $glue . implode($glue, $values));
+        array_walk($arr, create_function('&$i,$k', '$i=" $k=\"$i\"";'));
+        return implode($arr, " ");
+    }
+
+    /**
+     * @name explodeAssoc($glue,$arr) 
+     * @description makes an assiciative array from a string 
+     * @parameter glue: the string to glue the parts of the array with 
+     * @parameter arr: array to explode 
+     */
+    function explodeAssoc($glue, $str)
+    {
+        $arr = explode($glue, $str);
+        $size = count($arr);
+        for ($i = 0; $i < $size / 2; $i++)
+            $out[$arr[$i]] = $arr[$i + ($size / 2)];
+
+        return($out);
     }
 
 }
@@ -487,10 +574,9 @@ class MY_Grid
     public $url;
     public $columns;
     public $primary_keys;
-    
     public $model = '';
     public $form_url = '';
-    
+
     function __construct($model)
     {
         if ($this->url == '')
@@ -504,10 +590,10 @@ class MY_Grid
 
         if ($this->primary_keys == '')
             $this->primary_keys = $model->primary_keys;
-        
+
         if ($this->model == '')
             $this->model = get_class($model);
-        
+
         if (is_array($model->columns_conf) && count($model->columns_conf) > 0)
         {
             foreach ($model->meta_columns as $k => $v)
