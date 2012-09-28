@@ -23,6 +23,15 @@
         <script type="text/javascript">
             $.jgrid.no_legacy_api = true;
             $.jgrid.useJSON = true;
+            $.datepicker.setDefaults({
+                showOn: 'both',
+                buttonImageOnly: true,
+                buttonImage: '<?php echo base_url('images/Calendar_scheduleHS.png') ?>',
+                buttonText: 'Calendar',
+                dateFormat: "yy-mm-dd",
+                readOnly: true,
+                defaultDate: $('.datepicker').val()
+            });
         </script>
 
         <script type="text/javascript" src="<?php echo base_url('js/hoverIntent.js') ?>"></script> 

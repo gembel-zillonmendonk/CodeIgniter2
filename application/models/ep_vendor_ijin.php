@@ -9,38 +9,36 @@ class Ep_vendor_ijin extends MY_Model
 {
     public $table = "EP_VENDOR_IJIN";
     public $elements_conf = array(
-        'KODE_VENDOR',
-        'TIPE',
-        'PENERBIT',
-        'NO',
-        'TGL_MULAI',
-        'TGL_BERAKHIR',);
-    public $columns_conf = array(
-        'KODE_VENDOR',
         'TIPE',
         'PENERBIT',
         'NO',
         'TGL_MULAI',
         'TGL_BERAKHIR',
-        'TGL_REKAM',
-        'PETUGAS_REKAM',
-        'TGL_UBAH',
-        'PETUGAS_UBAH');
+    );
+    public $validation = array(
+        'TIPE' => array('required' => true),
+        'PENERBIT' => array('required' => true),
+        'NO' => array('required' => true),
+        'TGL_MULAI' => array('required' => true),
+        'TGL_BERAKHIR' => array('required' => true),
+    );
+    public $columns_conf = array(
+        'TIPE',
+        'PENERBIT',
+        'NO',
+        'TGL_MULAI',
+        'TGL_BERAKHIR',
+    );
     public $sql_select = "(select * from EP_VENDOR_IJIN)";
-
-
-    /*
-      public $columns = array(
-      'KODE_VENDOR'=>array('name'=>'KODE VENDOR', 'raw_name'=>'KODE_VENDOR', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      'NAMA_VENDOR'=>array('name'=>'NAMA VENDOR', 'raw_name'=>'NAMA_VENDOR', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      'KODE_LOGIN'=>array('name'=>'KODE LOGIN', 'raw_name'=>'KODE_LOGIN', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      );
-     */
 
     function __construct()
     {
         parent::__construct();
         $this->init();
+        
+         // set default value here
+        $CI =& get_instance();
+        $this->attributes['KODE_VENDOR'] = $CI->session->userdata('user_id');
     }
 
 }

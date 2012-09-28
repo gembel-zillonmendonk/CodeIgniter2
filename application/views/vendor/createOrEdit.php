@@ -29,7 +29,7 @@
         <div class="accordion">
             <h3 href="<?php echo site_url('/crud/grid/EP_VENDOR') ?>">NAMA PERUSAHAAN</h3>
             <div></div>
-            <h3 href="<?php echo site_url('/crud/grid/EP_NOMORURUT') ?>">KONTAK PERUSAHAAN</h3>
+            <h3 href="#">KONTAK PERUSAHAAN</h3>
             <div></div>
             <h3 href="#">KONTAK PERSON</h3>
             <div></div>
@@ -56,7 +56,7 @@
             <div></div>
             <h3 href="<?php echo site_url('/crud/grid/ep_vendor_agen') ?>">SURAT KEAGENAN/DISTRIBUTORSHIP (OPSIONAL)</h3>
             <div></div>
-            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_akta') ?>">ANGKA PENGENAL IMPORTIR (OPSIONAL)</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_importir') ?>">ANGKA PENGENAL IMPORTIR (OPSIONAL)</h3>
             <div></div>
         </div>
     </div>

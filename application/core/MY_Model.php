@@ -10,6 +10,7 @@
  *
  * @author farid
  */
+session_start();
 require_once(APPPATH . 'libraries/jqSuitePHP/jqUtils.php');
 
 class MY_Model extends CI_Model
@@ -172,6 +173,9 @@ class MY_Model extends CI_Model
         if (count($this->primary_keys) == 0)
             show_error("Table doesn't have a primary key");
 
+        // run before save
+        $this->_before_save();
+
         $where = array();
         foreach ($this->primary_keys as $key)
         {
@@ -179,10 +183,16 @@ class MY_Model extends CI_Model
         }
 
         $this->db->where($where);
+
+        $ret = null;
         if (!$this->db->count_all_results($this->table))
-            return $this->_insert();
+            $ret = $this->_insert();
         else
-            return $this->_update($where);
+            $ret = $this->_update($where);
+
+        $this->_after_save();
+
+        return $ret;
     }
 
     public function delete()
@@ -236,7 +246,7 @@ class MY_Model extends CI_Model
     {
         
     }
-    
+
     protected function _before_save()
     {
         
@@ -249,8 +259,9 @@ class MY_Model extends CI_Model
 
     protected function _before_insert()
     {
-        $this->attributes['TGL_REKAM'] = new date();
-        $this->attributes['PETUGAS_REKAM'] = $_SESSION['user_id'];
+        //$this->db->set("\"TGL_REKAM\"", "TO_DATE('".date("Y-m-d")."','YYYY-MM-DD')", FALSE);
+        $this->attributes['TGL_REKAM'] = date("Y-m-d");
+        $this->attributes['PETUGAS_REKAM'] = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
     }
 
     protected function _after_insert()
@@ -260,8 +271,9 @@ class MY_Model extends CI_Model
 
     protected function _before_update()
     {
-        $this->attributes['TGL_UBAH'] = new date();
-        $this->attributes['PETUGAS_UBAH'] = $_SESSION['user_id'];
+        //$this->db->set("\"TGL_REKAM\"", "TO_DATE('".date("Y-m-d")."','YYYY-MM-DD')", FALSE);
+        $this->attributes['TGL_REKAM'] = date("Y-m-d");
+        $this->attributes['PETUGAS_UBAH'] = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
     }
 
     protected function _after_update()
@@ -473,58 +485,100 @@ class MY_Form
     public function __construct($model)
     {
         if ($this->action == '')
-            $this->action = 'crud/form/' . $model->table;
+            $this->action = 'crud/form/' . get_class($model);
 
         if ($this->name == '')
-            $this->name = 'form_' . $model->table;
+            $this->name = 'form_' . get_class($model);
 
         if ($this->id == '')
-            $this->id = 'id_form_' . $model->table;
+            $this->id = 'id_form_' . get_class($model);
 
         $this->view = $model->form_view;
         $this->form_params = array('id' => $this->id, 'name' => $this->name, "method" => "POST", "enctype" => "multipart/form-data");
         // set elements and validation
         $el = $r = array();
         $attributes = $model->get_attributes();
-        foreach ($model->columns as $k => $v)
+
+        // create element by configuration
+        if (isset($model->elements_conf))
         {
-            // dont show columns were not in elements_conf
-            if (isset($model->elements_conf) &&
-                    !in_array($k, (isset($model->elements_conf[$k]) && is_array($model->elements_conf[$k]) ? array_keys($model->elements_conf) : $model->elements_conf)))
-                continue;
-
-            $r[$k]['validate'] = array(
-                'required' => $v['allow_null'] == 'Y' ? false : true,
-                'maxlength' => $v['size'],
-            );
-
-            $el[$k] = array(
-                'id' => 'id_' . strtolower($k),
-                'name' => $model->table . '[' . $k . ']',
-                'label' => str_replace('_', ' ', $v['name']),
-                'type' => $v['type'],
-                //'size' => $v['size'],
-                'maxlength' => $v['size'],
-                'style' => '',
-                'value' => (isset($attributes[$k]) ? $attributes[$k] : $v['default_value']),
-            );
-
-            if (isset($model->elements_conf[$k]) && is_array($model->elements_conf[$k])) // override configuration defined in $model 
+            foreach ($model->elements_conf as $k => $v)
             {
-                foreach ($model->elements_conf[$k] as $key => $value)
+                $raw_name = is_array($v) ? $k : $v;
+                $columns = $model->columns[$raw_name];
+
+                $r[$raw_name]['validate'] = array(
+                    'required' => $columns['allow_null'] == 'Y' ? false : true,
+                    'maxlength' => $columns['size'],
+                );
+
+                $el[$raw_name] = array(
+                    'id' => 'id_' .strtolower(get_class($model)) . '_' . strtolower($raw_name),
+                    'name' => $model->table . '[' . $raw_name . ']',
+                    'label' => str_replace('_', ' ', $raw_name),
+                    'type' => $columns['type'],
+                    //'size' => 'auto',
+                    'maxlength' => $columns['size'],
+                    'style' => '',
+                    'class' => '',
+                    'value' => (isset($attributes[$raw_name]) ? $attributes[$raw_name] : $columns['default_value']),
+                );
+
+                // reset validation & element maxlength for date type
+                if ($columns['type'] == 'date')
                 {
-                    $el[$k][$key] = $value;
+                    unset($r[$raw_name]['validate']['maxlength']);
+                    unset($el[$raw_name]['maxlength']);
+                    $r[$raw_name]['validate']['date'] = true;
                 }
-            }
-            
-            if (isset($model->validation[$k]) && is_array($model->validation[$k])) // override configuration defined in $model 
-            {
-                foreach ($model->validation[$k] as $key => $value)
-                {
-                    $r[$k]['validate'][$key] = $value;
-                }
+
+                // override configuration defined in $model 
+                if (is_array($v))
+                    foreach ($v as $key => $value)
+                        $el[$raw_name][$key] = $value;
+
+                // override validation configuration defined in $model 
+                $validation = (isset($model->validation[$raw_name]) && is_array($model->validation[$raw_name])) ? $model->validation[$raw_name] : array();
+                foreach ($validation as $key => $value)
+                    $r[$raw_name]['validate'][$key] = $value;
             }
         }
+        else
+        {
+            foreach ($model->columns as $k => $v)
+            {
+                $r[$k]['validate'] = array(
+                    'required' => $v['allow_null'] == 'Y' ? false : true,
+                    'maxlength' => $v['size'],
+                );
+
+                $el[$k] = array(
+                    'id' => 'id_' . strtolower($k),
+                    'name' => $model->table . '[' . $k . ']',
+                    'label' => str_replace('_', ' ', $v['name']),
+                    'type' => $v['type'],
+                    //'size' => $v['size'],
+                    'maxlength' => $v['size'],
+                    'style' => '',
+                    'class' => '',
+                    'value' => (isset($attributes[$k]) ? $attributes[$k] : $v['default_value']),
+                );
+
+                // reset validation & element maxlength for date type
+                if ($v['type'] == 'date')
+                {
+                    unset($r[$k]['validate']['maxlength']);
+                    unset($el[$k]['maxlength']);
+                    $r[$k]['validate']['date'] = true;
+                }
+
+                // override configuration defined in $model 
+                if (isset($model->validation[$k]) && is_array($model->validation[$k]))
+                    foreach ($model->validation[$k] as $key => $value)
+                        $r[$k]['validate'][$key] = $value;
+            }
+        }
+
         $this->elements = $el;
         $this->validation = $r;
 
@@ -542,9 +596,6 @@ class MY_Form
      */
     function implodeAssoc($glue, $arr)
     {
-//        $keys = array_keys($arr);
-//        $values = array_values($arr);
-//        return(implode($glue, $keys) . $glue . implode($glue, $values));
         array_walk($arr, create_function('&$i,$k', '$i=" $k=\"$i\"";'));
         return implode($arr, " ");
     }
@@ -580,13 +631,13 @@ class MY_Grid
     function __construct($model)
     {
         if ($this->url == '')
-            $this->url = 'crud/grid/' . $model->table;
+            $this->url = 'crud/grid/' . get_class($model);
 
         if ($this->name == '')
-            $this->name = 'grid_' . $model->table;
+            $this->name = 'grid_' . get_class($model);
 
         if ($this->id == '')
-            $this->id = 'id_grid_' . $model->table;
+            $this->id = 'id_grid_' . get_class($model);
 
         if ($this->primary_keys == '')
             $this->primary_keys = $model->primary_keys;
@@ -598,14 +649,20 @@ class MY_Grid
         {
             foreach ($model->meta_columns as $k => $v)
             {
-                if (!in_array($k, $model->columns_conf))
+                if (!in_array($k, $model->columns_conf) && $v['is_primary_key'] == 0 )
                     continue;
+                
                 $this->columns[] = $v;
             }
         }
         else
         {
             $this->columns = array_values($model->meta_columns);
+        }
+        
+        foreach($this->primary_keys as $k=>$v)
+        {
+            $this->columns[] = array_merge($model->meta_columns[$v], array('hidden' => true));
         }
     }
 

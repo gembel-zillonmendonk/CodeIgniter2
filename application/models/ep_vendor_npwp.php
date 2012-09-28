@@ -9,13 +9,22 @@ class Ep_vendor_npwp extends MY_Model
 {
     public $table = "EP_VENDOR";
     public $elements_conf = array(
-        'NO_NPWP' => array('type' => 'text', 'allow_null' => false),
-        'ALAMAT_NPWP' => array('type' => 'text', 'allow_null' => false),
-        'KOTA_NPWP' => array('type' => 'text', 'allow_null' => false),
-        'PROPINSI_NPWP' => array('type' => 'text', 'allow_null' => false),
-        'KODE_POS_NPWP' => array('type' => 'number', 'allow_null' => false),
+        'NO_NPWP',
+        'ALAMAT_NPWP' => array('type' => 'textarea', 'rows' => 4),
+        'KOTA_NPWP',
+        'PROPINSI_NPWP',
+        'KODE_POS_NPWP',
         'PKP_NPWP' => array('type' => 'dropdown', 'allow_null' => false, 'options' => array('YA' => 'YA', 'Tidak' => 'Tidak')),
-        'NO_PKP_NPWP' => array('type' => 'text', 'allow_null' => false),
+        'NO_PKP_NPWP',
+    );
+    public $validation = array(
+        'NO_NPWP' => array('required' => true),
+        'ALAMAT_NPWP' => array('required' => true),
+        'KOTA_NPWP' => array('required' => true),
+        'PROPINSI_NPWP' => array('required' => true),
+        'KODE_POS_NPWP' => array('required' => true),
+        'PKP_NPWP' => array('required' => true),
+        'NO_PKP_NPWP' => array('required' => true),
     );
     public $columns_conf = array(
         'NO_NPWP',
@@ -24,22 +33,18 @@ class Ep_vendor_npwp extends MY_Model
         'PROPINSI_NPWP',
         'KODE_POS_NPWP',
         'PKP_NPWP',
-        'NO_PKP_NPWP',);
+        'NO_PKP_NPWP',
+    );
     public $sql_select = "(select * from EP_VENDOR)";
-
-
-    /*
-      public $columns = array(
-      'KODE_VENDOR'=>array('name'=>'KODE VENDOR', 'raw_name'=>'KODE_VENDOR', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      'NAMA_VENDOR'=>array('name'=>'NAMA VENDOR', 'raw_name'=>'NAMA_VENDOR', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      'KODE_LOGIN'=>array('name'=>'KODE LOGIN', 'raw_name'=>'KODE_LOGIN', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      );
-     */
 
     function __construct()
     {
         parent::__construct();
         $this->init();
+
+        // set default value here
+        $CI =& get_instance();
+        $this->attributes['KODE_VENDOR'] = $CI->session->userdata('user_id');
     }
 
 }

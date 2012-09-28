@@ -39,7 +39,7 @@ class Crud extends CI_Controller
 //        die();
         if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
         {
-            $model->attributes = $_REQUEST[$model->table];
+            $model->attributes = array_merge($model->attributes, $_REQUEST[$model->table]);
             $model->save();
             exit();
         }
@@ -73,7 +73,7 @@ class Crud extends CI_Controller
 
         $form = new MY_Form($model);
         $form->view = 'crud/modal_form';
-        $form->action = 'crud/modal_form/' . $model->table;
+        $form->action = 'crud/modal_form/' . get_class($model);
         $this->load->view($form->view, array(
 //            'name' => $name,
 //            'id' => $id,
@@ -92,22 +92,28 @@ class Crud extends CI_Controller
         // form submited do insert / update
         if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
         {
-            $model->attributes = $_REQUEST[$model->table];
+            $model->attributes = array_merge($model->attributes, $_REQUEST[$model->table]);
             print_r($model->save());
             exit();
         }
 
         // edit request 
+        
         $keys = $model->primary_keys;
-        if (count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys)
+        if (
+            (count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys) // get PKey from $_REQUEST
+                ||
+            (count($model->attributes) > 0 && array_intersect(array_keys($model->attributes), $keys) === $keys) // get PKey from model
+        )
         { // check wheater primary key was supplied or not
             $where = array();
             foreach ($keys as $key)
-                $where[$key] = $_REQUEST[$key];
+                $where[$key] = isset($model->attributes[$key]) ? $model->attributes[$key] : $_REQUEST[$key];
 
             $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
             $model->attributes = $query; // set model attributes
         }
+
 
 //        $name = strtolower($model->table);
 //        $id = 'form_' . strtolower($model->table);
@@ -124,7 +130,7 @@ class Crud extends CI_Controller
         }
         else
         {
-            
+
             $this->layout->view($form->view, array(
 //            'name' => $name,
 //            'id' => $id,

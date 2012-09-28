@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-class Ep_vendor_agen extends MY_Model
+class Ep_vendor_importir extends MY_Model
 {
     public $table = "EP_VENDOR_AGEN";
     public $elements_conf = array(
@@ -27,7 +27,7 @@ class Ep_vendor_agen extends MY_Model
         'TGL_BERAKHIR',
     );
     
-    public $sql_select = "(select * from EP_VENDOR_AGEN where TIPE = 'AGENT')";
+    public $sql_select = "(select * from EP_VENDOR_AGEN where TIPE = 'IMPORTIR')";
 
     function __construct()
     {
@@ -37,7 +37,7 @@ class Ep_vendor_agen extends MY_Model
         // set default value here
         $CI =& get_instance();
         $this->attributes['KODE_VENDOR'] = $CI->session->userdata('user_id');
-        $this->attributes['TIPE'] = 'AGENT';
+        $this->attributes['TIPE'] = 'IMPORTIR';
     }
 
 }

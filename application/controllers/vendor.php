@@ -14,6 +14,7 @@ class vendor extends CI_Controller
 {
     public function createOrEdit()
     {
+        $this->session->set_userdata('user_id', '512');
         $this->layout->view('vendor/createOrEdit');
     }
 }

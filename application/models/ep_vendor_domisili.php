@@ -12,11 +12,21 @@ class Ep_vendor_domisili extends MY_Model
         'NO_DOMISILI',
         'TGL_DOMISILI',
         'KADALUARSA_DOMISILI',
-        'ALAMAT',
+        'ALAMAT' => array('type' => 'textarea', 'rows' => 4),
         'KOTA',
         'PROPINSI',
         'KODE_POS',
         'NEGARA',
+    );
+    public $validation = array(
+        'NO_DOMISILI' => array('required' => true),
+        'TGL_DOMISILI' => array('required' => true),
+        'KADALUARSA_DOMISILI' => array('required' => true),
+        'ALAMAT' => array('required' => true),
+        'KOTA' => array('required' => true),
+        'PROPINSI' => array('required' => true),
+        'KODE_POS' => array('required' => true),
+        'NEGARA' => array('required' => true),
     );
     public $columns_conf = array(
         'NO_DOMISILI',
@@ -27,20 +37,17 @@ class Ep_vendor_domisili extends MY_Model
         'PROPINSI',
         'KODE_POS',
         'NEGARA',);
+    
     public $sql_select = "(select * from EP_VENDOR)";
-
-    /*
-      public $columns = array(
-      'KODE_VENDOR'=>array('name'=>'KODE VENDOR', 'raw_name'=>'KODE_VENDOR', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      'NAMA_VENDOR'=>array('name'=>'NAMA VENDOR', 'raw_name'=>'NAMA_VENDOR', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      'KODE_LOGIN'=>array('name'=>'KODE LOGIN', 'raw_name'=>'KODE_LOGIN', 'type' => 'text', 'size' => 255, 'allow_null' => false),
-      );
-     */
 
     function __construct()
     {
         parent::__construct();
         $this->init();
+        
+        // set default value here
+        $CI =& get_instance();
+        $this->attributes['KODE_VENDOR'] = $CI->session->userdata('user_id');
     }
 
 }

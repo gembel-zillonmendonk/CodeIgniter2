@@ -209,6 +209,8 @@ $form_id = 'modal_form_' . $obj;
                                             }
                                             else
                                                 alert("Data gagal disimpan : " + x);
+                                            
+                                            $('#<?php echo $grid_id ?>').trigger("reloadGrid"); 
                                         }
                                     });
 
@@ -251,7 +253,6 @@ $form_id = 'modal_form_' . $obj;
                             var d = this;
                             if($("form", this).valid()){
                                 jQuery("form", this).ajaxSubmit({
-                                    debug:true,
                                     success:function(x){                                
                                         if(x == ""){
                                             alert("Data berhasil disimpan");
@@ -259,6 +260,8 @@ $form_id = 'modal_form_' . $obj;
                                         }
                                         else
                                             alert("Data gagal disimpan : " + x);
+                                        
+                                        $('#<?php echo $grid_id ?>').trigger("reloadGrid"); 
                                     }
                                 });
 
