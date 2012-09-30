@@ -63,31 +63,31 @@
 
     <div id="tabs-3">
         <div class="accordion">
-            <h3 href="#">DEWAN KOMISARIS</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_komisaris') ?>">DEWAN KOMISARIS</h3>
             <div></div>
-            <h3 href="#">DEWAN DIREKSI</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_direksi') ?>">DEWAN DIREKSI</h3>
             <div></div>
         </div>
     </div>
 
     <div id="tabs-4">
         <div class="accordion">
-            <h3 href="#">REKENING BANK</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_bank') ?>">REKENING BANK</h3>
             <div></div>
-            <h3 href="#">MODAL SESUAI DENGAN AKTA TERAKHIR</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_modal') ?>">MODAL SESUAI DENGAN AKTA TERAKHIR</h3>
             <div></div>
-            <h3 href="#">INFORMASI LAPORAN KEUANGAN</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_laporan_keuangan') ?>">INFORMASI LAPORAN KEUANGAN</h3>
             <div></div>
-            <h3 href="#">KLASIFIKASI PERUSAHAAN</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_klasifikasi') ?>">KLASIFIKASI PERUSAHAAN</h3>
             <div></div>
         </div>
     </div>
 
     <div id="tabs-5">
         <div class="accordion">
-            <h3 href="#">BARANG YANG BISA DIPASOK</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_barang') ?>">BARANG YANG BISA DIPASOK</h3>
             <div></div>
-            <h3 href="#">JASA YANG BISA DIPASOK</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_jasa') ?>">JASA YANG BISA DIPASOK</h3>
             <div></div>
             <h3 href="#">AREA KERJA</h3>
             <div></div>
@@ -96,23 +96,23 @@
 
     <div id="tabs-6">
         <div class="accordion">
-            <h3 href="#">TENAGA AHLI UTAMA</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_tenaga_utama') ?>">TENAGA AHLI UTAMA</h3>
             <div></div>
-            <h3 href="#">TENAGA AHLI PENDUKUNG</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_tenaga_pendukung') ?>">TENAGA AHLI PENDUKUNG</h3>
             <div></div>
         </div>
     </div>
 
     <div id="tabs-7">
         <div class="accordion">
-            <h3 href="#">KETERANGAN SERTIFIKAT</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_sertifikat') ?>">KETERANGAN SERTIFIKAT</h3>
             <div></div>
         </div>
     </div>
 
     <div id="tabs-8">
         <div class="accordion">
-            <h3 href="#">KETERANGAN TENTANG FASILITAS / PERALATAN</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_peralatan') ?>">KETERANGAN TENTANG FASILITAS / PERALATAN</h3>
             <div></div>
         </div>
     </div>
@@ -126,11 +126,11 @@
 
     <div id="tabs-10">
         <div class="accordion">
-            <h3 href="#">PRINCIPAL</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_principal') ?>">PRINCIPAL</h3>
             <div></div>
-            <h3 href="#">SUBKONTRAKTOR</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_subkontraktor') ?>">SUBKONTRAKTOR</h3>
             <div></div>
-            <h3 href="#">PERUSAHAAN AFILIASI</h3>
+            <h3 href="<?php echo site_url('/crud/form/ep_vendor_afiliasi') ?>">PERUSAHAAN AFILIASI</h3>
             <div></div>
         </div>
     </div>

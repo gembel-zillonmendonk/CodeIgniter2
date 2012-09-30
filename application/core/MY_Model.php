@@ -630,26 +630,28 @@ class MY_Grid
 
     function __construct($model)
     {
+        if ($this->model == '')
+            $this->model = strtolower(get_class($model));
+        
         if ($this->url == '')
-            $this->url = 'crud/grid/' . get_class($model);
+            $this->url = 'crud/grid/' . $this->model;
 
         if ($this->name == '')
-            $this->name = 'grid_' . get_class($model);
+            $this->name = 'grid_' . $this->model;
 
         if ($this->id == '')
-            $this->id = 'id_grid_' . get_class($model);
-
+            $this->id = 'id_grid_' . $this->model;
+        
         if ($this->primary_keys == '')
             $this->primary_keys = $model->primary_keys;
 
-        if ($this->model == '')
-            $this->model = get_class($model);
+        
 
         if (is_array($model->columns_conf) && count($model->columns_conf) > 0)
         {
             foreach ($model->meta_columns as $k => $v)
             {
-                if (!in_array($k, $model->columns_conf) && $v['is_primary_key'] == 0 )
+                if (!in_array($k, $model->columns_conf))
                     continue;
                 
                 $this->columns[] = $v;

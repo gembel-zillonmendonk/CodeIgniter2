@@ -17,7 +17,7 @@ class Ep_vendor extends MY_Model {
     //public $table = "EP_NOMORURUT";
     
     public $elements_conf = array('KODE_VENDOR', 'NAMA_VENDOR', 'KODE_LOGIN','ALAMAT_EMAIL');
-    public $columns_conf = array('KODE_VENDOR', 'NAMA_VENDOR', 'KODE_LOGIN');
+    public $columns_conf = array('NAMA_VENDOR', 'KODE_LOGIN');
     public $sql_select = "(select KODE_VENDOR, NAMA_VENDOR, KODE_LOGIN, (1) as \"ad\" from EPROC.EP_VENDOR)";
     
     /*
