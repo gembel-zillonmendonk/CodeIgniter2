@@ -9,7 +9,7 @@ class Ep_vendor_bank extends MY_Model
 {
     public $table = "EP_VENDOR_BANK";
     public $elements_conf = array(
-        'NO_REKENING',
+        'NO_REKENING'=>array('label'=>'NOMOR REKENING'),
         'NAMA_REKENING',
         'NAMA_BANK',
         'CABANG',

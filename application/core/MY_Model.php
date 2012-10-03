@@ -261,7 +261,7 @@ class MY_Model extends CI_Model
     {
         //$this->db->set("\"TGL_REKAM\"", "TO_DATE('".date("Y-m-d")."','YYYY-MM-DD')", FALSE);
         $this->attributes['TGL_REKAM'] = date("Y-m-d");
-        $this->attributes['PETUGAS_REKAM'] = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+        $this->attributes['PETUGAS_REKAM'] = $this->session->userdata('user_id');
     }
 
     protected function _after_insert()
@@ -272,8 +272,8 @@ class MY_Model extends CI_Model
     protected function _before_update()
     {
         //$this->db->set("\"TGL_REKAM\"", "TO_DATE('".date("Y-m-d")."','YYYY-MM-DD')", FALSE);
-        $this->attributes['TGL_REKAM'] = date("Y-m-d");
-        $this->attributes['PETUGAS_UBAH'] = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+        $this->attributes['TGL_UBAH'] = date("Y-m-d");
+        $this->attributes['PETUGAS_UBAH'] = $this->session->userdata('user_id');
     }
 
     protected function _after_update()
@@ -481,9 +481,12 @@ class MY_Form
     public $is_modal = false;
     public $form_params = array();
     public $view = 'crud/form';
-
+    public $model;
+    
     public function __construct($model)
     {
+        $this->model = $model;
+        
         if ($this->action == '')
             $this->action = 'crud/form/' . get_class($model);
 
@@ -505,6 +508,9 @@ class MY_Form
             foreach ($model->elements_conf as $k => $v)
             {
                 $raw_name = is_array($v) ? $k : $v;
+                
+                if(!isset($model->columns[$raw_name])) continue;
+                
                 $columns = $model->columns[$raw_name];
 
                 $r[$raw_name]['validate'] = array(

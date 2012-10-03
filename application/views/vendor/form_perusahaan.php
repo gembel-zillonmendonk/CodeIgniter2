@@ -1,9 +1,4 @@
 <?php $this->load->helper('form'); ?>
-<?php
-//print_r($form->elements);
-//die("xx");
-?>
-
 <?php echo form_open($form->action, $form->form_params); ?>
 <!--<h3 class="ui-widget ui-widget-header ui-corner-all"><span>Form Detail</span></h3>-->
 <fieldset class="ui-widget-content">
@@ -56,6 +51,14 @@
         </p>
     <?php endforeach; ?>
     <p>
+        <?php echo form_label("TIPE PERUSAHAAN *", "id_tipe_perusahaan") ?>
+        <?php echo form_multiselect("EP_VENDOR_TIPE[TIPE_VENDOR][]", 
+                $form->model->elements_conf['VENDOR_TIPE']['options'],
+                $form->model->elements_conf['VENDOR_TIPE']['value'],
+                'id="id_tipe_perusahaan" class="{validate:{required:true,maxlength:255}}"'); ?>
+    </p>
+    
+    <p>
         <label></label>
         <input type="submit" value="Submit" />
     </p>
@@ -64,7 +67,7 @@
 
 <script>
     $(function() {
-        $( "input:submit, input:button").button();
+        $( "input:submit, button").button();
         $( ".datepicker" ).datepicker();
         //$( ".datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
         

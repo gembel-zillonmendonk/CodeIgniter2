@@ -12,7 +12,6 @@ class Crud extends CI_Controller
         //print_r($_REQUEST);
         //$this->model = '(select * from EP_NOMORURUT)';
         parent::__construct();
-
         //$this->load->model('model', 'crud_model', true, $this->model);
         //$this->x->table = $this->model;
         //$this->x->init();
@@ -93,7 +92,7 @@ class Crud extends CI_Controller
         if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
         {
             $model->attributes = array_merge($model->attributes, $_REQUEST[$model->table]);
-            print_r($model->save());
+            $model->save();
             exit();
         }
 

@@ -1,32 +1,34 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-class MY_Form_validation extends CI_Form_validation {
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
-	function __construct() {
+class MY_Form_validation extends CI_Form_validation
+{
 
-		parent::CI_Form_validation();
+    function __construct()
+    {
+        $this->CI = & get_instance();
+    }
 
-		$this->CI = & get_instance();
-	}
+    function cm_unique_check($value, $str)
+    {
+        $str = explode(':', $str);
+        $table = $str[0];
+        $field = $str[1];
+        $item_id = isset($str[2]) ? $str[2] : NULL;
 
-	function cm_unique_check($value, $str) {
-		$str = explode(':', $str);
-		$table = $str[0];
-		$field = $str[1];
-		$item_id = isset($str[2]) ? $str[2] : NULL;
-
-		if ($this->CI->Carbo_model->get_duplicate($table, $field, $value, $item_id))
-		{
-			return TRUE;
-		}
-		else
-		{
-			//$this->set_message('unique', sprintf(lang('cm_validation_unique'), $this->[]));
-			return FALSE;
-		}
-	}
+        if ($this->CI->Carbo_model->get_duplicate($table, $field, $value, $item_id))
+        {
+            return TRUE;
+        }
+        else
+        {
+            //$this->set_message('unique', sprintf(lang('cm_validation_unique'), $this->[]));
+            return FALSE;
+        }
+    }
 
 }
-
 /* End of file MY_Form_validation.php */
 /* Location: ./system/application/libraries/MY_Form_validation.php */

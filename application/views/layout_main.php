@@ -147,6 +147,13 @@
                         </tr>
                         <tr>
                             <td class="table_of_contents">
+
+                                <div id="error-box" class="ui-state-error ui-corner-all" style="padding: 0 .7em;margin-bottom: 0.7em;display:none;"> 
+                                    <p>
+                                        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+                                        <strong>ERROR</strong>
+                                    </p>
+                                </div>
                                 <?php echo $content_for_layout ?>
 
                                 <table></table>
@@ -180,3 +187,9 @@
         </table>
     </body>
 </html>
+<script>
+    $(function() {
+        $( "input:submit, input:button").button();
+        $( ".datepicker" ).datepicker();
+    });
+</script>

@@ -14,7 +14,7 @@ class Ep_vendor_jasa extends MY_Model
         'TIPE' => array('type' => 'dropdown', 'options' => array('AGENT' => 'AGENT', 'DISTRIBUTOR' => 'DISTRIBUTOR')),
     );
     public $validation = array(
-        'KODE_JASA' => array('required' => true),
+        //'KODE_JASA' => array('required' => true),
         'NAMA_JASA' => array('required' => true),
         'TIPE' => array('required' => true),
     );

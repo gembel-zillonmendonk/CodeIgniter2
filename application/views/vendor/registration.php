@@ -140,11 +140,14 @@
     <input type="button" id="cetak" value="Cetak"/>
     <input type="button" id="selesai" value="Lanjutkan ke persetujuan"/>
     <input type="button" value="Lewat & Selesai"/>
-    <input type="button" value="Simpan & Selesai"/>
+    <input type="button" id ="selanjutnya" value="Simpan & Lanjutkan"/>
 </p>
 <script>
     // Tabs
+    
     $('.tabs').tabs({
+        selected: <?php echo $active_tabs; ?>,
+        disabled: <?php echo $disable_tabs; ?>,
         show: function(event, ui) {
             $(".accordion", ui.panel).each(function(){
                 //alert("test");
@@ -206,6 +209,31 @@
         
         
     $(document).ready(function(){
+        
+        // event for verifikasi object per page
+        $('#selanjutnya').live('click', function(){
+            $.ajax({
+                url:'<?php echo site_url('/vendor/registration') ?>', 
+                success:function(responseText, textStatus, XMLHttpRequest) {
+                    var $data = jQuery.parseJSON(responseText);
+                    if($data.hasOwnProperty('errors')){
+                        var cList = $('<ul></ul>');
+                        $.each($data['errors'], function(i, v){
+                            $('<li></li>').text(v['message']).appendTo(cList);
+                        });
+                        $('#error-box p').html(cList).parent().show();
+                    }
+                    else{
+                        $('#error-box p').html(cList).parent().hide();
+                        $('.tabs')
+                        .tabs('enable', $data['active_tabs'] )
+                        .tabs('select', $data['active_tabs']);
+                        //$('.tabs').tabs('option', 'disabled', $data['disable_tabs'] );
+                        
+                    }
+                }
+            });
+        });
         
         // event for verifikasi all object
         $('#selesai').live('click', function(){
