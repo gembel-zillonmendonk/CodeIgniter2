@@ -29,7 +29,7 @@
         <div class="accordion">
             <h3 href="<?php echo site_url('/crud/form/ep_vendor_perusahaan') ?>">NAMA PERUSAHAAN</h3>
             <div></div>
-            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_alamat') ?>">KONTAK PERUSAHAAN</h3>
+            <h3 href="<?php echo site_url('/crud/grid_form/ep_vendor_alamat') ?>">KONTAK PERUSAHAAN</h3>
             <div></div>
             <h3 href="<?php echo site_url('/crud/form/ep_vendor_kontak_person') ?>">KONTAK PERSON</h3>
             <div></div>
@@ -119,7 +119,7 @@
 
     <div id="tabs-9">
         <div class="accordion">
-            <h3 href="#">PEKERJAAN</h3>
+            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_pengalaman') ?>">PEKERJAAN</h3>
             <div></div>
         </div>
     </div>
