@@ -12,6 +12,8 @@
         <link href="<?php echo base_url('css/text.css') ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo base_url('css/data.css') ?>" rel="stylesheet" type="text/css"/>
 
+        <link href="<?php echo base_url('css/bootstrap/css/bootstrap.css') ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo base_url('css/grid/css/960.css') ?>" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="<?php echo base_url('js/jquery-1.8.0.min.js') ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('js/i18n/grid.locale-en.js') ?>" ></script>
         <script type="text/javascript" src="<?php echo base_url('js/jquery.jqGrid.min.js') ?>"></script>

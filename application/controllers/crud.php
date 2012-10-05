@@ -97,7 +97,6 @@ class Crud extends CI_Controller
         }
 
         // edit request 
-        
         $keys = $model->primary_keys;
         if (
             (count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys) // get PKey from $_REQUEST
@@ -108,7 +107,7 @@ class Crud extends CI_Controller
             $where = array();
             foreach ($keys as $key)
                 $where[$key] = isset($model->attributes[$key]) ? $model->attributes[$key] : $_REQUEST[$key];
-
+            
             $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
             $model->attributes = $query; // set model attributes
         }
