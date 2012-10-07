@@ -8,53 +8,18 @@ $form_id = 'modal_form_' . $grid->model;
 <div id="<?php echo $form_id ?>" style="padding-bottom: 20px">
     <div id="form"></div>
     <div id="toolbar" class="ui-dialog-buttonpane ui-helper-clearfix">
-        <button type="button" id="btnSimpan">SIMPAN</button>
-        <button type="button" id="btnBatal">BATAL</button>
+        <!--        <button type="button" id="btnSimpan">SIMPAN</button>
+                <button type="button" id="btnBatal">BATAL</button>-->
     </div>
 </div>
-<div class="clearfix"></div>
 <table id="<?php echo $grid->name ?>"></table>
-<div class="clearfix"></div>
 <div id="<?php echo $pager_id ?>"></div>
 <script>
     jQuery(document).ready(function ($) {
         
         // load empty form
         jQuery('#<?php echo $form_id; ?> #form')
-        .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>', function(){
-            
-            var f = $("form", this);
-            
-            var v = $(f).validate({
-                meta: "validate"
-            });
-            
-            // attach event to button
-            $("#<?php echo $form_id; ?> #toolbar #btnSimpan").live('click', function() {
-                if($(f).valid()){
-                    $(f).ajaxSubmit({
-                        clearForm: true,
-                        success: function(){
-                            alert('Data berhasil disimpan');
-                            $('#<?php echo $grid->name ?>').trigger("reloadGrid");
-                        },
-                        error: function(){
-                            alert('Data gagal disimpan')
-                        }
-                    });
-                }
-            });
-            
-            $("#<?php echo $form_id; ?> #toolbar #btnBatal").live('click', function() {
-                $(f).resetForm();
-                v.prepareForm();
-                v.hideErrors();
-            });
-        });
-        
-        
-    
-        
+        .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>');
         
         jQuery('#<?php echo $grid->name ?>').jqGrid({
             "shrinkToFit": false,
@@ -121,7 +86,29 @@ $form_id = 'modal_form_' . $grid->model;
                     alert(xhr.responseText);
                 }
             },
-            "pager": '#<?php echo $pager_id ?>'
+            "pager": '#<?php echo $pager_id ?>',
+            "onSelectRow": function(id){ 
+                var selected = $('#<?php echo $grid->name ?>').jqGrid('getGridParam', 'selrow');
+                
+                if (selected) {
+                    selected = jQuery('#<?php echo $grid->name ?>').jqGrid('getRowData',selected);
+                    var keys = <?php echo json_encode($grid->primary_keys); ?>;
+                    var count = 0;
+                
+                    var data = {};
+                    var str ="";
+                    $.each(keys, function(k, v) { 
+                        data = {v:selected[v]};
+                        str += v + "=" + selected[v] + "&";
+                        count++; 
+                    });
+                    
+                    //console.debug(data);
+                    jQuery('#<?php echo $form_id ?> #form')
+                    .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>?' + str)
+                    
+                }
+            }
         })
         .jqGrid('navGrid', '#<?php echo $pager_id ?>', {
             "edit": true,
@@ -231,7 +218,7 @@ $form_id = 'modal_form_' . $grid->model;
                     
                     //console.debug(data);
                     jQuery('#<?php echo $form_id ?> #form')
-                    .load($site_url + '/crud/form/<?php echo $grid->model ?>?' + str)
+                    .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>?' + str)
                     
                 } else {
                     alert('Harap pilih data yang akan diubah');
@@ -250,40 +237,9 @@ $form_id = 'modal_form_' . $grid->model;
             position:'first',
             onClickButton : function (){
                 
-                jQuery('#<?php echo $form_id; ?>')
-                //.load($site_url + '/crud/modal_form/' + $grid->model)
-                .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>')
-                .dialog({ //dialog form use for popup after click button in pager
-                    autoOpen:false,
-                    width: 800,
-                    modal:true,
-                    //position:'auto',
-                    buttons: {
-                        "SIMPAN": function(x) {                            
-                            var d = this;
-                            if($("form", this).valid()){
-                                jQuery("form", this).ajaxSubmit({
-                                    success:function(x){                                
-                                        if(x == ""){
-                                            alert("Data berhasil disimpan");
-                                            $(d).dialog("close");
-                                        }
-                                        else
-                                            alert("Data gagal disimpan : " + x);
-                                        
-                                        $('#<?php echo $grid->name ?>').trigger("reloadGrid"); 
-                                    }
-                                });
-
-                            }
-                        }, 
-                        "BATAL": function() { 
-                            $(this).dialog("close");
-                        } 
-                    }
-                });
+                jQuery('#<?php echo $form_id; ?> #form')
+                .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>');
                 
-                jQuery('#<?php echo $form_id ?>').dialog("open");
             }
         });
         

@@ -136,11 +136,11 @@
     </div>
 </div>
 <p>
-    <input type="button" id="batal" value="Batal"/>
-    <input type="button" id="cetak" value="Cetak"/>
-    <input type="button" id="selesai" value="Lanjutkan ke persetujuan"/>
-    <input type="button" value="Lewat & Selesai"/>
-    <input type="button" value="Simpan & Selesai"/>
+    <button type="button" id="batal">BATAL</button>
+    <button type="button" id="cetak">Cetak</button>
+    <button type="button" id="selesai">Lanjutkan ke persetujuan</button>
+    <button type="button" id="lewat">Lewat & Selesai</button>
+    <button type="button" id="selanjutnya">Simpan & Lanjutkan</button>
 </p>
 <script>
     // Tabs

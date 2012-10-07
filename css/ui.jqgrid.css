@@ -142,3 +142,11 @@ tr.ui-search-toolbar select {margin: 1px 0px 0px 0px}
 .ui-jqgrid .tree-wrap-ltr {float: left;}
 .ui-jqgrid .tree-wrap-rtl {float: right;}
 .ui-jqgrid .ui-ellipsis {text-overflow:ellipsis;}
+
+
+.ui-jqgrid input,
+.ui-jqgrid select {
+	padding:0;
+	margin:0;
+        line-height: normal;
+}

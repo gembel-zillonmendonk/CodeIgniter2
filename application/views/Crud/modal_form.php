@@ -54,6 +54,8 @@
         <?php endforeach; ?>
     </div>
 </div>
+<button type="button" id="btnSimpan">SIMPAN</button>
+<button type="button" id="btnBatal">BATAL</button>
 </form>
 <script>
     $(document).ready(function(){
@@ -65,6 +67,35 @@
         
         });
     
+        var validator = $("#<?php echo $form->id; ?>").validate({
+            meta: "validate",
+            submitHandler: function(form) {
+                jQuery(form).ajaxSubmit();
+            }
+        });
+    
+        // attach event to button
+        $("#<?php echo $form->id; ?> #btnSimpan").click(function() {
+            if(validator.form()) {
+                jQuery("#<?php echo $form->id; ?>").ajaxSubmit({
+                    clearForm: true,
+                    success: function(){
+                        alert('Data berhasil disimpan');
+                        //reload grid
+                        $('#grid_<?php echo strtolower(get_class($form->model)); ?>').trigger("reloadGrid");
+                    },
+                    error: function(){
+                        alert('Data gagal disimpan')
+                    }
+                });
+            }
+        });
+        
+        $("#<?php echo $form->id; ?> #btnBatal").click(function() {
+            $("#<?php echo $form->id; ?>").resetForm();
+            validator.prepareForm();
+            validator.hideErrors();
+        });
         
     });
 </script>

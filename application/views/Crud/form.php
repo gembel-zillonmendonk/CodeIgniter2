@@ -75,10 +75,10 @@
         });
     
         // attach event to button
-        $("#<?php echo $form->id; ?> #btnSimpan").live('click', function() {
+        $("#<?php echo $form->id; ?> #btnSimpan").click(function() {
             if(validator.form()) {
                 jQuery("#<?php echo $form->id; ?>").ajaxSubmit({
-                    clearForm: true,
+                    clearForm: false,
                     success: function(){
                         alert('Data berhasil disimpan');
                     },
@@ -89,7 +89,7 @@
             }
         });
         
-        $("#<?php echo $form->id; ?> #btnBatal").live('click', function() {
+        $("#<?php echo $form->id; ?> #btnBatal").click(function() {
             $("#<?php echo $form->id; ?>").resetForm();
             validator.prepareForm();
             validator.hideErrors();

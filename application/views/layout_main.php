@@ -4,16 +4,18 @@
         <title>Selamat Datang di iPROC - Aplikasi e-Procurement Terintegrasi</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+        <link href="<?php echo base_url('css/bootstrap/css/bootstrap.css') ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo base_url('css/custom-theme/jquery-ui-1.8.23.custom.css') ?>" rel="stylesheet" type="text/css" />
-        <link href="<?php echo base_url('css/ui.jqgrid.css') ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('css/ui.jqform.css') ?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('css/superfish.css') ?>" rel="stylesheet" media="screen" /> 
         <link href="<?php echo base_url('css/format.css') ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo base_url('css/text.css') ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo base_url('css/data.css') ?>" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo base_url('css/bootstrap/css/bootstrap.css') ?>" rel="stylesheet" type="text/css"/>
+        
         <link href="<?php echo base_url('css/grid/css/960.css') ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo base_url('css/ui.jqgrid.css') ?>" rel="stylesheet" type="text/css" />
+        
         <script type="text/javascript" src="<?php echo base_url('js/jquery-1.8.0.min.js') ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('js/i18n/grid.locale-en.js') ?>" ></script>
         <script type="text/javascript" src="<?php echo base_url('js/jquery.jqGrid.min.js') ?>"></script>
@@ -33,6 +35,17 @@
                 dateFormat: "yy-mm-dd",
                 readOnly: true,
                 defaultDate: $('.datepicker').val()
+            });
+            $.validator.messages.required = "Field tidak boleh kosong!";
+            $.validator.setDefaults({
+                highlight: function(el, error, valid){ 
+                    $(el).closest('.control-group').addClass('error'); 
+                },
+                success: function(label) {
+                    label
+                    .text('OK!').addClass('valid')
+                    .closest('.control-group').addClass('success');
+                }
             });
         </script>
 
@@ -184,7 +197,7 @@
                 <td class="table_footer">© 2008 Copyright <b>ADW Consulting</b> - All Right Reserved</td>
             </tr>
             <tr>
-                <td class="table_end"><img src="<?php echo base_url('images/blank.gif') ?>" width="995" height="1"></td>
+                <td class="table_end">&nbsp;</td>
             </tr>
         </table>
     </body>
