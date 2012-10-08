@@ -58,26 +58,52 @@
                 'id="id_tipe_perusahaan" class="{validate:{required:true,maxlength:255}}"'); ?>
     </p>
     
-    <p>
-        <label></label>
-        <input type="submit" value="Submit" />
-    </p>
+    
 </fieldset>
-</form>
-
+<?php if(!isset($read_only) || $read_only != true): ?>
+<button type="button" id="btnSimpan">SIMPAN</button>
+<button type="button" id="btnBatal">BATAL</button>
 <script>
-    $(function() {
-        $( "input:submit, button").button();
-        $( ".datepicker" ).datepicker();
-        //$( ".datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    $(document).ready(function(){
+        // stylish button and input date
+        $(function() {
+            $( "input:submit, button").button();
+            $( ".datepicker" ).datepicker();
+            //$( ".datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
         
+        });
+    
+        var validator = $("#<?php echo $form->id; ?>").validate({
+            meta: "validate",
+            submitHandler: function(form) {
+                jQuery(form).ajaxSubmit();
+            }
+        });
+    
+        // attach event to button
+        $("#<?php echo $form->id; ?> #btnSimpan").click(function() {
+            if(validator.form()) {
+                jQuery("#<?php echo $form->id; ?>").ajaxSubmit({
+                    clearForm: false,
+                    success: function(){
+                        alert('Data berhasil disimpan');
+                        //reload grid
+                        $('#grid_<?php echo strtolower(get_class($form->model)); ?>').trigger("reloadGrid");
+                    },
+                    error: function(){
+                        alert('Data gagal disimpan')
+                    }
+                });
+            }
+        });
+        
+        $("#<?php echo $form->id; ?> #btnBatal").click(function() {
+            $("#<?php echo $form->id; ?>").resetForm();
+            validator.prepareForm();
+            validator.hideErrors();
+        });
     });
-    $("#<?php echo $form->id; ?>").validate({
-        meta: "validate",
-        submitHandler: function(form) {
-            jQuery(form).ajaxSubmit({
-                //target: "#result"
-            });
-        }
-    });
+    
 </script>
+<?php endif; ?>
+</form>

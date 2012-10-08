@@ -73,7 +73,14 @@ class Ep_vendor_perusahaan extends MY_Model
         $CI = & get_instance();
         $this->attributes['KODE_VENDOR'] = $CI->session->userdata('user_id');
 
-        $this->elements_conf['VENDOR_TIPE']['value'] = array('GENERAL SUPPLIER');
+        // get selected value 
+        $query = $this->db->query('SELECT * FROM EP_VENDOR_TIPE WHERE KODE_VENDOR = ' . $this->attributes['KODE_VENDOR']);
+        $rows = $query->result_array();
+        
+        foreach ($rows as $v)
+        {
+            $this->elements_conf['VENDOR_TIPE']['value'][] = $v['TIPE_VENDOR'];
+        }
     }
 
     function _after_save()
