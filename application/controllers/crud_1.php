@@ -9,7 +9,12 @@ class Crud extends CI_Controller
 
     public function __construct()
     {
+        //print_r($_REQUEST);
+        //$this->model = '(select * from EP_NOMORURUT)';
         parent::__construct();
+        //$this->load->model('model', 'crud_model', true, $this->model);
+        //$this->x->table = $this->model;
+        //$this->x->init();
     }
 
     /**
@@ -18,6 +23,7 @@ class Crud extends CI_Controller
     public function index()
     {
         $this->layout->view('index');
+        //$this->load->view('welcome_message');
     }
 
     public function modal_form($model = null)
@@ -25,6 +31,11 @@ class Crud extends CI_Controller
         // check and load model
         $model = $this->_load_model($model);
 
+        // form submited do insert / update
+//        echo "<pre>";
+//        print_r($_SERVER);
+//        print_r($_REQUEST[$model->table]);
+//        die();
         if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
         {
             $model->attributes = array_merge($model->attributes, $_REQUEST[$model->table]);
@@ -34,50 +45,76 @@ class Crud extends CI_Controller
 
         // edit request 
         $keys = $model->primary_keys;
+
         if (array_intersect(array_keys($_REQUEST), $keys) === $keys)
         {
-            $model->attributes = $this->_form_data($model);
+            // check wheater primary key was supplied or not
+            $where = array();
+            foreach ($keys as $key)
+                $where[$key] = $_REQUEST[$key];
+
+
+            $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
+            $model->attributes = $query; // set model attributes
         }
+
+
+
+//        $name = strtolower($model->table);
+//        $id = 'form_' . strtolower($model->table);
+//
+//        $this->load->view('Crud/modal_form', array(
+//            'name' => $name,
+//            'id' => $id,
+//            'model' => $model,
+//        ));
+
 
         $form = new MY_Form($model);
         $form->view = 'crud/modal_form';
         $form->action = 'crud/modal_form/' . get_class($model);
-
-        // load partial view
-        $el_buttons = $this->load->view('crud/_el_buttons', array('form' => $form,), true);
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
-
-        // load view
         $this->load->view($form->view, array(
+//            'name' => $name,
+//            'id' => $id,
+//            'model' => $model,
             'form' => $form,
-            'el_buttons' => $el_buttons,
-            'el_fields' => $el_fields,
         ));
     }
-
+    
     public function view_modal_form($model = null)
     {
         // check and load model
         $model = $this->_load_model($model);
 
+        // form submited do insert / update
+        if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
+        {
+            $model->attributes = array_merge($model->attributes, $_REQUEST[$model->table]);
+            $model->save();
+            exit();
+        }
+
         // edit request 
         $keys = $model->primary_keys;
+
         if (array_intersect(array_keys($_REQUEST), $keys) === $keys)
         {
-            $model->attributes = $this->_form_data($model);
+            // check wheater primary key was supplied or not
+            $where = array();
+            foreach ($keys as $key)
+                $where[$key] = $_REQUEST[$key];
+
+
+            $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
+            $model->attributes = $query; // set model attributes
         }
 
         $form = new MY_Form($model);
         $form->view = 'crud/modal_form';
         $form->action = 'crud/modal_form/' . get_class($model);
-
-        // load partial view
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
-
-        // load view
         $this->load->view($form->view, array(
             'form' => $form,
-            'el_fields' => $el_fields,
+            'read_only' => true,
         ));
     }
 
@@ -117,27 +154,23 @@ class Crud extends CI_Controller
 //        $id = 'form_' . strtolower($model->table);
 
         $form = new MY_Form($model);
-
-        // load partial view
-        $el_buttons = $this->load->view('crud/_el_buttons', array('form' => $form,), true);
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
-
         if ($this->_is_ajax_request())
         {
-            // load view
             $this->load->view($form->view, array(
+//            'name' => $name,
+//            'id' => $id,
+//            'model' => $model,
                 'form' => $form,
-                'el_buttons' => $el_buttons,
-                'el_fields' => $el_fields,
             ));
         }
         else
         {
-            // load layout view
+
             $this->layout->view($form->view, array(
+//            'name' => $name,
+//            'id' => $id,
+//            'model' => $model,
                 'form' => $form,
-                'el_buttons' => $el_buttons,
-                'el_fields' => $el_fields,
             ));
         }
     }
@@ -146,6 +179,14 @@ class Crud extends CI_Controller
     {
         // check and load model
         $model = $this->_load_model($model);
+
+        // form submited do insert / update
+        if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
+        {
+            $model->attributes = array_merge($model->attributes, $_REQUEST[$model->table]);
+            $model->save();
+            exit();
+        }
 
         // edit request 
         $keys = $model->primary_keys;
@@ -164,38 +205,82 @@ class Crud extends CI_Controller
         }
 
         $form = new MY_Form($model);
-
-        // load partial view
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
-
         if ($this->_is_ajax_request())
         {
-            // load view
             $this->load->view($form->view, array(
                 'form' => $form,
-                'el_fields' => $el_fields,
+                'read_only' => true,
             ));
         }
         else
         {
-            // load layout view
+
             $this->layout->view($form->view, array(
                 'form' => $form,
-                'el_fields' => $el_fields,
+                'read_only' => true,
             ));
         }
     }
-
+    
     public function grid($model = null)
     {
         // check and load model
         $model = $this->_load_model($model);
-        $query = $this->_grid_data($model);
+
+        $gopts = array(
+            'page' => (isset($_REQUEST['page']) ? $_REQUEST['page'] : 1),
+            'rows' => (isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15),
+        );
+
+        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+        $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15;
+        $filter = null;
+        if (isset($_REQUEST['filters']))
+        {
+            //$this->load->library('jqGrid', null, 'jq');
+            $filter = $model->buildSearch($_REQUEST['filters']);
+        }
+
+        $filter = strlen($filter) > 0 ? $filter : null;
+        //$query = $this->db->get('USERS', 10, $page);
+
+
+
+        $src = $model->table;
+        preg_match("/select/", $model->sql_select, $matches);
+        if (count($matches) > 0)
+        {
+            $src = $model->sql_select;
+            $read_only = true;
+        }
+
+        $this->db->start_cache();
+        $this->db->from($src);
+        if ($filter !== null)
+            $this->db->where($filter);
+        $this->db->stop_cache();
+
+        $count = $this->db->count_all_results();
+        $count > 0 ? $total_pages = ceil($count / $rows) : $total_pages = 0;
+        if ($page > $total_pages)
+            $page = $total_pages;
+
+        // build data
+        $this->db->limit($rows, $page);
+        $query = $this->db->get();
+
+        $this->db->flush_cache();
+
+        $grid = new MY_Grid($model);
         if ($this->_is_ajax_request())
         {
             if (isset($_REQUEST['oper']))
             {
-                echo json_encode($query);
+                echo json_encode(array(
+                    "records" => $count,
+                    "page" => $page,
+                    "total" => $total_pages,
+                    "rows" => $query->result_array));
 
                 exit();
             }
@@ -203,43 +288,134 @@ class Crud extends CI_Controller
             {
 
                 $this->load->view('Crud/grid', array(
-                    'grid' => new MY_Grid($model),
+//                    'query' => $query,
+//                    'rows' => $rows,
+//                    'page' => $page,
+//                    'read_only' => $read_only,
+                    //'model' => $model,
+                    'grid' => $grid,
                 ));
             }
         }
         else
         {
             $this->layout->view('Crud/grid', array(
-                'grid' => new MY_Grid($model),
+//            'query' => $query,
+//            'rows' => $rows,
+//            'page' => $page,
+//            'read_only' => $read_only,
+                //'model' => $model,
+                'grid' => $grid,
             ));
         }
+
+        /*
+          preg_match("/select/", $model->sql_select, $matches);
+          if (count($matches) > 0) {
+          $this->model = false;
+          $read_only = true;
+          }
+         */
+
+        //$this->load->view('Crud/grid', array('query' => $query, 'rows'=>$rows, 'page'=>$page));
     }
 
     public function grid_form($model = null)
     {
         // check and load model
         $model = $this->_load_model($model);
-        $query = $this->_grid_data($model);
+
+        $gopts = array(
+            'page' => (isset($_REQUEST['page']) ? $_REQUEST['page'] : 1),
+            'rows' => (isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15),
+        );
+
+        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+        $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 15;
+        $filter = null;
+        if (isset($_REQUEST['filters']))
+        {
+            //$this->load->library('jqGrid', null, 'jq');
+            $filter = $model->buildSearch($_REQUEST['filters']);
+        }
+
+        $filter = strlen($filter) > 0 ? $filter : null;
+        //$query = $this->db->get('USERS', 10, $page);
+
+
+
+        $src = $model->table;
+        preg_match("/select/", $model->sql_select, $matches);
+        if (count($matches) > 0)
+        {
+            $src = $model->sql_select;
+            $read_only = true;
+        }
+
+        $this->db->start_cache();
+        $this->db->from($src);
+        if ($filter !== null)
+            $this->db->where($filter);
+        $this->db->stop_cache();
+
+        $count = $this->db->count_all_results();
+        $count > 0 ? $total_pages = ceil($count / $rows) : $total_pages = 0;
+        if ($page > $total_pages)
+            $page = $total_pages;
+
+        // build data
+        $this->db->limit($rows, $page);
+        $query = $this->db->get();
+
+        $this->db->flush_cache();
+
+        $grid = new MY_Grid($model);
         if ($this->_is_ajax_request())
         {
             if (isset($_REQUEST['oper']))
             {
-                echo json_encode($query);
+                echo json_encode(array(
+                    "records" => $count,
+                    "page" => $page,
+                    "total" => $total_pages,
+                    "rows" => $query->result_array));
+
                 exit();
             }
             else
             {
+
                 $this->load->view('Crud/grid_form', array(
-                    'grid' => new MY_Grid($model),
+//                    'query' => $query,
+//                    'rows' => $rows,
+//                    'page' => $page,
+//                    'read_only' => $read_only,
+                    //'model' => $model,
+                    'grid' => $grid,
                 ));
             }
         }
         else
         {
             $this->layout->view('Crud/grid_form', array(
-                'grid' => new MY_Grid($model),
+//            'query' => $query,
+//            'rows' => $rows,
+//            'page' => $page,
+//            'read_only' => $read_only,
+                //'model' => $model,
+                'grid' => $grid,
             ));
         }
+
+        /*
+          preg_match("/select/", $model->sql_select, $matches);
+          if (count($matches) > 0) {
+          $this->model = false;
+          $read_only = true;
+          }
+         */
+
+        //$this->load->view('Crud/grid', array('query' => $query, 'rows'=>$rows, 'page'=>$page));
     }
 
     public function view_grid_form($model = null)
@@ -247,18 +423,23 @@ class Crud extends CI_Controller
         // check and load model
         $model = $this->_load_model($model);
         $query = $this->_grid_data($model);
+        $grid = new MY_Grid($model);
         if ($this->_is_ajax_request())
         {
             if (isset($_REQUEST['oper']))
             {
-                echo json_encode($query);
+                echo json_encode(array(
+                    "records" => $count,
+                    "page" => $page,
+                    "total" => $total_pages,
+                    "rows" => $query->result_array));
 
                 exit();
             }
             else
             {
                 $this->load->view('Crud/grid_form', array(
-                    'grid' => new MY_Grid($model),
+                    'grid' => $grid,
                     'read_only' => true,
                 ));
             }
@@ -266,7 +447,7 @@ class Crud extends CI_Controller
         else
         {
             $this->layout->view('Crud/grid_form', array(
-                'grid' => new MY_Grid($model),
+                'grid' => $grid,
                 'read_only' => true,
             ));
         }
@@ -281,9 +462,26 @@ class Crud extends CI_Controller
         }
         else
         {
+            /*
+              if($type == 'grid')
+              {
+              $this->load->model('My_Grid', 'crud_model', true, $model);
+              }
+              else
+              {
+              $this->load->model('My_Form', 'crud_model', true, $model);
+              }
+             */
             $this->load->model('Model', 'crud_model', true, $model);
         }
 
+        /*
+          if($type == 'grid' && !($this->crud_model instanceof My_Grid))
+          show_error ("load wrong model class for action");
+
+          if($type == 'form' && !($this->crud_model instanceof My_Form))
+          show_error ("load wrong model class for action");
+         */
         $model = $this->crud_model;
         unset($this->crud_model);
 
@@ -300,7 +498,7 @@ class Crud extends CI_Controller
 
     private function _grid_data($model)
     {
-        $return = null;
+        $query = null;
         try
         {
             $gopts = array(
@@ -331,7 +529,7 @@ class Crud extends CI_Controller
             }
 
             $this->db->start_cache();
-            $this->db->from($src, true);
+            $this->db->from($src);
             if ($filter !== null)
                 $this->db->where($filter);
             $this->db->stop_cache();
@@ -344,12 +542,6 @@ class Crud extends CI_Controller
             // build data
             $this->db->limit($rows, $page);
             $query = $this->db->get();
-            $return = array(
-                "records" => $count,
-                "page" => $page,
-                "total" => $total_pages,
-                "rows" => $query->result_array,
-            );
 
             $this->db->flush_cache();
         }
@@ -357,31 +549,7 @@ class Crud extends CI_Controller
         {
             echo 'Caught exception: ', $e->getMessage(), "\n";
         }
-
-        return $return;
-    }
-
-    private function _form_data($model)
-    {
-
-        $query = null;
-        try
-        {
-            $keys = $model->primary_keys;
-            // check wheater primary key was supplied or not
-            $where = array();
-            foreach ($keys as $key)
-                $where[$key] = $_REQUEST[$key];
-
-
-            $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
-            //$model->attributes = $query; // set model attributes
-        }
-        catch (Exception $e)
-        {
-            echo 'Caught exception: ', $e->getMessage(), "\n";
-        }
-
+        
         return $query;
     }
 

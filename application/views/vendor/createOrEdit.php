@@ -89,7 +89,7 @@
             <div></div>
             <h3 href="<?php echo site_url('/crud/grid/ep_vendor_jasa') ?>">JASA YANG BISA DIPASOK</h3>
             <div></div>
-            <h3 href="#">AREA KERJA</h3>
+            <h3 href="<?php echo site_url('/crud/grid_form/ep_vendor_wilayah') ?>">AREA KERJA</h3>
             <div></div>
         </div>
     </div>
@@ -119,7 +119,7 @@
 
     <div id="tabs-9">
         <div class="accordion">
-            <h3 href="<?php echo site_url('/crud/grid/ep_vendor_pengalaman') ?>">PEKERJAAN</h3>
+            <h3 href="<?php echo site_url('/crud/grid_form/ep_vendor_pengalaman') ?>">PEKERJAAN</h3>
             <div></div>
         </div>
     </div>

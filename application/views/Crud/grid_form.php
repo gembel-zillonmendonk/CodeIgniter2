@@ -1,6 +1,6 @@
 <?php
 //echo "<pre>";
-//print_r($grid->columns);
+//print_r($read_only);
 //die();
 $pager_id = 'pager_' . $grid->model;
 $form_id = 'modal_form_' . $grid->model;
@@ -17,9 +17,14 @@ $form_id = 'modal_form_' . $grid->model;
 <script>
     jQuery(document).ready(function ($) {
         
+        var $form = 'modal_form';
+        <?php if (isset($read_only) && $read_only == true): ?>
+            $form = 'view_modal_form';    
+        <?php endif; ?>
+            
         // load empty form
         jQuery('#<?php echo $form_id; ?> #form')
-        .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>');
+        .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>');
         
         jQuery('#<?php echo $grid->name ?>').jqGrid({
             "shrinkToFit": false,
@@ -105,13 +110,13 @@ $form_id = 'modal_form_' . $grid->model;
                     
                     //console.debug(data);
                     jQuery('#<?php echo $form_id ?> #form')
-                    .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>?' + str)
+                    .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>?' + str)
                     
                 }
             }
         })
         .jqGrid('navGrid', '#<?php echo $pager_id ?>', {
-            "edit": true,
+            "edit": false,
             "add": false,
             "del": false,
             "search": true,
@@ -181,68 +186,70 @@ $form_id = 'modal_form_' . $grid->model;
                     window.location = 'Ep_vendor?oper=excel';
                 }
             }
-        })        
-        /// delete button
-        .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
-            id: 'pager_delete',
-            caption: '',
-            buttonicon:'ui-icon-trash', 
-            title: 'Hapus Data',
-            position:'first',
-            onClickButton : function (){
-                jQuery('#<?php echo $grid->name ?>').jqGrid('columnChooser');
-            }
         })
-        /// edit button
-        .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
-            id: 'pager_edit',
-            caption: '',
-            buttonicon:'ui-icon-pencil', 
-            title: 'Ubah Data',
-            position:'first',
-            onClickButton : function (){
-                var selected = $('#<?php echo $grid->name ?>').jqGrid('getGridParam', 'selrow');
-                
-                if (selected) {
-                    selected = jQuery('#<?php echo $grid->name ?>').jqGrid('getRowData',selected);
-                    var keys = <?php echo json_encode($grid->primary_keys); ?>;
-                    var count = 0;
-                
-                    var data = {};
-                    var str ="";
-                    $.each(keys, function(k, v) { 
-                        data = {v:selected[v]};
-                        str += v + "=" + selected[v] + "&";
-                        count++; 
-                    });
-                    
-                    //console.debug(data);
-                    jQuery('#<?php echo $form_id ?> #form')
-                    .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>?' + str)
-                    
-                } else {
-                    alert('Harap pilih data yang akan diubah');
-                    return;
-                }
-                
-                
-            }
-        })
-        /// add button
-        .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
-            id: 'pager_add',
-            caption: '',
-            buttonicon:'ui-icon-plus', 
-            title: 'Tambah Data',
-            position:'first',
-            onClickButton : function (){
-                
-                jQuery('#<?php echo $form_id; ?> #form')
-                .load($site_url + '/crud/modal_form/<?php echo $grid->model ?>');
-                
-            }
-        });
         
-        $('#<?php echo $grid->name ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid->name ?>').parent().width() , false);
-    });
+<?php if (!isset($read_only) || $read_only != true): ?>
+                    /// delete button
+                    .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
+                        id: 'pager_delete',
+                        caption: '',
+                        buttonicon:'ui-icon-trash', 
+                        title: 'Hapus Data',
+                        position:'first',
+                        onClickButton : function (){
+                            jQuery('#<?php echo $grid->name ?>').jqGrid('columnChooser');
+                        }
+                    })
+                    /// edit button
+                    .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
+                        id: 'pager_edit',
+                        caption: '',
+                        buttonicon:'ui-icon-pencil', 
+                        title: 'Ubah Data',
+                        position:'first',
+                        onClickButton : function (){
+                            var selected = $('#<?php echo $grid->name ?>').jqGrid('getGridParam', 'selrow');
+                    
+                            if (selected) {
+                                selected = jQuery('#<?php echo $grid->name ?>').jqGrid('getRowData',selected);
+                                var keys = <?php echo json_encode($grid->primary_keys); ?>;
+                                var count = 0;
+                    
+                                var data = {};
+                                var str ="";
+                                $.each(keys, function(k, v) { 
+                                    data = {v:selected[v]};
+                                    str += v + "=" + selected[v] + "&";
+                                    count++; 
+                                });
+                        
+                                //console.debug(data);
+                                jQuery('#<?php echo $form_id ?> #form')
+                                .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>?' + str)
+                        
+                            } else {
+                                alert('Harap pilih data yang akan diubah');
+                                return;
+                            }
+                    
+                    
+                        }
+                    })
+                    /// add button
+                    .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
+                        id: 'pager_add',
+                        caption: '',
+                        buttonicon:'ui-icon-plus', 
+                        title: 'Tambah Data',
+                        position:'first',
+                        onClickButton : function (){
+                    
+                            jQuery('#<?php echo $form_id; ?> #form')
+                            .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>');
+                    
+                        }
+                    });
+<?php endif; ?>
+                $('#<?php echo $grid->name ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid->name ?>').parent().width() , false);
+            });
 </script>

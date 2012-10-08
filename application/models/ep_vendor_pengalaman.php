@@ -43,7 +43,7 @@ class Ep_vendor_pengalaman extends MY_Model {
         'NO_KONTRAK',
         'KETERANGAN',
     );
-    public $sql_select = "(select * from EP_VENDOR_BANK)";
+    public $sql_select = "(select * from EP_VENDOR_PENGALAMAN)";
 
     function __construct() {
         parent::__construct();

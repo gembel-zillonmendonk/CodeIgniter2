@@ -5,6 +5,8 @@ if (!defined('BASEPATH'))
 
 class MY_DB_oci8_driver extends CI_DB_oci8_driver {
 
+    var $_escape_char = ' ';
+    
     final public function __construct($params) {
         parent::__construct($params);
         
