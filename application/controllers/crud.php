@@ -72,7 +72,7 @@ class Crud extends CI_Controller
         $form->action = 'crud/modal_form/' . get_class($model);
 
         // load partial view
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
+        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,'read_only'=>true,), true);
 
         // load view
         $this->load->view($form->view, array(
@@ -166,7 +166,7 @@ class Crud extends CI_Controller
         $form = new MY_Form($model);
 
         // load partial view
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
+        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,'read_only'=>true,), true);
 
         if ($this->_is_ajax_request())
         {

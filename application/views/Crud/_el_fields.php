@@ -3,6 +3,12 @@
 <div class="row-fluid">
     <div class="span6">
         <?php foreach ($form->elements as $k => $v): ?>
+        
+        <?php 
+        if(isset($read_only) && $read_only == true):
+            $v['readonly'] = 'readonly';
+        endif; 
+        ?>
             <div class="control-group">
                 <?php echo form_label($v['label'] . " " . ($form->validation[$k]['validate']['required'] == true ? "*" : ""), $v['id'], array("class" => "control-label")) ?>
                 <div class="controls">
