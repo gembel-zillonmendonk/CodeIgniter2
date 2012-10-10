@@ -5,11 +5,12 @@ if (!defined('BASEPATH'))
 
 class MY_DB_oci8_driver extends CI_DB_oci8_driver {
 
-    var $_escape_char = ' ';
-    
     final public function __construct($params) {
         parent::__construct($params);
         
+    $this->_escape_char = '';
+    $this->_protect_identifiers = FALSE;
+    
         // change datatime format to 'YYYY-MM-DD HH24:MI:SS'
         $this->query("alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS'");
         

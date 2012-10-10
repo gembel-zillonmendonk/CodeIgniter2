@@ -27,7 +27,7 @@ class Crud extends CI_Controller
 
         if ($this->_is_ajax_request() && isset($_REQUEST[$model->table]))
         {
-            $model->attributes = array_merge($model->attributes, $_REQUEST[$model->table]);
+            $model->attributes = isset($model->attributes) ? array_merge($model->attributes, $_REQUEST[$model->table]) : $_REQUEST[$model->table];
             $model->save();
             exit();
         }
@@ -37,12 +37,13 @@ class Crud extends CI_Controller
         if (array_intersect(array_keys($_REQUEST), $keys) === $keys)
         {
             $model->attributes = $this->_form_data($model);
+            $model->is_new_record = false;
         }
 
         $form = new MY_Form($model);
         $form->view = 'crud/modal_form';
         $form->action = 'crud/modal_form/' . get_class($model);
-
+        $form->clear_form = true;
         // load partial view
         $el_buttons = $this->load->view('crud/_el_buttons', array('form' => $form,), true);
         $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
@@ -72,7 +73,7 @@ class Crud extends CI_Controller
         $form->action = 'crud/modal_form/' . get_class($model);
 
         // load partial view
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,'read_only'=>true,), true);
+        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
 
         // load view
         $this->load->view($form->view, array(
@@ -110,6 +111,7 @@ class Crud extends CI_Controller
 
             $query = $this->db->get_where($model->table, $where)->row_array(); // get single row
             $model->attributes = $query; // set model attributes
+            $model->is_new_record = false;
         }
 
 
@@ -166,7 +168,7 @@ class Crud extends CI_Controller
         $form = new MY_Form($model);
 
         // load partial view
-        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,'read_only'=>true,), true);
+        $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);
 
         if ($this->_is_ajax_request())
         {
@@ -274,10 +276,11 @@ class Crud extends CI_Controller
 
     private function _load_model($model, $type = 'grid', $return = true)
     {
-
-        if (file_exists(APPPATH . 'models/' . strtolower($model) . '.php'))
+        $model = str_replace(".", "/", strtolower($model));
+        $path = APPPATH . 'models/' . str_replace(".", "/", strtolower($model)) . '.php';
+        if (file_exists($path))
         {
-            $this->load->model(strtolower($model), 'crud_model', true);
+            $this->load->model($model, 'crud_model', true);
         }
         else
         {

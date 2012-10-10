@@ -120,6 +120,23 @@ class vendor extends CI_Controller
         $this->layout->view('vendor/view');
     }
     
+    public function update()
+    {
+        $is_success=''; 
+        $kode_vendor=$this->session->userdata('user_id');
+        $param = array(
+           array('name'=>':p1', 'value'=>$kode_vendor, 'length' => -1, 'type'=>SQLT_INT ),
+//           array('name'=>':a2', 'value'=>&$is_success),
+        );   
+        $this->db->stored_procedure('EPROC','PROC_EP_VENDOR_COPY_TO_TEMP',$param); 
+        
+        $this->db->query("
+            begin 
+            EPROC.PROC_EP_VENDOR_COPY_TO_TEMP( ".$this->session->userdata('user_id')."); 
+            end;", FALSE, FALSE);
+        $this->layout->view('vendor/update');
+    }
+    
     public function createOrEdit()
     {
         $this->layout->view('vendor/createOrEdit');

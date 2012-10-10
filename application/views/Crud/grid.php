@@ -2,17 +2,18 @@
 //echo "<pre>";
 //print_r($grid->columns);
 //die();
-$pager_id = 'pager_' . $grid->model;
-$form_id = 'modal_form_' . $grid->model;
+$pager_id = 'pager_' . $grid->id;
+$form_id = 'modal_form_' . $grid->id;
 ?>
 <div id="<?php echo $form_id ?>"></div>
-<table id="<?php echo $grid->name ?>"></table>
+<table id="<?php echo $grid->id ?>"></table>
 <div id="<?php echo $pager_id ?>"></div>
 <script>
     jQuery(document).ready(function ($) {
-                
-        jQuery('#<?php echo $grid->name ?>').jqGrid({
+
+        jQuery('#<?php echo $grid->id ?>').jqGrid({
             "shrinkToFit": false,
+            
             "autoWidth": true,
             "hoverrows": true,
             "viewrecords": true,
@@ -66,6 +67,11 @@ $form_id = 'modal_form_' . $grid->model;
                 "subgrid": "subgrid",
                 "totalrows": "totalrows",
                 "autocomplete": "autocmpl"
+            },
+            "gridComplete":function(){
+                
+                <?php echo $grid->js_grid_completed; ?>
+                	
             },
             "loadError": function (xhr, status, err) {
                 try {
@@ -130,7 +136,7 @@ $form_id = 'modal_form_' . $grid->model;
             title: 'Reorder Columns',
             position:'first',
             onClickButton : function (){
-                jQuery('#<?php echo $grid->name ?>').jqGrid('columnChooser');
+                jQuery('#<?php echo $grid->id ?>').jqGrid('columnChooser');
             }
         })
         .jqGrid('navButtonAdd', '#<?php echo $pager_id ?>', {
@@ -141,7 +147,7 @@ $form_id = 'modal_form_' . $grid->model;
             position:'first',
             onClickButton: function (e) {
                 try {
-                    jQuery('#<?php echo $grid->name ?>').jqGrid('excelExport', {
+                    jQuery('#<?php echo $grid->id ?>').jqGrid('excelExport', {
                         tag: 'excel',
                         url: $site_url + '/crud/modal_form/<?php echo $grid->model ?>'
                     });
@@ -158,7 +164,7 @@ $form_id = 'modal_form_' . $grid->model;
             title: 'Hapus Data',
             position:'first',
             onClickButton : function (){
-                jQuery('#<?php echo $grid->name ?>').jqGrid('columnChooser');
+                jQuery('#<?php echo $grid->id ?>').jqGrid('columnChooser');
             }
         })
         /// edit button
@@ -169,10 +175,10 @@ $form_id = 'modal_form_' . $grid->model;
             title: 'Ubah Data',
             position:'first',
             onClickButton : function (){
-                var selected = $('#<?php echo $grid->name ?>').jqGrid('getGridParam', 'selrow');
+                var selected = $('#<?php echo $grid->id ?>').jqGrid('getGridParam', 'selrow');
                 
                 if (selected) {
-                    selected = jQuery('#<?php echo $grid->name ?>').jqGrid('getRowData',selected);
+                    selected = jQuery('#<?php echo $grid->id ?>').jqGrid('getRowData',selected);
                     var keys = <?php echo json_encode($grid->primary_keys); ?>;
                     var count = 0;
                 
@@ -208,7 +214,7 @@ $form_id = 'modal_form_' . $grid->model;
                                             else
                                                 alert("Data gagal disimpan : " + x);
                                             
-                                            $('#<?php echo $grid->name ?>').trigger("reloadGrid"); 
+                                            $('#<?php echo $grid->id ?>').trigger("reloadGrid"); 
                                         }
                                     });
 
@@ -259,7 +265,7 @@ $form_id = 'modal_form_' . $grid->model;
                                         else
                                             alert("Data gagal disimpan : " + x);
                                         
-                                        $('#<?php echo $grid->name ?>').trigger("reloadGrid"); 
+                                        $('#<?php echo $grid->id ?>').trigger("reloadGrid"); 
                                     }
                                 });
 
@@ -275,6 +281,10 @@ $form_id = 'modal_form_' . $grid->model;
             }
         });
         
-        $('#<?php echo $grid->name ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid->name ?>').parent().width() , false);
+        $('#<?php echo $grid->id ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid->id ?>').parent().width() , false);
+        
+        $('#<?php echo $grid->id ?>').jqGrid('setGridParam',{
+            
+        }).trigger("reloadGrid");
     });
 </script>

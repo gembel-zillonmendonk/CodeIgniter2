@@ -10,9 +10,10 @@
  *
  * @author farid
  */
-class Ep_vendor_perusahaan extends MY_Model
+class Ep_vendor_temp_perusahaan extends MY_Model
 {
-    public $table = "EP_VENDOR";
+	public $dir = "temp";
+    public $table = "EP_VENDOR_TEMP";
     //public $table = "EP_NOMORURUT";
 
     public $elements_conf = array(
@@ -54,7 +55,7 @@ class Ep_vendor_perusahaan extends MY_Model
         'ALAMAT_EMAIL' => array('required' => true),
     );
     public $columns_conf = array('NAMA_VENDOR', 'KODE_LOGIN');
-    public $sql_select = "(select KODE_VENDOR, NAMA_VENDOR, KODE_LOGIN, (1) as \"ad\" from EPROC.EP_VENDOR)";
+    public $sql_select = "(select KODE_VENDOR, NAMA_VENDOR, KODE_LOGIN, (1) as \"ad\" from EPROC.EP_VENDOR_TEMP)";
     public $form_view = 'vendor/form_perusahaan';
     /*
       public $columns = array(
@@ -73,26 +74,18 @@ class Ep_vendor_perusahaan extends MY_Model
         $CI = & get_instance();
         $this->attributes['KODE_VENDOR'] = $CI->session->userdata('user_id');
 
-        // get selected value 
-        $query = $this->db->query('SELECT * FROM EP_VENDOR_TIPE WHERE KODE_VENDOR = ' . $this->attributes['KODE_VENDOR']);
-        $rows = $query->result_array();
-        
-        $this->elements_conf['VENDOR_TIPE']['value'] = array();
-        foreach ($rows as $v)
-        {
-            $this->elements_conf['VENDOR_TIPE']['value'][] = $v['TIPE_VENDOR'];
-        }
+        $this->elements_conf['VENDOR_TIPE']['value'] = array('GENERAL SUPPLIER');
     }
 
     function _after_save()
     {
         parent::_after_save();
 
-        if (isset($_POST['EP_VENDOR_TIPE']['TIPE_VENDOR']) && count($_POST['EP_VENDOR_TIPE']['TIPE_VENDOR']) > 0)
+        if (isset($_POST['EP_VENDOR_TEMP_TIPE']['TIPE_VENDOR']) && count($_POST['EP_VENDOR_TEMP_TIPE']['TIPE_VENDOR']) > 0)
         {
-            $this->db->delete('EP_VENDOR_TIPE', array('KODE_VENDOR' => $this->attributes['KODE_VENDOR']));
+            $this->db->delete('EP_VENDOR_TEMP_TIPE', array('KODE_VENDOR' => $this->attributes['KODE_VENDOR']));
 
-            foreach ($_POST['EP_VENDOR_TIPE']['TIPE_VENDOR'] as $v)
+            foreach ($_POST['EP_VENDOR_TEMP_TIPE']['TIPE_VENDOR'] as $v)
             {
                 $data = array(
                     'KODE_VENDOR' => $this->attributes['KODE_VENDOR'],
@@ -101,7 +94,7 @@ class Ep_vendor_perusahaan extends MY_Model
                     'PETUGAS_REKAM' => $this->session->userdata('user_id'),
                 );
 
-                $this->db->insert('EP_VENDOR_TIPE', $data);
+                $this->db->insert('EP_VENDOR_TEMP_TIPE', $data);
             }
         }
     }

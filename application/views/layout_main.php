@@ -148,6 +148,44 @@
                                             <li><a href="<?php echo site_url('/crud/grid') ?>">Transaksi Vendor</a></li>
                                         </ul>                                        
                                     </li>
+                                    <li><a href="#">MANAJEMEN VENDOR</a>
+                                        <ul>
+                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Pekerjaan</a></li>
+                                            <li><a href="#">Tools Vendor</a>
+                                                <ul>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Perbaharui Nomor SMK</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Pengaktifan Vendor</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Daftar Vendor</a>
+                                                <ul>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Semua Vendor</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Hasilkan Daftar Penawar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Penetapan Vendor</a>
+                                                <ul>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Registrasi Baru</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Masukan Informasi Baru</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Kinerja Vendor</a>
+                                                <ul>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Kinerja Vendor</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Pengaktifan Suspended Vendor</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Suspend Vendor</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Panduan Vendor</a>
+                                                <ul>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Pendahuluan</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Fitur Aplikasi</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Panduan Registrasi Vendor</a></li>
+                                                    <li><a href="<?php echo site_url('/crud/grid') ?>">Panduan Manajemen Vendor</a></li>
+                                                <ul>
+                                            </li>
+                                        </ul>                                        
+                                    </li>
                                 </ul>
                             </div>
                         </div>

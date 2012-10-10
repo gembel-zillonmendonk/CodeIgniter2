@@ -13,8 +13,8 @@
 session_start();
 require_once(APPPATH . 'libraries/jqSuitePHP/jqUtils.php');
 
-class MY_Model extends CI_Model {
-
+class MY_Model extends CI_Model
+{
     public $columns;
     private $_columns_params = array(
         'sort_type' => 'x',
@@ -60,12 +60,17 @@ class MY_Model extends CI_Model {
     public $elements_conf;
     public $columns_conf;
     public $validation;
-
-    public function __construct() {
+    public $dir;
+    public $is_new_record = true;
+    public $js_grid_completed = '';
+    
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function init() {
+    public function init()
+    {
 
         if ($this->table === null)
             show_error("Table cannot be null");
@@ -96,7 +101,8 @@ class MY_Model extends CI_Model {
 
         $intial_columns = (count($this->show_columns) > 0) ? true : false;
 
-        foreach ($this->meta_columns as $k => $v) {
+        foreach ($this->meta_columns as $k => $v)
+        {
 
             // set primary keys 
             if ($v['key'] == 'P')
@@ -122,15 +128,18 @@ class MY_Model extends CI_Model {
 
             //}
 
-            if (isset($this->form_elements) && count($this->form_elements) > 0) {
+            if (isset($this->form_elements) && count($this->form_elements) > 0)
+            {
                 
             }
         }
 
         // override default column properties
         if ($intial_columns)
-            foreach ($this->show_columns as $column) {
-                foreach ($this->_columns_params as $attr => $attr_val) {
+            foreach ($this->show_columns as $column)
+            {
+                foreach ($this->_columns_params as $attr => $attr_val)
+                {
                     $this->set_column_param($column, $attr, isset($this->meta_columns[$column][$attr]) ? $this->meta_columns[$column][$attr] : $attr_val);
                 }
             }
@@ -142,23 +151,27 @@ class MY_Model extends CI_Model {
             $this->sql_select = $this->table;
     }
 
-    public function is_primary_key($column) {
+    public function is_primary_key($column)
+    {
         return array_search($column, $this->primary_keys);
     }
 
-    public function is_foreign_key($column) {
+    public function is_foreign_key($column)
+    {
         if (!is_array($this->foreign_keys))
             return false;
         return array_search($column, $this->foreign_keys);
     }
 
-    private function set_column_param($column, $attr, $val) {
+    private function set_column_param($column, $attr, $val)
+    {
         if (isset($this->columns[$column][$attr]))
             return;
         $this->columns[$column][$attr] = $val;
     }
 
-    public function save() {
+    public function save()
+    {
         // cek if record new
         if (count($this->primary_keys) == 0)
             show_error("Table doesn't have a primary key");
@@ -167,7 +180,8 @@ class MY_Model extends CI_Model {
         $this->_before_save();
 
         $where = array();
-        foreach ($this->primary_keys as $key) {
+        foreach ($this->primary_keys as $key)
+        {
             $where[$key] = $this->attributes[$key];
         }
 
@@ -184,24 +198,28 @@ class MY_Model extends CI_Model {
         return $ret;
     }
 
-    public function delete() {
+    public function delete()
+    {
         
     }
 
-    public function is_new_record() {
-        
+    public function is_new_record()
+    {
     }
 
-    public function get_attributes() {
+    public function get_attributes()
+    {
         return $this->attributes;
     }
 
-    public function typecast($value) {
+    public function typecast($value)
+    {
         if (gettype($value) === $this->type || $value === null || $value instanceof CDbExpression)
             return $value;
         if ($value === '' && $this->allow_null)
             return $this->type === 'string' ? '' : null;
-        switch ($this->type) {
+        switch ($this->type)
+        {
             case 'string': return (string) $value;
             case 'integer': return (integer) $value;
             case 'boolean': return (boolean) $value;
@@ -210,58 +228,70 @@ class MY_Model extends CI_Model {
         }
     }
 
-    protected function _insert() {
+    protected function _insert()
+    {
         $this->_before_insert();
         $ret = $this->db->insert($this->table, $this->attributes);
         $this->_after_insert();
         return $ret;
     }
 
-    protected function _update($where) {
+    protected function _update($where)
+    {
         $this->_before_update();
         $ret = $this->db->update($this->table, $this->attributes, $where);
         $this->_after_update();
         return $ret;
     }
 
-    protected function _delete() {
+    protected function _delete()
+    {
         
     }
 
-    protected function _before_save() {
+    protected function _before_save()
+    {
         
     }
 
-    protected function _after_save() {
+    protected function _after_save()
+    {
         
     }
 
-    protected function _before_insert() {
+    protected function _before_insert()
+    {
         //$this->db->set("\"TGL_REKAM\"", "TO_DATE('".date("Y-m-d")."','YYYY-MM-DD')", FALSE);
         $this->attributes['TGL_REKAM'] = date("Y-m-d");
         $this->attributes['PETUGAS_REKAM'] = $this->session->userdata('user_id');
     }
 
-    protected function _after_insert() {
+    protected function _after_insert()
+    {
         
     }
 
-    protected function _before_update() {
+    protected function _before_update()
+    {
         //$this->db->set("\"TGL_REKAM\"", "TO_DATE('".date("Y-m-d")."','YYYY-MM-DD')", FALSE);
         $this->attributes['TGL_UBAH'] = date("Y-m-d");
         $this->attributes['PETUGAS_UBAH'] = $this->session->userdata('user_id');
     }
 
-    protected function _after_update() {
+    protected function _after_update()
+    {
         
     }
 
-    protected function extractOraType($dbType) {
+    protected function extractOraType($dbType)
+    {
         if (strpos($dbType, 'FLOAT') !== false)
             return 'NUMBER';
 
-        if (strpos($dbType, 'NUMBER') !== false || strpos($dbType, 'INTEGER') !== false || strpos($dbType, 'INT') !== false) {
-            if (strpos($dbType, '(') && preg_match('/\((.*)\)/', $dbType, $matches)) {
+        if (strpos($dbType, 'NUMBER') !== false || strpos($dbType, 'INTEGER') !== false || strpos($dbType, 'INT') !== false)
+        {
+            if (strpos($dbType, '(') && preg_match('/\((.*)\)/', $dbType, $matches))
+            {
                 $values = explode(',', $matches[1]);
                 if (isset($values[1]) and (((int) $values[1]) > 0))
                     return 'number';
@@ -270,38 +300,49 @@ class MY_Model extends CI_Model {
             }
             else
                 return 'number';
-        } else if (strpos($dbType, 'DATE') !== false) {
+        } else if (strpos($dbType, 'DATE') !== false)
+        {
             return 'date';
         }
         else
             return 'text';
     }
 
-    protected function extract_type($dbType) {
+    public function extract_type($dbType)
+    {
         return $this->extractOraType($dbType);
     }
 
-    protected function extract_label($name) {
+    public function extract_label($name)
+    {
         return str_replace('_', ' ', $name);
     }
 
-    protected function _buildSearch(array $prm = null, $str_filter = '') {
+    protected function _buildSearch(array $prm = null, $str_filter = '')
+    {
         $filters = ($str_filter && strlen($str_filter) > 0 ) ? $str_filter : jqGridUtils::GetParam($this->GridParams["filter"], "");
         //$filters = ($str_filter && strlen($str_filter) > 0 ) ? $str_filter : null;
         $jsona = NULL;
         $rules = "";
-        if ($filters) {
+        if ($filters)
+        {
             $count = 0;
             $filters = str_replace('$', '\$', $filters, $count);
-            if (function_exists('json_decode') && strtolower(trim($this->encoding)) == "utf-8" && $count == 0) {
+            if (function_exists('json_decode') && strtolower(trim($this->encoding)) == "utf-8" && $count == 0)
+            {
                 $jsona = json_decode($filters, true);
-            } else {
+            }
+            else
+            {
                 $jsona = jqGridUtils::decode($filters);
-            } if (is_array($jsona)) {
+            } if (is_array($jsona))
+            {
                 $gopr = $jsona['groupOp'];
                 $rules[0]['data'] = 'dummy';
             }
-        } else if (jqGridUtils::GetParam($this->GridParams['searchField'], '')) {
+        }
+        else if (jqGridUtils::GetParam($this->GridParams['searchField'], ''))
+        {
             $gopr = '';
             $rules[0]['field'] = jqGridUtils::GetParam($this->GridParams['searchField'], '');
             $rules[0]['op'] = jqGridUtils::GetParam($this->GridParams['searchOper'], '');
@@ -313,9 +354,12 @@ class MY_Model extends CI_Model {
         }
 
         $ret = array("", $prm);
-        if ($jsona) {
-            if ($rules && count($rules) > 0) {
-                if (!is_array($prm)) {
+        if ($jsona)
+        {
+            if ($rules && count($rules) > 0)
+            {
+                if (!is_array($prm))
+                {
                     $prm = array();
                 } $ret = $this->_getStringForGroup($jsona, $prm);
                 if (count($ret[1]) == 0)
@@ -324,36 +368,51 @@ class MY_Model extends CI_Model {
         } return $ret;
     }
 
-    protected function _getStringForGroup($group, $prm) {
+    protected function _getStringForGroup($group, $prm)
+    {
         $i_ = $this->I;
         $sopt = array('eq' => "=", 'ne' => "<>", 'lt' => "<", 'le' => "<=", 'gt' => ">", 'ge' => ">=", 'bw' => " {$i_}LIKE ", 'bn' => " NOT {$i_}LIKE ", 'in' => ' IN ', 'ni' => ' NOT IN', 'ew' => " {$i_}LIKE ", 'en' => " NOT {$i_}LIKE ", 'cn' => " {$i_}LIKE ", 'nc' => " NOT {$i_}LIKE ", 'nu' => 'IS NULL', 'nn' => 'IS NOT NULL');
         $s = "(";
-        if (isset($group['groups']) && is_array($group['groups']) && count($group['groups']) > 0) {
-            for ($j = 0; $j < count($group['groups']); $j++) {
-                if (strlen($s) > 1) {
+        if (isset($group['groups']) && is_array($group['groups']) && count($group['groups']) > 0)
+        {
+            for ($j = 0; $j < count($group['groups']); $j++)
+            {
+                if (strlen($s) > 1)
+                {
                     $s .= " " . $group['groupOp'] . " ";
-                } try {
+                } try
+                {
                     $dat = $this->_getStringForGroup($group['groups'][$j], $prm);
                     $s .= $dat[0];
                     $prm = $prm + $dat[1];
-                } catch (Exception $e) {
+                }
+                catch (Exception $e)
+                {
                     echo $e->getMessage();
                 }
             }
-        } if (isset($group['rules']) && count($group['rules']) > 0) {
-            try {
-                foreach ($group['rules'] as $key => $val) {
-                    if (strlen($s) > 1) {
+        } if (isset($group['rules']) && count($group['rules']) > 0)
+        {
+            try
+            {
+                foreach ($group['rules'] as $key => $val)
+                {
+                    if (strlen($s) > 1)
+                    {
                         $s .= " " . $group['groupOp'] . " ";
                     } $field = $val['field'];
                     $op = $val['op'];
                     $v = $val['data'];
-                    if (strtolower($this->encoding) != 'utf-8') {
+                    if (strtolower($this->encoding) != 'utf-8')
+                    {
                         $v = iconv("utf-8", $this->encoding . "//TRANSLIT", $v);
-                    } if ($op) {
-                        if (in_array($field, $this->datearray)) {
+                    } if ($op)
+                    {
+                        if (in_array($field, $this->datearray))
+                        {
                             $v = jqGridUtils::parseDate($this->userdateformat, $v, $this->dbdateformat);
-                        } switch ($op) {
+                        } switch ($op)
+                        {
                             case 'bw': case 'bn': $s .= $field . ' ' . $sopt[$op] . " ?";
                                 $prm[] = "$v%";
                                 break;
@@ -374,24 +433,32 @@ class MY_Model extends CI_Model {
                         }
                     }
                 }
-            } catch (Exception $e) {
+            }
+            catch (Exception $e)
+            {
                 echo $e->getMessage();
             }
         } $s .= ")";
-        if ($s == "()") {
+        if ($s == "()")
+        {
             return array("", $prm);
-        } else {
+        }
+        else
+        {
             return array($s, $prm);
         }
     }
 
-    public function buildSearch($filter, $otype = 'str') {
+    public function buildSearch($filter, $otype = 'str')
+    {
         $ret = $this->_buildSearch(null, $filter);
-        if ($otype === 'str') {
+        if ($otype === 'str')
+        {
             $s2a = explode("?", $ret[0]);
             $csa = count($s2a);
             $s = "";
-            for ($i = 0; $i < $csa - 1; $i++) {
+            for ($i = 0; $i < $csa - 1; $i++)
+            {
                 $s .= $s2a[$i] . " '" . $ret[1][$i] . "' ";
             } $s .= $s2a[$csa - 1];
             return $s;
@@ -400,8 +467,8 @@ class MY_Model extends CI_Model {
 
 }
 
-class MY_Form {
-
+class MY_Form
+{
     public $action = '';
     public $method = 'POST';
     public $label = 'Form Detail';
@@ -417,10 +484,14 @@ class MY_Form {
     public $form_params = array();
     public $view = 'crud/form';
     public $model;
-
-    public function __construct($model) {
+    public $clear_form = false;
+    public $is_new_record = true;
+    
+    public function __construct($model)
+    {
         $this->model = $model;
-
+        $this->is_new_record = $model->is_new_record;
+        
         if ($this->action == '')
             $this->action = 'crud/form/' . get_class($model);
 
@@ -436,15 +507,17 @@ class MY_Form {
             'name' => $this->name,
             "method" => "POST",
             "enctype" => "multipart/form-data",
-            "class"=>"form-horizontal",
+            "class" => "form-horizontal",
         );
         // set elements and validation
         $el = $r = array();
         $attributes = $model->get_attributes();
 
         // create element by configuration
-        if (isset($model->elements_conf)) {
-            foreach ($model->elements_conf as $k => $v) {
+        if (isset($model->elements_conf))
+        {
+            foreach ($model->elements_conf as $k => $v)
+            {
                 $raw_name = is_array($v) ? $k : $v;
 
                 if (!isset($model->columns[$raw_name]))
@@ -470,7 +543,8 @@ class MY_Form {
                 );
 
                 // reset validation & element maxlength for date type
-                if ($columns['type'] == 'date') {
+                if ($columns['type'] == 'date')
+                {
                     unset($r[$raw_name]['validate']['maxlength']);
                     unset($el[$raw_name]['maxlength']);
                     $r[$raw_name]['validate']['date'] = true;
@@ -487,8 +561,10 @@ class MY_Form {
                     $r[$raw_name]['validate'][$key] = $value;
             }
         }
-        else {
-            foreach ($model->columns as $k => $v) {
+        else
+        {
+            foreach ($model->columns as $k => $v)
+            {
                 $r[$k]['validate'] = array(
                     'required' => $v['allow_null'] == 'Y' ? false : true,
                     'maxlength' => $v['size'],
@@ -507,7 +583,8 @@ class MY_Form {
                 );
 
                 // reset validation & element maxlength for date type
-                if ($v['type'] == 'date') {
+                if ($v['type'] == 'date')
+                {
                     unset($r[$k]['validate']['maxlength']);
                     unset($el[$k]['maxlength']);
                     $r[$k]['validate']['date'] = true;
@@ -535,7 +612,8 @@ class MY_Form {
      * @parameter glue: the string to glue the parts of the array with 
      * @parameter arr: array to implode 
      */
-    function implodeAssoc($glue, $arr) {
+    function implodeAssoc($glue, $arr)
+    {
         array_walk($arr, create_function('&$i,$k', '$i=" $k=\"$i\"";'));
         return implode($arr, " ");
     }
@@ -546,7 +624,8 @@ class MY_Form {
      * @parameter glue: the string to glue the parts of the array with 
      * @parameter arr: array to explode 
      */
-    function explodeAssoc($glue, $str) {
+    function explodeAssoc($glue, $str)
+    {
         $arr = explode($glue, $str);
         $size = count($arr);
         for ($i = 0; $i < $size / 2; $i++)
@@ -557,8 +636,8 @@ class MY_Form {
 
 }
 
-class MY_Grid {
-
+class MY_Grid
+{
     public $id;
     public $name;
     public $url;
@@ -566,42 +645,88 @@ class MY_Grid {
     public $primary_keys;
     public $model = '';
     public $form_url = '';
-
-    function __construct($model) {
+    public $js_grid_completed = '';
+    
+    function __construct($model)
+    {
+        if ($this->name == '')
+            $this->name = strtolower(get_class($model));
+        
         if ($this->model == '')
-            $this->model = strtolower(get_class($model));
+            $this->model = isset($model->dir) ? strtolower($model->dir . '.' . $this->name) : $this->name;
 
         if ($this->url == '')
             $this->url = 'crud/grid/' . $this->model;
 
-        if ($this->name == '')
-            $this->name = 'grid_' . $this->model;
-
         if ($this->id == '')
-            $this->id = 'id_grid_' . $this->model;
+            $this->id = 'grid_' . $this->name;
+
+        if ($this->js_grid_completed == '')
+            $this->js_grid_completed = $model->js_grid_completed;
 
         if ($this->primary_keys == '')
             $this->primary_keys = $model->primary_keys;
 
+        if(isset($model->sql_select))
+        {
+            $q = $model->db->query($model->sql_select);
+            //print_r($q->list_fields());
+            //echo @oci_num_fields($q->stmt_id);
+            $field_names = array();
+            for ($c = 1, $fieldCount = @oci_num_fields($q->stmt_id); $c <= $fieldCount; $c++)
+            {
+                $F			= new stdClass();
+                $F->name		= oci_field_name($q->stmt_id, $c);
+                $F->type		= oci_field_type($q->stmt_id, $c);
+                $F->max_length		= oci_field_size($q->stmt_id, $c);
+
+                $field_names[] = $F;
+            }
+                
+            foreach ($field_names as $f) {
+
+                $model->meta_columns[$f->name] = array(
+                    'name' => $f->name,
+                    'db_type' => $f->type,
+                    'size' => $f->max_length,
+                    'key' => '',
+                    'index' => $f->name,
+                    'sort_type' => $model->extract_type($f->type),
+                    'label' => $model->extract_label($f->name),
+                );
+                
+            }
+        }
 
 
-        if (is_array($model->columns_conf) && count($model->columns_conf) > 0) {
-            foreach ($model->meta_columns as $k => $v) {
+        if (is_array($model->columns_conf) && count($model->columns_conf) > 0)
+        {
+            foreach ($model->columns_conf as $k => $v)
+            {
+                if (!isset($model->meta_columns[$v]))
+                    continue;
+
+                $this->columns[] = $model->meta_columns[$v];
+            }
+            /*
+            foreach ($model->meta_columns as $k => $v)
+            {
                 if (!in_array($k, $model->columns_conf))
                     continue;
 
                 $this->columns[] = $v;
             }
+             */
         }
-        else {
+        else
+        {
             $this->columns = array_values($model->meta_columns);
         }
 
-        foreach ($this->primary_keys as $k => $v) {
+        foreach ($this->primary_keys as $k => $v)
+        {
             $this->columns[] = array_merge($model->meta_columns[$v], array('hidden' => true));
         }
     }
-
 }
-
 ?>

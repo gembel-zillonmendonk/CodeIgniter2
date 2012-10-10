@@ -22,8 +22,15 @@
         $("#<?php echo $form->id; ?> #btnSimpan").click(function() {
             if(validator.form()) {
                 jQuery("#<?php echo $form->id; ?>").ajaxSubmit({
-                    clearForm: false,
+                    //clearForm: <?php echo $form->clear_form ? "true" : "false"; ?>,
                     success: function(){
+                        <?php if($form->clear_form): ?>
+                            $("#<?php echo $form->id; ?>").resetForm();
+                            $("#<?php echo $form->id; ?>").clearForm();
+                            validator.prepareForm();
+                            validator.hideErrors();
+                        <?php endif; ?>
+                                
                         alert('Data berhasil disimpan');
                         //reload grid
                         $('#grid_<?php echo strtolower(get_class($form->model)); ?>').trigger("reloadGrid");
