@@ -83,9 +83,9 @@
                             <td class="txt_logged">Anda Masuk Sebagai : <span class="txt_orange">Application Administrator</span></td>
                             <td class="txt_date">Senin, 01 September 2008</td>
                             <td class="tools_container">
-                                <div class="tools_item"><a href="default.htm"><img src="<?php echo base_url('images/logout.png') ?>" alt="Keluar Aplikasi" name="logout" width="20" height="18" border="0" id="logout" onMouseOver="MM_swapImage('logout','','<?php echo base_url('images/logout_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
-                                <div class="tools_item"><a href="#"><img src="<?php echo base_url('images/pass.png') ?>" alt="Rubah Password" name="chg_pass" width="20" height="18" border="0" id="chg_pass" onMouseOver="MM_swapImage('chg_pass','','<?php echo base_url('images/pass_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
-                                <div class="tools_item"><a href="#"><img src="<?php echo base_url('images/delg.png') ?>" alt="Pendelegasian User" name="delg" width="20" height="18" border="0" id="delg" onMouseOver="MM_swapImage('delg','','<?php echo base_url('images/delg_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
+                                <div class="tools_item"><a href="<?php echo site_url('/account/logout') ?>"><img src="<?php echo base_url('images/logout.png') ?>" alt="Keluar Aplikasi" name="logout" width="20" height="18" border="0" id="logout" onMouseOver="MM_swapImage('logout','','<?php echo base_url('images/logout_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
+                                <div class="tools_item"><a href="<?php echo site_url('/account/changepassword') ?>"><img src="<?php echo base_url('images/pass.png') ?>" alt="Rubah Password" name="chg_pass" width="20" height="18" border="0" id="chg_pass" onMouseOver="MM_swapImage('chg_pass','','<?php echo base_url('images/pass_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
+                                <div class="tools_item"><a href="<?php echo site_url('/account/logout') ?>"><img src="<?php echo base_url('images/delg.png') ?>" alt="Pendelegasian User" name="delg" width="20" height="18" border="0" id="delg" onMouseOver="MM_swapImage('delg','','<?php echo base_url('images/delg_on.png') ?>',1)" onMouseOut="MM_swapImgRestore()"></a></div>
                             </td>
                         </tr>
                     </table>
@@ -111,10 +111,10 @@
                                     </li>
                                     <li><a href="#">MANAJEMEN PENGADAAN</a>
                                         <ul>
-                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Daftar Pekerjaan</a></li>
-                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Pengadaan</a></li>
-                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Mengajukan Sanggahan</a></li>
-                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Sanggahan</a></li>
+                                            <li><a href="<?php echo site_url('/pengadaan/todo') ?>">Daftar Pekerjaan</a></li>
+                                            <li><a href="<?php echo site_url('/pengadaan/grid') ?>">Monitor Pengadaan</a></li>
+                                            <li><a href="<?php echo site_url('/crud/form/ep_pgd_sanggahan') ?>">Mengajukan Sanggahan</a></li>
+                                            <li><a href="<?php echo site_url('/crud/view_grid/ep_pgd_monitor_sanggahan') ?>">Monitor Sanggahan</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">MANAJEMEN KONTRAK</a>
@@ -136,9 +136,9 @@
                                     </li>
                                     <li><a href="#">PROFIL VENDOR</a>
                                         <ul>
-                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Lihat Profil</a></li>
-                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Update Profil</a></li>
-                                            <li><a href="<?php echo site_url('/crud/grid') ?>">Monitor Update Profil</a></li>
+                                            <li><a href="<?php echo site_url('/vendor/view') ?>">Lihat Profil</a></li>
+                                            <li><a href="<?php echo site_url('/vendor/update') ?>">Update Profil</a></li>
+                                            <li><a href="<?php echo site_url('/vendor/createOrEdit') ?>">Monitor Update Profil</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">PERTOLONGAN</a>

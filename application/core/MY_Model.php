@@ -40,7 +40,7 @@ class MY_Model extends CI_Model
     public $meta_columns;
     public $table; // must be initialize by override class
     public $sql_select;
-    public $primary_keys;
+    public $primary_keys = array();
     public $foreign_keys;
     public $show_columns;
     public $attributes;
@@ -646,6 +646,7 @@ class MY_Grid
     public $model = '';
     public $form_url = '';
     public $js_grid_completed = '';
+    public $view = 'crud/grid';
     
     function __construct($model)
     {
@@ -667,6 +668,8 @@ class MY_Grid
         if ($this->primary_keys == '')
             $this->primary_keys = $model->primary_keys;
 
+        $this->view = $model->grid_view;
+        
         if(isset($model->sql_select))
         {
             $q = $model->db->query($model->sql_select);

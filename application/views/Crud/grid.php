@@ -85,7 +85,7 @@ $form_id = 'modal_form_' . $grid->id;
             "pager": '#<?php echo $pager_id ?>'
         })
         .jqGrid('navGrid', '#<?php echo $pager_id ?>', {
-            "edit": true,
+            "edit": false,
             "add": false,
             "del": false,
             "search": true,
@@ -155,7 +155,8 @@ $form_id = 'modal_form_' . $grid->id;
                     window.location = 'Ep_vendor?oper=excel';
                 }
             }
-        })        
+        })    
+        <?php if (!isset($read_only) || $read_only != true): ?>
         /// delete button
         .jqGrid('navButtonAdd','#<?php echo $pager_id ?>',{
             id: 'pager_delete',
@@ -280,7 +281,7 @@ $form_id = 'modal_form_' . $grid->id;
                 jQuery('#<?php echo $form_id ?>').dialog("open");
             }
         });
-        
+        <?php endif; ?>
         $('#<?php echo $grid->id ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid->id ?>').parent().width() , false);
         
         $('#<?php echo $grid->id ?>').jqGrid('setGridParam',{
