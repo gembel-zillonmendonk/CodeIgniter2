@@ -283,6 +283,11 @@ class MY_Model extends CI_Model
         
     }
 
+    function _default_scope()
+    {
+        return '';
+    }
+    
     protected function extractOraType($dbType)
     {
         if (strpos($dbType, 'FLOAT') !== false)

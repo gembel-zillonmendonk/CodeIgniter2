@@ -74,7 +74,7 @@ class vendor extends CI_Controller
 
     public function registration()
     {
-        $query = $this->db->query('SELECT HALAMAN_SELANJUTNYA FROM EP_VENDOR WHERE KODE_VENDOR = ' . $this->session->userdata('user_id'));
+        $query = $this->db->query('SELECT coalesce(HALAMAN_SELANJUTNYA, \'0\') as HALAMAN_SELANJUTNYA FROM EP_VENDOR WHERE KODE_VENDOR = ' . $this->session->userdata('user_id'));
         $data = $query->row_array();
         $np = $data['HALAMAN_SELANJUTNYA'];
 
@@ -98,7 +98,7 @@ class vendor extends CI_Controller
             }
             else
             {
-                $this->db->query('UPDATE EP_VENDOR set HALAMAN_SELANJUTNYA = HALAMAN_SELANJUTNYA + 1 WHERE KODE_VENDOR = ' . $this->session->userdata('user_id'));
+                $this->db->query('UPDATE EP_VENDOR set HALAMAN_SELANJUTNYA = coalesce(HALAMAN_SELANJUTNYA, \'0\') + 1 WHERE KODE_VENDOR = ' . $this->session->userdata('user_id'));
                 echo json_encode(array(
                     'active_tabs' => $data['HALAMAN_SELANJUTNYA'] + 1,
                     'disable_tabs' => $str
@@ -108,7 +108,7 @@ class vendor extends CI_Controller
         }
 
 
-
+        $this->layout->setLayout('layout_nomenu');
         $this->layout->view('vendor/registration', array(
             'active_tabs' => $data['HALAMAN_SELANJUTNYA'],
             'disable_tabs' => $str

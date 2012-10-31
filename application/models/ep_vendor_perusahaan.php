@@ -84,6 +84,12 @@ class Ep_vendor_perusahaan extends MY_Model
         }
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
+    
     function _after_save()
     {
         parent::_after_save();

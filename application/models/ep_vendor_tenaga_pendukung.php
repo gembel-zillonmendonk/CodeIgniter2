@@ -45,5 +45,10 @@ class Ep_vendor_tenaga_pendukung extends MY_Model
         $this->attributes['TIPE'] = 'PENDUKUNG';
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
 }
 ?>

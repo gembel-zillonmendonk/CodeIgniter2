@@ -46,5 +46,10 @@ class Ep_vendor_subkontraktor extends MY_Model
         $this->attributes['TIPE'] = 'SUBKONTRAKTOR';
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
 }
 ?>

@@ -32,8 +32,16 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
         // check login session
-        if(!$this->session->userdata('user_id'))
+        $user_id = $this->session->userdata('user_id');
+        if(!$user_id)
             redirect('account/login');
+        
+        $query = $this->db->query("select KODE_STATUS_REG from EP_VENDOR where KODE_VENDOR = $user_id");
+        $row = $query->row_array();
+        // exclude crud controller from restricted access
+        $allow = $this->uri->segment(1) == 'crud' ? true : false;
+        if(!$row['KODE_STATUS_REG'] && !$allow)
+            redirect('vendor/registration');
     }
     
     public function _load_model($model, $type = 'grid', $return = true)
@@ -83,6 +91,11 @@ class MY_Controller extends CI_Controller
             }
 
             $filter = strlen($filter) > 0 ? $filter : null;
+            
+            if($filter)
+                $filter = strlen($model->_default_scope()) > 0 ? $filter . ' AND ' . $model->_default_scope() : $filter;
+            else
+                $filter = strlen($model->_default_scope()) > 0 ? $model->_default_scope() : $filter;
             //$query = $this->db->get('USERS', 10, $page);
 
 

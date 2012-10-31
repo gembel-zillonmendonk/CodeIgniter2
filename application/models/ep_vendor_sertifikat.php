@@ -45,5 +45,10 @@ class Ep_vendor_sertifikat extends MY_Model
         $this->attributes['KODE_VENDOR'] = $CI->session->userdata('user_id');
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
 }
 ?>

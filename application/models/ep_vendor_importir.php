@@ -40,5 +40,10 @@ class Ep_vendor_importir extends MY_Model
         $this->attributes['TIPE'] = 'IMPORTIR';
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
 }
 ?>

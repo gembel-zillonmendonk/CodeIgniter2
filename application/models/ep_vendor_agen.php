@@ -40,5 +40,10 @@ class Ep_vendor_agen extends MY_Model
         $this->attributes['TIPE'] = 'AGENT';
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
 }
 ?>

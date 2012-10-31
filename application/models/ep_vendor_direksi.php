@@ -41,5 +41,10 @@ class Ep_vendor_direksi extends MY_Model
         $this->attributes['TIPE'] = 'DIREKSI';
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
 }
 ?>

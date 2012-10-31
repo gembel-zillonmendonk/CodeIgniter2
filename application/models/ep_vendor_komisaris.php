@@ -41,5 +41,10 @@ class Ep_vendor_komisaris extends MY_Model
         $this->attributes['TIPE'] = 'KOMISARIS';
     }
 
+    function _default_scope()
+    {
+        $CI = & get_instance();
+        return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
 }
 ?>
