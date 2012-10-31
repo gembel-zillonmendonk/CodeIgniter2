@@ -18,7 +18,7 @@ class vendor extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->session->set_userdata('user_id', '512');
+        //$this->session->set_userdata('user_id', '512');
         //$this->session->set_userdata('user_id', '7827400');
 
         $this->where = 'KODE_VENDOR = ' . $this->session->userdata('user_id');
