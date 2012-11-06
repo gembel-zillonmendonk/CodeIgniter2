@@ -711,10 +711,23 @@ class MY_Grid
         {
             foreach ($model->columns_conf as $k => $v)
             {
-                if (!isset($model->meta_columns[$v]))
+                $col = $v;
+                if (is_array($v))
+                {
+                    $col = $k;
+                }
+                
+                if (!isset($model->meta_columns[$col]))
                     continue;
 
-                $this->columns[] = $model->meta_columns[$v];
+                $column = $model->meta_columns[$col];
+                
+                if(is_array($v))
+                {
+                    $column = $column + $v;
+                }
+                
+                $this->columns[] = $column;
             }
             /*
             foreach ($model->meta_columns as $k => $v)

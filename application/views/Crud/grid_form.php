@@ -27,7 +27,8 @@ $form_id = 'modal_form_' . $grid->id;
         .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>');
         
         jQuery('#<?php echo $grid->id ?>').jqGrid({
-            "shrinkToFit": false,
+            "shrinkToFit": true,
+            "forceFit": true,
             "autoWidth": true,
             "hoverrows": true,
             "viewrecords": true,
@@ -51,6 +52,7 @@ $form_id = 'modal_form_' . $grid->id;
             "rownumWidth": 40,
             "rowNum": 15,
             "height": 300,
+            "width": 500,
             "rowList": [10, 20, 50],
             "altRows": true,
             "sortable": true,
@@ -250,6 +252,6 @@ $form_id = 'modal_form_' . $grid->id;
                         }
                     });
 <?php endif; ?>
-                $('#<?php echo $grid->id ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid->id ?>').parent().width() , false);
+                $('#<?php echo $grid->id ?>').jqGrid("setGridWidth", $('#gbox_<?php echo $grid->id ?>').parent().width() , true);
             });
 </script>
