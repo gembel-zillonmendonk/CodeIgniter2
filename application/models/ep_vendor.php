@@ -46,9 +46,11 @@ class Ep_vendor extends MY_Model {
 		for(var i=0;i < ids.length;i++){
                     var cl = ids[i];
                     
-                    be = "<button onclick=\"jQuery(\'#grid_'.strtolower(get_class($this)).'\').editRow(\'"+cl+"\');\"  >PROSES</button>"; 
+                    be = "<button onclick=\"jQuery(\'#grid_'.strtolower(get_class($this)).'\').editRow(\'"+cl+"\');\" type=\"button\" id=\"btnProses\" class=\"ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only\" role=\"button\" aria-disabled=\"false\"><span class=\"ui-button-text\">PROSES</span></button>";
                     jQuery(\'#grid_'.strtolower(get_class($this)).'\').jqGrid(\'setRowData\',ids[i],{ACT:be});
 		}';
+        
+        
     }
 
 }
