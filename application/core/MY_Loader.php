@@ -10,7 +10,12 @@
  *
  * @author farid
  */
-class MY_Loader extends CI_Loader {
+ 
+ 
+/* load the MX_Loader class */
+require APPPATH."third_party/MX/Loader.php";
+
+class MY_Loader extends MX_Loader {
 
     public function database($params = '', $return = FALSE, $active_record = NULL) {
         // Grab the super object
@@ -58,7 +63,7 @@ class MY_Loader extends CI_Loader {
         $CI->db = & DB($params, $active_record);
          */
     }
-
+/*
     public function model($model, $name = '', $db_conn = FALSE) {
         if (is_array($model)) {
             foreach ($model as $babe) {
@@ -135,7 +140,7 @@ class MY_Loader extends CI_Loader {
         // couldn't find the model
         show_error('Unable to locate the model you have specified: ' . $model);
     }
-
+*/
 }
 
 ?>

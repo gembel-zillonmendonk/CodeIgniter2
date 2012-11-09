@@ -26,7 +26,7 @@ if (!defined('BASEPATH'))
  * @author        Dariusz Debowczyk
  * @link        http://www.codeigniter.com/user_guide/libraries/sessions.html
  */
-class MY_Controller extends CI_Controller
+class MY_Controller extends MX_Controller 
 {
     public function __construct()
     {
@@ -35,7 +35,7 @@ class MY_Controller extends CI_Controller
         $user_id = $this->session->userdata('user_id');
         if(!$user_id)
             redirect('account/login');
-        
+        $this->output->enable_profiler(TRUE);
         $query = $this->db->query("select KODE_STATUS_REG from EP_VENDOR where KODE_VENDOR = $user_id");
         $row = $query->row_array();
         // exclude crud controller from restricted access
@@ -46,8 +46,12 @@ class MY_Controller extends CI_Controller
     
     public function _load_model($model, $type = 'grid', $return = true)
     {
+	
         $model = str_replace(".", "/", strtolower($model));
-        $path = APPPATH . 'models/' . str_replace(".", "/", strtolower($model)) . '.php';
+		$this->load->model($model, 'crud_model', true);
+		/*
+		$path = APPPATH . 'modules/' . $model . '/models/' . str_replace(".", "/", strtolower($model)) . '.php';
+		
         if (file_exists($path))
         {
             $this->load->model($model, 'crud_model', true);
@@ -56,8 +60,8 @@ class MY_Controller extends CI_Controller
         {
             $this->load->model('Model', 'crud_model', true, $model);
         }
-
-        $model = $this->crud_model;
+		*/
+		$model = $this->crud_model;
         unset($this->crud_model);
 
         if ($return)
