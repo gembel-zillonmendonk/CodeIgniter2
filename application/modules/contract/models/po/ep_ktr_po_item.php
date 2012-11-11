@@ -1,7 +1,7 @@
 <?php
 
-class ep_ktr_po_item extends MY_Model
-{
+class ep_ktr_po_item extends MY_Model {
+
     public $table = 'EP_KTR_PO_ITEM';
     public $elements_conf = array(
         'KODE_PO_ITEM',
@@ -19,12 +19,13 @@ class ep_ktr_po_item extends MY_Model
         'TGL_UBAH',
         'PETUGAS_UBAH',
     );
+    public $dir = 'po';
 
-    function __construct()
-    {
+    function __construct() {
         parent::__construct();
         $this->init();
     }
 
 }
+
 ?>

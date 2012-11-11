@@ -1,10 +1,10 @@
 <pre>
-<?php print_r($history); ?>
-<?php print_r($parameters); ?>
-<?php
+    <?php print_r($history); ?>
+    <?php print_r($parameters); ?>
+    <?php print_r($constraints); ?>
+    <?php
 //$f = create_function('$a,$b', 'return (($a>$b) ? true : false);');
 //echo  ( $f(4,2) ); //will return true
-
 //$param = json_decode('{"a":"6","b":"5"}', true);
 //$var = '';
 //foreach ($param as $k => $v) {
@@ -19,15 +19,34 @@
 //$return = eval($var . $condition);
 //
 //echo $return;
-?>
+    ?>
 </pre>
-
+<div id="node-constraints">
+    <?php
+    foreach ($constraints as $k=>$v) {
+        switch ($v['TYPE']) {
+            case 'php'  :
+                eval($v['CONTEXT']);
+                break;
+            case 'ui'   :
+                ?>
+                    <div class='form-<?php echo $k;?>'></div>
+                    <script>
+                        $('.form-<?php echo $k;?>').load('<?php echo site_url($v['CONTEXT']); ?>');
+                    </script>
+                <?php
+                break;
+        }
+    }
+    ?>
+</div>
 <form action="<?php site_url('/workflow/run'); ?>" method="POST">
-    <?php 
-    foreach ($parameters as $k=> $v) {
+    <?php
+    foreach ($parameters as $k => $v) {
         echo $k;
         echo "<input type='$v' name='$k' /><br/>";
-    }; ?>
+    };
+    ?>
     <input type="hidden" name="instance_id" value="<?php echo $instance['ID']; ?>"/>
     <input type="hidden" name="node_from" value="<?php echo $instance['NODE_ID']; ?>"/>
     <p>
@@ -40,5 +59,5 @@
         </select>
     </p>
 
-    <p><input type="submit" ></p>
+    <p><button>Proses</button></p>
 </form>

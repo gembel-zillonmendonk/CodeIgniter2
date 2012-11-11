@@ -1,12 +1,13 @@
 <?php
 
-class ep_ktr_po extends MY_Model
-{
-    public $table = 'EP_KTR_PO';
+class ep_ktr_komentar_invoice extends MY_Model {
+
+    public $table = 'EP_KTR_KOMENTAR_INVOICE';
     public $elements_conf = array(
         'KODE_KONTRAK',
         'KODE_KANTOR',
-        'NO_PO',
+        'KODE_VENDOR',
+        'NO_INVOICE',
         'KODE_JABATAN',
         'NAMA_JABATAN',
         'NAMA_KOMENTAR',
@@ -20,12 +21,13 @@ class ep_ktr_po extends MY_Model
         'TGL_UBAH',
         'PETUGAS_UBAH',
     );
+    public $dir = 'invoice';
 
-    function __construct()
-    {
+    function __construct() {
         parent::__construct();
         $this->init();
     }
 
 }
+
 ?>

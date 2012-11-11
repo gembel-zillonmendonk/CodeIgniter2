@@ -3,105 +3,113 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class WorkflowTest extends CI_Controller
-{
-    public function index()
-    {
+class WorkflowTest extends MX_Controller {
+
+    public function index() {
         $this->load->library('workflow');
 
         $active = $this->workflow->getActiveInstances();
         $finish = $this->workflow->getEndInstances();
-        $this->load->view('workflow_list', array(
-            'active' => $active, 
-            'finish' => $finish, 
-            ));
+        $this->layout->view('workflow_list', array(
+            'active' => $active,
+            'finish' => $finish,
+        ));
     }
 
-    public function view()
-    {
+    public function viewGraph() {
+
+        require_once 'Image/GraphViz.php';
+        $gv = new Image_GraphViz();
+        $gv->addEdge(array('wake up' => 'visit bathroom'));
+        $gv->addEdge(array('visit bathroom' => 'make coffee'));
+        //$gv->image();
+        
+        require_once 'Image/GraphViz.php';
+
+        $graph = new Image_GraphViz(false, null, 'G', false);
+
+        $graph->addEdge(array('run' => 'intr'));
+        $graph->addEdge(array('intr' => 'runbl'));
+        $graph->addEdge(array('runbl' => 'run'));
+        $graph->addEdge(array('run' => 'kernel'));
+        $graph->addEdge(array('kernel' => 'zombie'));
+        $graph->addEdge(array('kernel' => 'sleep'));
+        $graph->addEdge(array('kernel' => 'runmem'));
+        $graph->addEdge(array('sleep' => 'swap'));
+        $graph->addEdge(array('swap' => 'runswap'));
+        $graph->addEdge(array('runswap' => 'new'));
+        $graph->addEdge(array('runswap' => 'runmem'));
+        $graph->addEdge(array('new' => 'runmem'));
+        $graph->addEdge(array('sleep' => 'runmem'));
+
+        echo $graph->parse();
+        echo $graph->image('png');
+
+//        $this->load->library('GraphViz');
+//        
+//        $this->GraphViz->addEdge(array('wake up' => 'visit bathroom'));
+//        $this->GraphViz->addEdge(array('visit bathroom' => 'make coffee'));
+//        $this->GraphViz->image();
+    }
+
+    public function view() {
         $this->load->library('workflow');
 
         $rows = $this->workflow->getHistory($_REQUEST['instance_id']);
-        $this->load->view('workflow_view', array(
-            'rows' => $rows, 
-            ));
+        $this->layout->view('workflow_view', array(
+            'rows' => $rows,
+        ));
     }
-    
-    public function run()
-    {
+
+    public function run() {
         $this->load->library('workflow');
 
         $instance_id = isset($_REQUEST['instance_id']) ? $_REQUEST['instance_id'] : null;
-        if (!isset($instance_id))
-        {
+        if (!isset($instance_id)) {
             $wkf_id = 1;
             $this->workflow->start($wkf_id);
             redirect('/workflowTest/index');
         }
 
-        if ($_POST)
-        {
+        if ($_POST) {
             $transition_id = $_REQUEST['transition_id'];
             $notes = isset($_REQUEST['notes']) ? $_REQUEST['notes'] : null;
             $user = isset($_REQUEST['user']) ? $_REQUEST['user'] : null;
             $this->workflow->executeNode($instance_id, $transition_id, $notes, $user);
-//            $node_from = $_REQUEST['node_from'];
-//            $transition_id = $_REQUEST['transition_id'];
-//
-//            // load transition object
-//            $transition = $this->workflow->getTransitionById($transition_id);
-//
-//            // append history
-//            $history = array();
-//            $history['instance_id'] = $instance_id;
-//            $history['notes'] = $transition['NAME'];
-//            $history['transition_id'] = $transition['ID'];
-//            $history['create_date'] = date("Y-m-d");
-//            $history['create_by'] = 'system user session';
-//
-//            $this->workflow->insertHistory($history);
-//
-//            // load node object
-//            $node = $this->workflow->getNodeById($transition['NODE_TO']);
-//
-//            // update instance
-//            $instance = array();
-//            $instance['node_id'] = $transition['NODE_TO'];
-//
-//            $params = $this->workflow->getParamfromRequest($node['PARAMETERS']);
-//            $instance['parameters'] = json_encode($params);
-//
-//            if ($node['IS_FINISH'])
-//                $instance['end_date'] = date("Y-m-d");
-//
-//            $this->workflow->updateInstance($instance, array('id' => $instance_id));
-            
+
             redirect('/workflowTest/index');
         }
-        
+
         // load workflow instance
         $instance = $this->workflow->getInstance($instance_id);
         // load workflow instance
         $history = $this->workflow->getHistory($instance_id);
-
+        // load workflow variable
+        $variables = $this->workflow->getParamfromDB($instance_id);
+        
         // get available transition
         $transitions = $this->workflow->getTransition($instance['NODE_ID']);
+
+        // get available constraints & replace @@parameter for execution
+        $constraints = $this->workflow->getConstraintForExecution($instance_id, $instance['NODE_ID'], 'onload', $variables);
         
         // build parameters if exists
         $parameters = array();
         foreach ($transitions as $v) {
             $node = $this->workflow->getNodeById($v['NODE_TO']);
-            $parameters = $parameters + (array)json_decode($node['PARAMETERS'],true);
+            $parameters = $parameters + (array) json_decode($node['PARAMETERS'], true);
         }
-        
-        $this->load->view('workflow_run', array(
+
+        $this->layout->view('workflow_run', array(
             'instance' => $instance,
             'history' => $history,
             'transitions' => $transitions,
             'parameters' => $parameters,
+            'constraints' => $constraints,
         ));
     }
 
 }
+
 /* End of file welcome.php */
 /* Location: ./application/controllers/welcome.php */

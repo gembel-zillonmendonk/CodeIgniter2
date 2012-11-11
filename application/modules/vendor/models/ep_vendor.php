@@ -22,7 +22,7 @@ class Ep_vendor extends MY_Model {
         'KODE_LOGIN'=>array('hidden'=>false, 'width'=>10),
         'ACT'=>array('hidden'=>false, 'width'=>10), 
         'xxx'=>array('hidden'=>false, 'width'=>10), 
-        'NAMA_STATUS_REG'=>array('hidden'=>true, 'width'=>20)
+        'NAMA_STATUS_REG'=>array('hidden'=>false, 'width'=>20)
         );
     public $sql_select = "(
         select KODE_VENDOR, KODE_VENDOR as \"xxx\", NAMA_VENDOR, KODE_LOGIN, NAMA_STATUS_REG, '' as \"ACT\"

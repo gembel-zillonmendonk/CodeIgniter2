@@ -24,7 +24,7 @@ $form_id = 'modal_form_' . $grid->id;
             
         // load empty form
         jQuery('#<?php echo $form_id; ?> #form')
-        .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>');
+        .load($site_url + '/<?php echo $grid->module ?>/'+$form+'/<?php echo $grid->model ?>');
         
         jQuery('#<?php echo $grid->id ?>').jqGrid({
             "shrinkToFit": true,
@@ -112,7 +112,7 @@ $form_id = 'modal_form_' . $grid->id;
                     
                     //console.debug(data);
                     jQuery('#<?php echo $form_id ?> #form')
-                    .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>?' + str)
+                    .load($site_url + '/<?php echo $grid->module ?>/'+$form+'/<?php echo $grid->model ?>?' + str)
                     
                 }
             }
@@ -227,7 +227,7 @@ $form_id = 'modal_form_' . $grid->id;
                         
                                 //console.debug(data);
                                 jQuery('#<?php echo $form_id ?> #form')
-                                .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>?' + str)
+                                .load($site_url + '/<?php echo $grid->module ?>/'+$form+'/<?php echo $grid->model ?>?' + str)
                         
                             } else {
                                 alert('Harap pilih data yang akan diubah');
@@ -247,7 +247,7 @@ $form_id = 'modal_form_' . $grid->id;
                         onClickButton : function (){
                     
                             jQuery('#<?php echo $form_id; ?> #form')
-                            .load($site_url + '/crud/'+$form+'/<?php echo $grid->model ?>');
+                            .load($site_url + '/<?php echo $grid->module ?>/'+$form+'/<?php echo $grid->model ?>');
                     
                         }
                     });

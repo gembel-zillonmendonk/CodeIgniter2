@@ -10,7 +10,7 @@
  *
  * @author farid
  */
-class vendor extends CI_Controller
+class vendor extends MY_Controller
 {
     public $rules;
     public $where;
@@ -72,49 +72,6 @@ class vendor extends CI_Controller
         );
     }
 
-    public function registration()
-    {
-        $query = $this->db->query('SELECT coalesce(HALAMAN_SELANJUTNYA, \'0\') as HALAMAN_SELANJUTNYA FROM EP_VENDOR WHERE KODE_VENDOR = ' . $this->session->userdata('user_id'));
-        $data = $query->row_array();
-        $np = $data['HALAMAN_SELANJUTNYA'];
-
-        $cnt = 10; // count all tabs
-        $str = array();
-
-        while ($np < $cnt)
-        {
-            $str[] = $np;
-            $np++;
-        }
-
-        $str = '[' . implode(',', $str) . ']';
-
-        if ($this->_is_ajax_request())
-        {
-            if ($return = $this->xvalidation($this->rules[$data['HALAMAN_SELANJUTNYA']]))
-            {
-                echo json_encode($return);
-                exit();
-            }
-            else
-            {
-                $this->db->query('UPDATE EP_VENDOR set HALAMAN_SELANJUTNYA = coalesce(HALAMAN_SELANJUTNYA, \'0\') + 1 WHERE KODE_VENDOR = ' . $this->session->userdata('user_id'));
-                echo json_encode(array(
-                    'active_tabs' => $data['HALAMAN_SELANJUTNYA'] + 1,
-                    'disable_tabs' => $str
-                ));
-                exit();
-            }
-        }
-
-
-        $this->layout->setLayout('layout_nomenu');
-        $this->layout->view('vendor/registration', array(
-            'active_tabs' => $data['HALAMAN_SELANJUTNYA'],
-            'disable_tabs' => $str
-        ));
-    }
-
     public function view()
     {
         $this->layout->view('vendor/view');
@@ -142,78 +99,6 @@ class vendor extends CI_Controller
         $this->layout->view('vendor/createOrEdit');
     }
 
-    public function activation()
-    {
-        foreach ($this->rules as $k => $v)
-        {
-            if ($return = $this->xvalidation($v))
-            {
-                echo json_encode($return);
-                exit();
-            }
-        }
-    }
-
-    public function xvalidation($rules = array())
-    {
-        if (count($rules) == 0)
-            return false;
-
-        $ret = array('errors' => array());
-        foreach ($rules as $v)
-        {
-            if (!isset($v['rules']))
-                return false;
-
-//$obj = $this->_load_model($v['model']);
-            $this->load->model($v['model']);
-            $obj = $this->$v['model'];
-//echo $obj->table.'<br>';
-//print_r($obj);
-            if (!$obj)
-                continue;
-
-
-            $err = false;
-            if ($v['rules'] == 'required')
-            {
-                $fields = implode(',', array_keys($obj->validation, array('required' => true)));
-                $this->where = '( ' . implode(' IS NULL OR ', array_keys($obj->validation, array('required' => true))) . ' IS NULL )';
-
-                $this->where .= ' AND ' . $v['where'];
-                $this->db->select($fields);
-                $this->db->where($this->where);
-                $this->db->from($obj->table);
-
-                $err = $this->db->count_all_results() > 0 ? true : false;
-            }
-            else
-            {
-                $this->db->where($v['where']);
-                $this->db->from($obj->table);
-
-                $err = $this->db->count_all_results() > 0 ? false : true;
-            }
-//echo $this->db->last_query()."\n";
-            if ($err)
-            {
-                $ret['errors'][] = array('model' => get_class($obj), 'message' => $v['label'] . ' tidak boleh kosong');
-            }
-        }
-
-        if (count($ret['errors']) > 0)
-        {
-//$this->session->set_flashdata($ret);
-            return $ret;
-        }
-
-        return false;
-    }
-
-    private function _is_ajax_request()
-    {
-        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
-    }
-
+    
 }
 ?>

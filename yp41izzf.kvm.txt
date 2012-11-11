@@ -1,0 +1,76 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	renamed:    application/modules/contract/models/ep_ktr_dok_kontrak.php -> application/modules/contract/models/contract/ep_ktr_dok_kontrak.php
+#	renamed:    application/modules/contract/models/ep_ktr_item_kontrak.php -> application/modules/contract/models/contract/ep_ktr_item_kontrak.php
+#	renamed:    application/modules/contract/models/ep_ktr_item_perkembangan.php -> application/modules/contract/models/contract/ep_ktr_item_perkembangan.php
+#	renamed:    application/modules/contract/models/ep_ktr_jangka_kontrak.php -> application/modules/contract/models/contract/ep_ktr_jangka_kontrak.php
+#	new file:   application/modules/contract/models/contract/ep_ktr_jangka_kontrak_bastp.php
+#	renamed:    application/modules/contract/models/ep_ktr_perkembangan.php -> application/modules/contract/models/contract/ep_ktr_jangka_perkembangan.php
+#	renamed:    application/modules/contract/models/ep_ktr_komentar_kontrak.php -> application/modules/contract/models/contract/ep_ktr_komentar_kontrak.php
+#	renamed:    application/modules/contract/models/ep_ktr_kontrak.php -> application/modules/contract/models/contract/ep_ktr_kontrak.php
+#	new file:   application/modules/contract/models/contract/ep_ktr_kontrak_jaminan.php
+#	renamed:    application/modules/contract/models/ep_ktr_dok_invoice.php -> application/modules/contract/models/invoice/ep_ktr_dok_invoice.php
+#	renamed:    application/modules/contract/models/ep_ktr_invoice.php -> application/modules/contract/models/invoice/ep_ktr_invoice.php
+#	renamed:    application/modules/contract/models/ep_ktr_item_invoice.php -> application/modules/contract/models/invoice/ep_ktr_item_invoice.php
+#	renamed:    application/modules/contract/models/ep_ktr_komentar_invoice.php -> application/modules/contract/models/invoice/ep_ktr_komentar_invoice.php
+#	renamed:    application/modules/contract/models/ep_ktr_po.php -> application/modules/contract/models/po/ep_ktr_po.php
+#	renamed:    application/modules/contract/models/ep_ktr_po_item.php -> application/modules/contract/models/po/ep_ktr_po_item.php
+#	renamed:    application/modules/contract/models/ep_ktr_po_komentar.php -> application/modules/contract/models/po/ep_ktr_po_komentar.php
+#	renamed:    application/modules/contract/models/ep_ktr_po_komentar_perkembangan.php -> application/modules/contract/models/po/ep_ktr_po_komentar_perkembangan.php
+#	renamed:    application/modules/contract/models/ep_ktr_po_perkembangan.php -> application/modules/contract/models/po/ep_ktr_po_perkembangan.php
+#	new file:   application/modules/contract/views/contract/draft.php
+#	new file:   application/modules/contract/views/contract/updateBASTP.php
+#	new file:   application/modules/contract/views/contract/updateProgress.php
+#	new file:   application/modules/contract/views/invoice/draft.php
+#	new file:   application/modules/contract/views/invoice/updateBASTP.php
+#	new file:   application/modules/contract/views/invoice/updateProgress.php
+#	new file:   application/modules/contract/views/po/draft.php
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   application/controllers/workflowTest.php
+#	modified:   application/core/MY_Controller.php
+#	modified:   application/core/MY_Model.php
+#	modified:   application/libraries/workflow.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_dok_kontrak.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_item_kontrak.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_jangka_kontrak.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_jangka_kontrak_bastp.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_jangka_perkembangan.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_kontrak.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_kontrak_jaminan.php
+#	modified:   application/modules/contract/models/invoice/ep_ktr_dok_invoice.php
+#	modified:   application/modules/contract/models/invoice/ep_ktr_invoice.php
+#	modified:   application/modules/contract/models/invoice/ep_ktr_item_invoice.php
+#	modified:   application/modules/contract/models/invoice/ep_ktr_komentar_invoice.php
+#	modified:   application/modules/contract/models/po/ep_ktr_po.php
+#	modified:   application/modules/contract/models/po/ep_ktr_po_item.php
+#	modified:   application/modules/contract/views/contract/draft.php
+#	modified:   application/modules/contract/views/contract/updateBASTP.php
+#	modified:   application/modules/contract/views/contract/updateProgress.php
+#	modified:   application/modules/contract/views/invoice/draft.php
+#	modified:   application/modules/contract/views/invoice/updateBASTP.php
+#	modified:   application/modules/contract/views/invoice/updateProgress.php
+#	modified:   application/modules/contract/views/po/draft.php
+#	modified:   application/modules/crud/views/grid_form.php
+#	modified:   application/modules/vendor/controllers/vendor.php
+#	modified:   application/modules/vendor/models/ep_vendor.php
+#	modified:   application/views/workflow_run.php
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	application/libraries/GraphViz.php
+#	application/modules/account/
+#	application/modules/contract/controllers/contract.php
+#	application/modules/contract/controllers/invoice.php
+#	application/modules/contract/controllers/po.php
+#	test.png
+

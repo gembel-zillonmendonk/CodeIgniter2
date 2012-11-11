@@ -491,14 +491,16 @@ class MY_Form
     public $model;
     public $clear_form = false;
     public $is_new_record = true;
+    public $module;
     
     public function __construct($model)
     {
         $this->model = $model;
         $this->is_new_record = $model->is_new_record;
+        $this->module = $model->router->fetch_module();
         
         if ($this->action == '')
-            $this->action = 'crud/form/' . get_class($model);
+            $this->action = $this->module . '/form/' . get_class($model);
 
         if ($this->name == '')
             $this->name = 'form_' . get_class($model);
@@ -652,6 +654,7 @@ class MY_Grid
     public $form_url = '';
     public $js_grid_completed = '';
     public $view = 'crud/grid';
+    public $module = '';
     
     function __construct($model)
     {
@@ -662,7 +665,7 @@ class MY_Grid
             $this->model = isset($model->dir) ? strtolower($model->dir . '.' . $this->name) : $this->name;
 
         if ($this->url == '')
-            $this->url = 'crud/grid/' . $this->model;
+            $this->url = $model->router->fetch_module() . '/grid/' . $this->model;
 
         if ($this->id == '')
             $this->id = 'grid_' . $this->name;
@@ -673,8 +676,11 @@ class MY_Grid
         if ($this->primary_keys == '')
             $this->primary_keys = $model->primary_keys;
 
+        $this->module = $model->router->fetch_module();
+        
         $this->view = $model->grid_view;
         
+        $model->sql_select = $model->sql_select == $model->table ? "(select * from ".$model->table.")" : $model->sql_select;
         if(isset($model->sql_select))
         {
             $q = $model->db->query($model->sql_select);
