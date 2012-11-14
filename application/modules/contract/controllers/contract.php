@@ -15,6 +15,10 @@ class contract extends MY_Controller
     public $rules;
     public $where;
 
+    public function index() {
+        $this->layout->view('todo');
+    }
+    
     public function createDraft(){
         
         if($this->_is_ajax_request())

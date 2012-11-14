@@ -51,7 +51,7 @@ $form_id = 'modal_form_' . $grid->id;
             "rownumbers": true,
             "rownumWidth": 40,
             "rowNum": 15,
-            "height": 300,
+            "height": 'auto',
             "width": 500,
             "rowList": [10, 20, 50],
             "altRows": true,

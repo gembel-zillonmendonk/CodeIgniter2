@@ -16,46 +16,54 @@ class WorkflowTest extends MX_Controller {
         ));
     }
 
-    public function viewGraph() {
-
-        require_once 'Image/GraphViz.php';
-        $gv = new Image_GraphViz();
-        $gv->addEdge(array('wake up' => 'visit bathroom'));
-        $gv->addEdge(array('visit bathroom' => 'make coffee'));
-        //$gv->image();
+    public function viewGraph() {        
         
-        require_once 'Image/GraphViz.php';
+        $this->load->library('workflowGraphViz');
+        
+        $node = array(
+            array('from'=>'Start','to'=>'Persetujuan Registrasi'),
+            array('from'=>'Persetujuan Registrasi','to'=>'Approve'),
+            array('from'=>'Persetujuan Registrasi','to'=>'Reject'),
+            array('from'=>'Persetujuan Registrasi','to'=>'Perbaikan data'),
+        );
+        
+        $sql = "select b.nama_aktifitas as \"from\", c.nama_aktifitas as \"to\" 
+				from ep_wkf_transisi a
+                inner join ep_wkf_aktifitas b on a.aktifitas_asal = b.kode_aktifitas
+                inner join ep_wkf_aktifitas c on a.aktifitas_tujuan = c.kode_aktifitas";
+        
+        $query = $this->db->query($sql);
+        $node = $query->result_array();
+        
+//        digraph G { 
+//    Start    [shape=doublecircle];
+//    Finish    [shape=doublecircle,style=filled];
+//    node    [shape=circle];
+//    "Start" -> "Persetujuan Registrasi";
+//    "Persetujuan Registrasi" -> "Approve";
+//    "Persetujuan Registrasi" -> "Reject";
+//    "Persetujuan Registrasi" -> "Kembalikan ke vendor";
+//    "Kembalikan ke vendor" -> "Perbaikan Data";
+//    "Perbaikan Data" -> "Persetujuan Registrasi";
+//    "Approve" -> "Finish";
+//    "Reject" -> "Finish";
+//}
 
-        $graph = new Image_GraphViz(false, null, 'G', false);
-
-        $graph->addEdge(array('run' => 'intr'));
-        $graph->addEdge(array('intr' => 'runbl'));
-        $graph->addEdge(array('runbl' => 'run'));
-        $graph->addEdge(array('run' => 'kernel'));
-        $graph->addEdge(array('kernel' => 'zombie'));
-        $graph->addEdge(array('kernel' => 'sleep'));
-        $graph->addEdge(array('kernel' => 'runmem'));
-        $graph->addEdge(array('sleep' => 'swap'));
-        $graph->addEdge(array('swap' => 'runswap'));
-        $graph->addEdge(array('runswap' => 'new'));
-        $graph->addEdge(array('runswap' => 'runmem'));
-        $graph->addEdge(array('new' => 'runmem'));
-        $graph->addEdge(array('sleep' => 'runmem'));
-
-        echo $graph->parse();
-        echo $graph->image('png');
-
-//        $this->load->library('GraphViz');
-//        
-//        $this->GraphViz->addEdge(array('wake up' => 'visit bathroom'));
-//        $this->GraphViz->addEdge(array('visit bathroom' => 'make coffee'));
-//        $this->GraphViz->image();
+                
+        $config = array(
+            'Start'=>array('shape'=>'doublecircle'),
+            'Finish'=>array('shape'=>'doublecircle', 'style'=>'filled'),
+            'node'=>array('shape'=>'circle'),
+            );
+        
+        $data = array('node' => $node, 'config' => $config);
+        $this->workflowgraphviz->image($data);
     }
 
     public function view() {
         $this->load->library('workflow');
 
-        $rows = $this->workflow->getHistory($_REQUEST['instance_id']);
+        $rows = $this->workflow->getHistory($_REQUEST['kode_proses']);
         $this->layout->view('workflow_view', array(
             'rows' => $rows,
         ));
@@ -64,40 +72,40 @@ class WorkflowTest extends MX_Controller {
     public function run() {
         $this->load->library('workflow');
 
-        $instance_id = isset($_REQUEST['instance_id']) ? $_REQUEST['instance_id'] : null;
-        if (!isset($instance_id)) {
+        $kode_proses = isset($_REQUEST['kode_proses']) ? $_REQUEST['kode_proses'] : null;
+        if (!isset($kode_proses)) {
             $wkf_id = 1;
             $this->workflow->start($wkf_id);
             redirect('/workflowTest/index');
         }
 
         if ($_POST) {
-            $transition_id = $_REQUEST['transition_id'];
-            $notes = isset($_REQUEST['notes']) ? $_REQUEST['notes'] : null;
+            $kode_transisi = $_REQUEST['kode_transisi'];
+            $catatan = isset($_REQUEST['catatan']) ? $_REQUEST['catatan'] : null;
             $user = isset($_REQUEST['user']) ? $_REQUEST['user'] : null;
-            $this->workflow->executeNode($instance_id, $transition_id, $notes, $user);
+            $this->workflow->executeNode($kode_proses, $kode_transisi, $catatan, $user);
 
             redirect('/workflowTest/index');
         }
 
         // load workflow instance
-        $instance = $this->workflow->getInstance($instance_id);
+        $instance = $this->workflow->getInstance($kode_proses);
         // load workflow instance
-        $history = $this->workflow->getHistory($instance_id);
+        $history = $this->workflow->getHistory($kode_proses);
         // load workflow variable
-        $variables = $this->workflow->getParamfromDB($instance_id);
+        $variables = $this->workflow->getParamfromDB($kode_proses);
         
         // get available transition
-        $transitions = $this->workflow->getTransition($instance['NODE_ID']);
+        $transitions = $this->workflow->getTransition($instance['KODE_AKTIFITAS']);
 
         // get available constraints & replace @@parameter for execution
-        $constraints = $this->workflow->getConstraintForExecution($instance_id, $instance['NODE_ID'], 'onload', $variables);
+        $constraints = $this->workflow->getConstraintForExecution($kode_proses, $instance['KODE_AKTIFITAS'], 'onload', $variables);
         
         // build parameters if exists
         $parameters = array();
         foreach ($transitions as $v) {
-            $node = $this->workflow->getNodeById($v['NODE_TO']);
-            $parameters = $parameters + (array) json_decode($node['PARAMETERS'], true);
+            $node = $this->workflow->getNodeById($v['AKTIFITAS_ASAL']);
+            $parameters = $parameters + (array) json_decode($node['PARAMETER'], true);
         }
 
         $this->layout->view('workflow_run', array(

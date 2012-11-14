@@ -14,109 +14,109 @@ class Workflow {
         log_message('debug', 'Workflow class loaded');
     }
 
-    function start($wkf_id) {
-        $query = $this->db->query("select wkf_id, id as node_id, role_id, user_id, app_id, parameters, type from EP_WKF_AKTIFITAS where wkf_id = $wkf_id and is_start = 1");
+    function start($kode_wkf) {
+        $query = $this->db->query("select kode_wkf, id as kode_aktifitas, kode_posisi, kode_user, kode_aplikasi, parameter, tipe from EP_WKF_AKTIFITAS where kode_wkf = $kode_wkf and is_mulai = 1");
         $node = $query->row_array();
 
         // build params
-        $node['PARAMETERS'] = $this->getParamfromRequest($node['PARAMETERS']);
+        $node['PARAMETER'] = $this->getParamfromRequest($node['PARAMETER']);
 
-        $type = $node['TYPE'];
-        unset($node['TYPE']);
+        $tipe = $node['TIPE'];
+        unset($node['TIPE']);
         $node['START_DATE'] = date("Y-m-d");
-        $node['PARAMETERS'] = json_encode($node['PARAMETERS']);
+        $node['PARAMETER'] = json_encode($node['PARAMETER']);
 
         $this->db->insert("EP_WKF_PROSES", $node);
 
-        $query = $this->db->query("select max(ID) as \"idx\" from EP_WKF_PROSES");
+        $query = $this->db->query("select max(KODE_PROSES) as \"idx\" from EP_WKF_PROSES");
         $row = $query->row_array();
-        $this->triggerCheckNodeType($type, $row['idx']);
+        $this->triggerCheckNodeType($tipe, $row['idx']);
         return true;
     }
 
-    function executeNode($instance_id, $transition_id, $notes = null, $user = null) {
+    function executeNode($kode_proses, $transition_id, $notes = null, $user = null) {
 
         // load transition object
         $transition = $this->getTransitionById($transition_id);
 
         // load node object
-        $node = $this->getNodeById($transition['NODE_TO']);
+        $node = $this->getNodeById($transition['AKTIFITAS_ASAL']);
 
         // append history
         $history = array();
-        $history['instance_id'] = $instance_id;
-        $history['notes'] = ($notes ? $notes : $transition['NAME']);
+        $history['kode_proses'] = $kode_proses;
+        $history['notes'] = ($notes ? $notes : $transition['NAMA']);
         $history['transition_id'] = $transition['ID'];
         $history['create_date'] = date("Y-m-d");
         $history['create_by'] = ($user ? $user : 'system user session');
 
         // update instance
         $instance = array();
-        $instance['node_id'] = $node['ID'];
+        $instance['kode_aktifitas'] = $node['ID'];
 
-        $params = $this->getParamfromRequest($node['PARAMETERS']);
-        $instance['parameters'] = json_encode($params);
+        $params = $this->getParamfromRequest($node['PARAMETER']);
+        $instance['parameter'] = json_encode($params);
 
         if ($node['IS_FINISH'])
             $instance['end_date'] = date("Y-m-d");
 
         $this->insertHistory($history);
-        $this->updateInstance($instance, array('id' => $instance_id));
-        $this->insertOrUpdateParams($params, $instance_id, '');
-        $this->triggerCheckNodeType($node['TYPE'], $instance_id);
+        $this->updateInstance($instance, array('id' => $kode_proses));
+        $this->insertOrUpdateParams($params, $kode_proses, '');
+        $this->triggerCheckNodeType($node['TIPE'], $kode_proses);
     }
 
-    function triggerCheckNodeType($type, $instance_id) {
-        if ($type == 'system') {
-            $this->triggerSystemNode($instance_id);
+    function triggerCheckNodeType($tipe, $kode_proses) {
+        if ($tipe == 'system') {
+            $this->triggerSystemNode($kode_proses);
         } else {
-            $this->triggerHumanNode($instance_id);
+            $this->triggerHumanNode($kode_proses);
         }
     }
 
-    function triggerSystemNode($instance_id) {
+    function triggerSystemNode($kode_proses) {
         //load instance
-        $row = $this->getInstance($instance_id);
+        $row = $this->getInstance($kode_proses);
         $node = $this->getNodeById($row['NODE_ID']);
         // build params
 
-        $row['PARAMETERS'] = $this->getParamfromRequest($node['PARAMETERS']);
+        $row['PARAMETER'] = $this->getParamfromRequest($node['PARAMETER']);
 
         //this save instance parameter
 
-        $this->runNodeConstraint($row['NODE_ID'], $row['PARAMETERS']);
-        $this->runAutoTransition($instance_id, $row['NODE_ID'], $row['PARAMETERS']);
+        $this->runNodeConstraint($row['NODE_ID'], $row['PARAMETER']);
+        $this->runAutoTransition($kode_proses, $row['NODE_ID'], $row['PARAMETER']);
     }
 
-    function triggerHumanNode($instance_id) {
+    function triggerHumanNode($kode_proses) {
         //load instance
-        $row = $this->getInstance($instance_id);
+        $row = $this->getInstance($kode_proses);
         $node = $this->getNodeById($row['NODE_ID']);
 
         // assign user
         // build params and write to db
-        $row['PARAMETERS'] = $this->getParamfromRequest($node['PARAMETERS']);
-        $this->updateInstance(array('parameters' => json_encode($row['PARAMETERS'])), array('id' => $instance_id));
-        $this->insertOrUpdateParams($row['PARAMETERS'], $instance_id, '');
-        $this->runNodeConstraint($row['NODE_ID'], $row['PARAMETERS']);
+        $row['PARAMETER'] = $this->getParamfromRequest($node['PARAMETER']);
+        $this->updateInstance(array('parameter' => json_encode($row['PARAMETER'])), array('id' => $kode_proses));
+        $this->insertOrUpdateParams($row['PARAMETER'], $kode_proses, '');
+        $this->runNodeConstraint($row['NODE_ID'], $row['PARAMETER']);
     }
 
-    function runNodeConstraint($node_id, $variables = null) {
+    function runNodeConstraint($kode_aktifitas, $variables = null) {
 
         if (!$variables)
             return;
 
         // get available constraints & replace @@parameter for execution
-        $constraints = $this->getNodeConstraints($node_id, array('event' => 'onexecute'));
+        $constraints = $this->getNodeConstraints($kode_aktifitas, array('kegiatan' => 'onexecute'));
         
         $json_constraints = json_encode($constraints);
         foreach ($variables as $k => $v) {
             $json_constraints = str_replace('@@' . $k . '@@', $v, $json_constraints);
         }
-//        echo $node_id;
+//        echo $kode_aktifitas;
 //die($json_constraints);
         foreach (json_decode($json_constraints, true) as $v) {
-            switch ($v['TYPE']) {
+            switch ($v['TIPE']) {
                 case 'php' :
                     eval($v['CONTEXT']);
                     break;
@@ -126,15 +126,15 @@ class Workflow {
             }
         }
 
-//        $constraints = $this->getNodeConstraints($node_id, array('event' => 'onExecute'));
+//        $constraints = $this->getNodeConstraints($kode_aktifitas, array('kegiatan' => 'onExecute'));
 //        foreach ($constraints as $v) {
-//            // replace variable in context with parameters
+//            // replace variable in context with parameter
 //            $cmd = $v['CONTEXT'];
-//            foreach ($parameters as $key => $val) {
+//            foreach ($parameter as $key => $val) {
 //                $cmd = str_replace('@@' . $key . '@@', $val, $cmd);
 //            }
 //
-//            switch ($v['TYPE']) {
+//            switch ($v['TIPE']) {
 //                case 'php' :
 //                    eval($cmd);
 //                    break;
@@ -146,38 +146,38 @@ class Workflow {
     }
 
     // execute by node system
-    function runAutoTransition($instance_id, $node_id, $parameters = array()) {
+    function runAutoTransition($kode_proses, $kode_aktifitas, $parameter = array()) {
 
-        if (count($parameters) < 1)
+        if (count($parameter) < 1)
             return;
 
         $var = '';
-        foreach ($parameters as $k => $v) {
+        foreach ($parameter as $k => $v) {
             $var .= '$' . $k . ' = "' . $v . '"; ';
         }
 
-        $transistions = $this->getTransition($node_id);
+        $transistions = $this->getTransition($kode_aktifitas);
         $default_transition = null;
         $result = false;
-        foreach ($transistions as $value) {
-            if ($value['CONDITION'] == 'default') {
-                $default_transition = $value;
+        foreach ($transistions as $transistion) {
+            if ($transistion['KONDISI'] == 'default') {
+                $default_transition = $transistion;
                 continue;
             }
 
-            $condition = $value['CONDITION'];
+            $condition = $transistion['KONDISI'];
             $condition = 'if(' . $condition . ') return true; else return false;';
             $result = eval($var . $condition);
 
             if ($result) {
-                $this->executeNode($instance_id, $value['ID'], $value['NAME'], 'system user session');
+                $this->executeNode($kode_proses, $transistion['KODE_TRANSISI'], $transistion['NAMA_TRANSISI'], 'system user session');
                 break;
             }
         }
 
         // default transition if no matching value found
         if (!$result)
-            $this->executeNode($instance_id, $default_transition['ID'], $default_transition['NAME'], 'system user session');
+            $this->executeNode($kode_proses, $default_transition['ID_TRANSISI'], $default_transition['NAMA_TRANSISI'], 'system user session');
 
         return $result;
     }
@@ -196,39 +196,43 @@ class Workflow {
         return $query->row_array();
     }
 
-    function getTransition($node_id) {
-        $query = $this->db->query("select * from EP_WKF_TRANSISI where node_from = $node_id");
+    function getTransition($kode_aktifitas) {
+        $query = $this->db->query("select * from EP_WKF_TRANSISI where aktifitas_asal = $kode_aktifitas");
         return $query->result_array();
     }
 
-    function getNodeConstraints($node_id, $where = array()) {
-        $where = $where + array('node_id' => $node_id);
-        //$query = $this->db->query("select * from EP_WKF_AKTIFITAS_CONST where node_id = $node_id");
+    function getNodeConstraints($kode_aktifitas, $where = array()) {
+        $where = $where + array('kode_aktifitas' => $kode_aktifitas);
+        //$query = $this->db->query("select * from EP_WKF_AKTIFITAS_CONST where kode_aktifitas = $kode_aktifitas");
 
         $query = $this->db->get_where("EP_WKF_AKTIFITAS_CONST", $where);
         return $query->result_array();
     }
 
-    function getInstance($id = 'null') {
-        $query = $this->db->query("select * from EP_WKF_PROSES where id = coalesce($id, id)");
+    function getInstance($kode_proses = 'null') {
+        $query = $this->db->query("select * from EP_WKF_PROSES where kode_proses = coalesce($kode_proses, kode_proses)");
         return $query->row_array();
     }
 
-    function getHistory($instance_id = 'null') {
-        $query = $this->db->query("select * from EP_WKF_PROSES_HIS where instance_id = $instance_id");
+    function getHistory($kode_proses = 'null') {
+        $query = $this->db->query("select * from EP_WKF_PROSES_HIS where kode_proses = $kode_proses");
         return $query->result_array();
     }
 
-    function getActiveInstances($id = 'null') {
-        $query = $this->db->query("select * from EP_WKF_PROSES where id = coalesce($id, id) and end_date is null");
+    function getActiveInstances($kode_proses = 'null') {
+        $query = $this->db->query("select * from EP_WKF_PROSES where kode_proses = coalesce($kode_proses, kode_proses) and end_date is null");
         return $query->result_array();
     }
 
-    function getEndInstances($id = 'null') {
-        $query = $this->db->query("select * from EP_WKF_PROSES where id = coalesce($id, id) and end_date is not null");
+    function getEndInstances($kode_proses = 'null') {
+        $query = $this->db->query("select * from EP_WKF_PROSES where kode_proses = coalesce($kode_proses, kode_proses) and end_date is not null");
         return $query->result_array();
     }
 
+    function buildGraph($kode_proses) {
+        
+    }
+    
     function getParamfromRequest($params) {
 
         if (!is_array($params))
@@ -247,18 +251,18 @@ class Workflow {
         return false;
     }
 
-    function getParamfromDB($instance_id) {
-        $query = $this->db->query("select * from EP_WKF_PROSES_VARS where instance_id = coalesce($instance_id, instance_id)");
+    function getParamfromDB($kode_proses) {
+        $query = $this->db->query("select * from EP_WKF_PROSES_VARS where kode_proses = coalesce($kode_proses, kode_proses)");
         return $query->result_array();
     }
 
-    function getConstraintForExecution($instance_id, $node_id, $event, $variables = array()) {
+    function getConstraintForExecution($kode_proses, $kode_aktifitas, $kegiatan, $variables = array()) {
 
         if (!count($variables))
-            $this->getParamfromDB($instance_id);
+            $this->getParamfromDB($kode_proses);
 
         // get available constraints & replace @@parameter for execution
-        $constraints = $this->getNodeConstraints($node_id, array('event' => $event));
+        $constraints = $this->getNodeConstraints($kode_aktifitas, array('kegiatan' => $kegiatan));
 
         $json_constraints = json_encode($constraints);
         foreach ($variables as $v) {
@@ -272,7 +276,7 @@ class Workflow {
         $this->db->insert("EP_WKF_PROSES_HIS", $data);
     }
 
-    function insertOrUpdateParams($params = null, $instance_id, $instance_process_id = '') {
+    function insertOrUpdateParams($params = null, $kode_proses, $kode_proses_his = '') {
         if ($params) {
 
             foreach ($params as $k => $v) {
@@ -280,15 +284,15 @@ class Workflow {
                     $var = array(
                         'key' => $k,
                         'value' => $v,
-                        'instance_id' => $instance_id,
-                        'instance_process_id' => $instance_process_id,
-                        'type' => 'text',
+                        'kode_proses' => $kode_proses,
+                        'kode_proses_his' => $kode_proses_his,
+                        'tipe' => 'text',
                     );
 
-                    $query = $this->db->query("select * from EP_WKF_PROSES_VARS where key='$k' and instance_id=" . $instance_id);
+                    $query = $this->db->query("select * from EP_WKF_PROSES_VARS where key='$k' and kode_proses=" . $kode_proses);
                     $row = $query->row_array();
                     if (count($row) > 0)
-                        $this->db->update('EP_WKF_PROSES_VARS', $var, "key='$k' and instance_id=" . $instance_id);
+                        $this->db->update('EP_WKF_PROSES_VARS', $var, "key='$k' and kode_proses=" . $kode_proses);
                     else
                         $this->db->insert('EP_WKF_PROSES_VARS', $var);
                 }

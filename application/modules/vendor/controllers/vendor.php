@@ -99,6 +99,9 @@ class vendor extends MY_Controller
         $this->layout->view('vendor/createOrEdit');
     }
 
-    
+    public function activation()
+    {
+        $this->layout->view('vendor/activation');
+    }
 }
 ?>

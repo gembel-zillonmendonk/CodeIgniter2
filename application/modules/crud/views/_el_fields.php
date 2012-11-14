@@ -2,6 +2,7 @@
 <?php $i = 1; ?>
 <div class="row-fluid">
     <div class="span6">
+        <?php $count = count($form->elements); ?>
         <?php foreach ($form->elements as $k => $v): ?>
         
         <?php 
@@ -51,7 +52,7 @@
                     ?>
                 </div>
             </div>
-            <?php if ($i % 5 == 0): ?>
+            <?php if ($count / $i == 2): ?>
             </div>
             <div class="span6">
             <?php endif; ?>
