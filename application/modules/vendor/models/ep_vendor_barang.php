@@ -52,5 +52,10 @@ class Ep_vendor_barang extends MY_Model
         $CI = & get_instance();
         return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
     }
+    
+    function _before_save() {
+        parent::_before_save();
+        $this->attributes['NAMA_BARANG'] = 'xxxx'; // fetch nama_barang depent on kode_barang
+    }
 }
 ?>

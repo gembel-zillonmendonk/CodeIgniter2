@@ -42,5 +42,25 @@ class contract extends MY_Controller
         else
             $this->layout->view('contract/contract/updateBASTP');
     }
+    
+    public function update_progress_validation()
+    {
+        $where = '1=1 ';
+        $where .= isset($_REQUEST['KODE_JANGKA']) ? ' AND KODE_JANGKA = ' . $_REQUEST['KODE_JANGKA'] : '';
+        $where .= isset($_REQUEST['KODE_KONTRAK']) ? ' AND KODE_KONTRAK = ' . $_REQUEST['KODE_KONTRAK'] : '';
+        $where .= isset($_REQUEST['KODE_KANTOR']) ? ' AND KODE_KANTOR = ' . $_REQUEST['KODE_KANTOR'] : '';
+        
+        $sql = 'select sum(persentasi) as persentasi
+                from ep_ktr_jangka_perkembangan where ' . $where;
+        
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+        if($row['PERSENTASI'] != 100){
+            $error['errors'][] = array('model' => 'Detail Progress', 'message' => 'TOTAL JUMLAH DETAIL PROGRESS YANG DIAJUKAN HARUS SAMA DENGAN 100');
+            echo json_encode($error);
+            exit();
+        }
+    }
+    
 }
 ?>

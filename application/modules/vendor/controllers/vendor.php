@@ -94,14 +94,76 @@ class vendor extends MY_Controller
         $this->layout->view('vendor/update');
     }
     
-    public function createOrEdit()
+    public function create_or_edit()
     {
-        $this->layout->view('vendor/createOrEdit');
+        if(isset($_REQUEST['KODE_VENDOR']))
+            $this->session->set_userdata('user_id', $_REQUEST['KODE_VENDOR']);
+        
+        if($this->_is_ajax_request())
+            $this->load->view('vendor/create_or_edit');
+        else
+            $this->layout->view('vendor/create_or_edit');
     }
 
+    
+    /*
+     * internal actions
+     */
+    
+    public function todo()
+    {
+        $this->layout->view('vendor/todo');
+    }
+    
+    public function checklist_doc()
+    {
+        if(isset($_REQUEST['KODE_VENDOR']))
+            $this->session->set_userdata('user_id', $_REQUEST['KODE_VENDOR']);
+        
+        $this->session->set_userdata();
+        
+        if($this->_is_ajax_request())
+            $this->load->view('vendor/checklist_doc');
+        else
+            $this->layout->view('vendor/checklist_doc');
+    }
+    
     public function activation()
     {
+        if(isset($_POST))
+        {
+            redirect('vendor/todo');
+        }
         $this->layout->view('vendor/activation');
+    }
+    
+    
+    // for internal & external actions
+    
+    public function view_data_vendor()
+    {
+        if(isset($_REQUEST['KODE_VENDOR']))
+            $this->session->set_userdata('user_id', $_REQUEST['KODE_VENDOR']);
+        
+        if($this->_is_ajax_request())
+            $this->load->view('vendor/view_data_vendor');
+        else
+            $this->layout->view('vendor/view_data_vendor');
+    }
+    
+    public function _view()
+    {
+        $this->load->view('vendor/_view');
+    }
+    
+    public function _editor()
+    {
+        $this->load->view('vendor/_editor');
+    }
+    
+    public function start_wkf_registration()
+    {
+        
     }
 }
 ?>

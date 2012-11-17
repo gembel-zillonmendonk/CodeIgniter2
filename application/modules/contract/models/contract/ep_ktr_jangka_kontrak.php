@@ -4,8 +4,9 @@ class ep_ktr_jangka_kontrak extends MY_Model {
 
     public $table = 'EP_KTR_JANGKA_KONTRAK';
     public $elements_conf = array(
+        'KODE_JANGKA',
         'KODE_KONTRAK',
-//        'KODE_KANTOR',
+        'KODE_KANTOR',
         'PERSENTASI',
         'TGL_TARGET',
 //        'PERSENTASI_PERKEMBANGAN',
@@ -27,7 +28,7 @@ class ep_ktr_jangka_kontrak extends MY_Model {
     );
     public $columns_conf = array(
         'KODE_KONTRAK',
-//        'KODE_KANTOR',
+        'KODE_KANTOR',
         'PERSENTASI',
         'TGL_TARGET',
 //        'PERSENTASI_PERKEMBANGAN',
@@ -47,6 +48,8 @@ class ep_ktr_jangka_kontrak extends MY_Model {
 //        'TGL_UBAH',
 //        'PETUGAS_UBAH',
     );
+    
+    public $sql_select = '(select * from EP_KTR_JANGKA_KONTRAK)';
     public $dir = 'contract';
 
     function __construct() {
@@ -54,6 +57,13 @@ class ep_ktr_jangka_kontrak extends MY_Model {
         $this->init();
     }
 
+    function _default_scope()
+    {
+        if( isset($_REQUEST['KODE_KONTRAK']) 
+         && isset($_REQUEST['KODE_KANTOR']))
+            return ' KODE_KONTRAK = ' . $_REQUEST['KODE_KONTRAK']
+                . ' AND KODE_KANTOR = ' . $_REQUEST['KODE_KANTOR'];
+    }
 }
 
 ?>

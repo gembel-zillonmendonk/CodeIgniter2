@@ -10,7 +10,7 @@ class Ep_vendor_jasa extends MY_Model
     public $table = "EP_VENDOR_JASA";
     public $elements_conf = array(
         //'KODE_JASA', auto fill on insert
-        'NAMA_JASA'  => array('type' => 'dropdown', 'options' => array('B' => 'BESAR', 'M' => 'MENENGAH', 'K' => 'KECIL')),
+        'KODE_JASA'  => array('label'=>'NAMA JASA', 'type' => 'dropdown', 'options' => array('B' => 'BESAR', 'M' => 'MENENGAH', 'K' => 'KECIL')),
         'TIPE' => array('type' => 'dropdown', 'options' => array('AGENT' => 'AGENT', 'DISTRIBUTOR' => 'DISTRIBUTOR')),
     );
     public $validation = array(
@@ -39,6 +39,11 @@ class Ep_vendor_jasa extends MY_Model
     {
         $CI = & get_instance();
         return ' KODE_VENDOR = '.$CI->session->userdata('user_id');
+    }
+    
+    function _before_save() {
+        parent::_before_save();
+        $this->attributes['NAMA_JASA'] = 'nama jasa'; // nama_jasa depent by kode_jasa
     }
 }
 ?>

@@ -500,7 +500,7 @@ class MY_Form
         $this->module = $model->router->fetch_module();
         
         if ($this->action == '')
-            $this->action = $this->module . '/form/' . get_class($model);
+            $this->action = $this->module . '/form/' . (isset($model->dir) ? strtolower($model->dir . '.' . get_class($model)) : get_class($model));
 
         if ($this->name == '')
             $this->name = 'form_' . get_class($model);
@@ -667,6 +667,9 @@ class MY_Grid
         if ($this->url == '')
             $this->url = $model->router->fetch_module() . '/grid/' . $this->model;
 
+        // include variable in $_REQUEST, if exists
+        if(count($_REQUEST)) $this->url .= '?'.http_build_query($_REQUEST);
+        
         if ($this->id == '')
             $this->id = 'grid_' . $this->name;
 

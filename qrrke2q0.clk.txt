@@ -1,0 +1,68 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   application/modules/contract/models/contract/vw_ep_todo_milestone.php
+#	renamed:    application/modules/vendor/views/createOrEdit.php -> application/modules/vendor/views/_editor.php
+#	new file:   application/modules/vendor/views/_view.php
+#	new file:   application/modules/vendor/views/create_or_edit.php
+#	new file:   application/modules/vendor/views/view_data_vendor.php
+#	new file:   application/modules/wkf/controllers/welcome.php
+#	new file:   application/modules/wkf/controllers/wkf.php
+#	new file:   application/modules/wkf/views/list.php
+#	new file:   application/modules/wkf/views/run.php
+#	new file:   application/modules/wkf/views/start.php
+#	new file:   application/modules/wkf/views/welcome_message.php
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   application/controllers/workflowTest.php
+#	modified:   application/core/MY_Controller.php
+#	modified:   application/core/MY_Model.php
+#	modified:   application/libraries/workflow.php
+#	modified:   application/libraries/workflowGraphViz.php
+#	modified:   application/modules/account/controllers/account.php
+#	modified:   application/modules/account/views/complete_registration.php
+#	modified:   application/modules/contract/controllers/contract.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_dok_kontrak.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_item_perkembangan.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_jangka_kontrak.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_jangka_perkembangan.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_kontrak.php
+#	modified:   application/modules/contract/models/contract/ep_ktr_kontrak_jaminan.php
+#	modified:   application/modules/contract/models/contract/vw_ep_todo_milestone.php
+#	modified:   application/modules/contract/models/contract/vw_ep_todo_persetujuan_kontrak.php
+#	modified:   application/modules/contract/views/contract/draft.php
+#	modified:   application/modules/contract/views/contract/updateProgress.php
+#	modified:   application/modules/crud/views/_el_fields.php
+#	modified:   application/modules/vendor/controllers/vendor.php
+#	modified:   application/modules/vendor/models/ep_vendor_barang.php
+#	modified:   application/modules/vendor/models/ep_vendor_jasa.php
+#	modified:   application/modules/vendor/views/_editor.php
+#	modified:   application/modules/vendor/views/_view.php
+#	modified:   application/modules/vendor/views/activation.php
+#	modified:   application/modules/vendor/views/create_or_edit.php
+#	modified:   application/modules/vendor/views/registration.php
+#	modified:   application/modules/vendor/views/view.php
+#	modified:   application/modules/vendor/views/view_data_vendor.php
+#	modified:   application/modules/wkf/controllers/wkf.php
+#	modified:   application/modules/wkf/views/list.php
+#	modified:   application/modules/wkf/views/run.php
+#	modified:   application/modules/wkf/views/start.php
+#	modified:   application/views/workflow_list.php
+#	modified:   application/views/workflow_run.php
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	application/controllers/accountx.php
+#	application/libraries/graphviz-2.20.2/
+#	application/modules/vendor/views/checklist_doc.php
+#	application/modules/vendor/views/todo.php
+#	graph_
+

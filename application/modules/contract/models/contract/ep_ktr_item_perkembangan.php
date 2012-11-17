@@ -15,6 +15,8 @@ class ep_ktr_item_perkembangan extends MY_Model
         'PETUGAS_UBAH',
     );
 
+    public $dir = 'contract';
+    
     function __construct()
     {
         parent::__construct();

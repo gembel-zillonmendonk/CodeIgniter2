@@ -30,7 +30,8 @@ class WorkflowTest extends MX_Controller {
         $sql = "select b.nama_aktifitas as \"from\", c.nama_aktifitas as \"to\" 
 				from ep_wkf_transisi a
                 inner join ep_wkf_aktifitas b on a.aktifitas_asal = b.kode_aktifitas
-                inner join ep_wkf_aktifitas c on a.aktifitas_tujuan = c.kode_aktifitas";
+                inner join ep_wkf_aktifitas c on a.aktifitas_tujuan = c.kode_aktifitas
+                where kode_wkf='".$_REQUEST['kode_wkf']."'";
         
         $query = $this->db->query($sql);
         $node = $query->result_array();
@@ -69,12 +70,17 @@ class WorkflowTest extends MX_Controller {
         ));
     }
 
+    public function start() {
+        $this->load->library('workflow');
+        $kode_wkf = isset($_REQUEST['kode_wkf']) ? $_REQUEST['kode_wkf'] : 1;
+    }
+    
     public function run() {
         $this->load->library('workflow');
 
         $kode_proses = isset($_REQUEST['kode_proses']) ? $_REQUEST['kode_proses'] : null;
         if (!isset($kode_proses)) {
-            $wkf_id = 1;
+            $wkf_id = isset($_REQUEST['kode_wkf']) ? $_REQUEST['kode_wkf'] : 1;
             $this->workflow->start($wkf_id);
             redirect('/workflowTest/index');
         }

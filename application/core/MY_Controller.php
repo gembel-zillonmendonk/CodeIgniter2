@@ -164,7 +164,7 @@ class MY_Controller extends MX_Controller {
 
         $form = new MY_Form($model);
         $form->view = 'crud/modal_form';
-        $form->action = $form->module . '/modal_form/' . get_class($model);
+        $form->action = $form->module . '/modal_form/' . (isset($model->dir) ? strtolower($model->dir . '.' . get_class($model)) : get_class($model));
         $form->clear_form = true;
         // load partial view
         $el_buttons = $this->load->view('crud/_el_buttons', array('form' => $form,), true);
@@ -190,7 +190,7 @@ class MY_Controller extends MX_Controller {
 
         $form = new MY_Form($model);
         $form->view = 'crud/modal_form';
-        $form->action = $form->module . '/modal_form/' . get_class($model);
+        $form->action = $form->module . '/modal_form/' . (isset($model->dir) ? strtolower($model->dir . '.' . get_class($model)) : get_class($model));
 
         // load partial view
         $el_fields = $this->load->view('crud/_el_fields', array('form' => $form,), true);

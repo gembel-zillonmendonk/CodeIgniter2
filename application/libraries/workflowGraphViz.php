@@ -173,7 +173,8 @@ class WorkflowGraphViz
         }
         
         foreach ($data['node'] as $key => $value) {
-            $parsedGraph .= $indent.'"'.trim($value['from']).'"'.$separator.'"'.trim($value['to']).'";'. PHP_EOL;
+            $opt = ($value['tipe'] == 'system' ? '[style=filled]' : '[shape=doublecircle,style=filled]');
+            $parsedGraph .= $indent.'"'.trim($value['from']).'"'.$separator.'"'.trim($value['to']).'" '.$opt.';'. PHP_EOL;
         }
         
         $parsedGraph  .= '}' . PHP_EOL;

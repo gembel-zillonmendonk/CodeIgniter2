@@ -5,12 +5,12 @@ class ep_ktr_kontrak_jaminan extends MY_Model {
     public $table = 'EP_KTR_KONTRAK';
     public $elements_conf = array(
         'KODE_KONTRAK',
-//        'KODE_KANTOR',
-//        'KODE TENDER',
+        'KODE_KANTOR',
+        'KODE_TENDER',
 //        'NO_KONTRAK',
 //        'USER_PEMINTA',
 //        'JABATAN_PEMINTA',
-//        'KODE_VENDOR',
+        'KODE_VENDOR',
 //        'NAMA_VENDOR',
 //        'TGL_TTD',
 //        'TGL_MULAI',

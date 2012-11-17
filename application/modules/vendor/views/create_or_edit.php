@@ -1,0 +1,1 @@
+<?php echo Modules::run('vendor/_editor'); ?> 

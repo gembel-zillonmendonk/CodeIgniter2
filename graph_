@@ -1,0 +1,15 @@
+digraph G { 
+    Start    [shape=doublecircle];
+    Finish    [shape=doublecircle,style=filled];
+    node    [shape=circle];
+    "Start" -> "Persetujuan User" [shape=doublecircle,style=filled];
+    "Persetujuan User" -> "Persetujuan Pengelola Pengadaan" [shape=doublecircle,style=filled];
+    "Persetujuan User" -> "Revisi Perkembangan" [shape=doublecircle,style=filled];
+    "Persetujuan Pengelola Pengadaan" -> "Penyerahan BASTP/B" [shape=doublecircle,style=filled];
+    "Persetujuan Pengelola Pengadaan" -> "Revisi Perkembangan" [shape=doublecircle,style=filled];
+    "Penyerahan BASTP/B" -> "Persetujuan BASTP/B" [shape=doublecircle,style=filled];
+    "Persetujuan BASTP/B" -> "Finish" [style=filled];
+    "Persetujuan BASTP/B" -> "Revisi BASTP/B" [shape=doublecircle,style=filled];
+    "Revisi Perkembangan" -> "Persetujuan User" [shape=doublecircle,style=filled];
+    "Revisi BASTP/B" -> "Persetujuan BASTP/B" [shape=doublecircle,style=filled];
+}
