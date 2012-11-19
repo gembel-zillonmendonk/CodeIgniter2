@@ -4,10 +4,11 @@ class ep_ktr_item_invoice extends MY_Model {
 
     public $table = 'EP_KTR_ITEM_INVOICE';
     public $elements_conf = array(
-//        'KODE_KONTRAK',
-//        'KODE_KANTOR',
-//        'KODE_VENDOR',
-//        'NO_INVOICE',
+        'KODE_ITEM',
+        'KODE_KONTRAK',
+        'KODE_KANTOR',
+        'KODE_VENDOR',
+        'KODE_INVOICE',
 //        'KODE_BASTP',
         'NO_BASTP',
         'NILAI_BASTP',
@@ -24,7 +25,6 @@ class ep_ktr_item_invoice extends MY_Model {
 //        'TGL_UBAH',
 //        'PETUGAS_UBAH',
     );
-    
     public $columns_conf = array(
 //        'KODE_KONTRAK',
 //        'KODE_KANTOR',
@@ -51,6 +51,26 @@ class ep_ktr_item_invoice extends MY_Model {
     function __construct() {
         parent::__construct();
         $this->init();
+        if (isset($_REQUEST['KODE_KONTRAK'])
+                && isset($_REQUEST['KODE_KANTOR'])
+                && isset($_REQUEST['KODE_VENDOR'])
+                && isset($_REQUEST['KODE_INVOICE'])) {
+            $this->attributes['KODE_KONTRAK'] = $_REQUEST['KODE_KONTRAK'];
+            $this->attributes['KODE_KANTOR'] = $_REQUEST['KODE_KANTOR'];
+            $this->attributes['KODE_VENDOR'] = $_REQUEST['KODE_VENDOR'];
+            $this->attributes['KODE_INVOICE'] = $_REQUEST['KODE_INVOICE'];
+        }
+    }
+
+    function _default_scope() {
+        if (isset($_REQUEST['KODE_KONTRAK'])
+                && isset($_REQUEST['KODE_KANTOR'])
+                && isset($_REQUEST['KODE_VENDOR'])
+                && isset($_REQUEST['KODE_INVOICE']))
+            return ' KODE_KONTRAK = ' . $_REQUEST['KODE_KONTRAK']
+                    . ' AND KODE_KANTOR = ' . $_REQUEST['KODE_KANTOR']
+                    . ' AND KODE_VENDOR = ' . $_REQUEST['KODE_VENDOR']
+                    . ' AND KODE_INVOICE = ' . $_REQUEST['KODE_INVOICE'];
     }
 
 }

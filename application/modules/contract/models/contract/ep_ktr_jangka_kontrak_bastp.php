@@ -4,8 +4,9 @@ class ep_ktr_jangka_kontrak_bastp extends MY_Model {
 
     public $table = 'EP_KTR_JANGKA_KONTRAK';
     public $elements_conf = array(
-//        'KODE_KONTRAK',
-//        'KODE_KANTOR',
+        'KODE_JANGKA',
+        'KODE_KONTRAK',
+        'KODE_KANTOR',
 //        'PERSENTASI',
 //        'TGL_TARGET',
 //        'PERSENTASI_PERKEMBANGAN',

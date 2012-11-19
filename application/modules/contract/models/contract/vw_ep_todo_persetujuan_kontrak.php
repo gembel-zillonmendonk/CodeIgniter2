@@ -13,7 +13,7 @@ class vw_ep_todo_persetujuan_kontrak extends MY_Model {
                                 ) b on a.kode_proses = b.kode_proses
                                 inner join EP_WKF_AKTIFITAS c on A.KODE_AKTIFITAS = C.KODE_AKTIFITAS
                                 inner join EP_WKF_PROSES_VARS d on a.kode_proses = d.kode_proses and d.key = 'kode_kontrak'
-                                where kode_wkf = 6
+                                where kode_wkf = 6 and tanggal_selesai is null
                             ) x
                             inner join EP_KTR_KONTRAK y on y.KODE_KONTRAK = x.KODE_KONTRAK_VALUE )";
     

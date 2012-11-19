@@ -24,7 +24,7 @@ $form_id = 'modal_form_' . $grid->id;
             
         // load empty form
         jQuery('#<?php echo $form_id; ?> #form')
-        .load($site_url + '/<?php echo $grid->module ?>/'+$form+'/<?php echo $grid->model ?>');
+        .load($site_url + '/<?php echo $grid->module ?>/'+$form+'/<?php echo $grid->model . $grid->params; ?>');
         
         jQuery('#<?php echo $grid->id ?>').jqGrid({
             "shrinkToFit": true,

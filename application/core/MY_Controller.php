@@ -157,7 +157,7 @@ class MY_Controller extends MX_Controller {
 
         // edit request 
         $keys = $model->primary_keys;
-        if (array_intersect(array_keys($_REQUEST), $keys) === $keys) {
+        if (count(array_intersect(array_keys($_REQUEST), $keys)) === count($keys)) {
             $model->attributes = $this->_form_data($model);
             $model->is_new_record = false;
         }
@@ -184,7 +184,7 @@ class MY_Controller extends MX_Controller {
 
         // edit request 
         $keys = $model->primary_keys;
-        if (array_intersect(array_keys($_REQUEST), $keys) === $keys) {
+        if (count(array_intersect(array_keys($_REQUEST), $keys)) === count($keys)) {
             $model->attributes = $this->_form_data($model);
         }
 
@@ -218,9 +218,9 @@ class MY_Controller extends MX_Controller {
         // edit request 
         $keys = $model->primary_keys;
         if (
-                (count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys) // get PKey from $_REQUEST
+                (count($_REQUEST) > 0 && count(array_intersect(array_keys($_REQUEST), $keys)) === count($keys)) // get PKey from $_REQUEST
                 ||
-                (count($model->attributes) > 0 && array_intersect(array_keys($model->attributes), $keys) === $keys) // get PKey from model
+                (count($model->attributes) > 0 && count(array_intersect(array_keys($model->attributes), $keys)) === count($keys)) // get PKey from model
         ) { // check wheater primary key was supplied or not
             $where = array();
             foreach ($keys as $key)
@@ -265,9 +265,9 @@ class MY_Controller extends MX_Controller {
         // edit request 
         $keys = $model->primary_keys;
         if (
-                (count($_REQUEST) > 0 && array_intersect(array_keys($_REQUEST), $keys) === $keys) // get PKey from $_REQUEST
+                (count($_REQUEST) > 0 && count(array_intersect(array_keys($_REQUEST), $keys)) === count($keys)) // get PKey from $_REQUEST
                 ||
-                (count($model->attributes) > 0 && array_intersect(array_keys($model->attributes), $keys) === $keys) // get PKey from model
+                (count($model->attributes) > 0 && count(array_intersect(array_keys($model->attributes), $keys)) === count($keys)) // get PKey from model
         ) { // check wheater primary key was supplied or not
             $where = array();
             foreach ($keys as $key)

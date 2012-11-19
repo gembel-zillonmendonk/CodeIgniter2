@@ -655,6 +655,7 @@ class MY_Grid
     public $js_grid_completed = '';
     public $view = 'crud/grid';
     public $module = '';
+    public $params = '';
     
     function __construct($model)
     {
@@ -668,7 +669,10 @@ class MY_Grid
             $this->url = $model->router->fetch_module() . '/grid/' . $this->model;
 
         // include variable in $_REQUEST, if exists
-        if(count($_REQUEST)) $this->url .= '?'.http_build_query($_REQUEST);
+        if(count($_REQUEST)){
+            $this->params = '?'.http_build_query($_REQUEST);
+            $this->url .= '?'.http_build_query($_REQUEST);
+        }
         
         if ($this->id == '')
             $this->id = 'grid_' . $this->name;

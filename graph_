@@ -2,14 +2,14 @@ digraph G {
     Start    [shape=doublecircle];
     Finish    [shape=doublecircle,style=filled];
     node    [shape=circle];
-    "Start" -> "Persetujuan User" [shape=doublecircle,style=filled];
-    "Persetujuan User" -> "Persetujuan Pengelola Pengadaan" [shape=doublecircle,style=filled];
-    "Persetujuan User" -> "Revisi Perkembangan" [shape=doublecircle,style=filled];
-    "Persetujuan Pengelola Pengadaan" -> "Penyerahan BASTP/B" [shape=doublecircle,style=filled];
-    "Persetujuan Pengelola Pengadaan" -> "Revisi Perkembangan" [shape=doublecircle,style=filled];
-    "Penyerahan BASTP/B" -> "Persetujuan BASTP/B" [shape=doublecircle,style=filled];
-    "Persetujuan BASTP/B" -> "Finish" [style=filled];
-    "Persetujuan BASTP/B" -> "Revisi BASTP/B" [shape=doublecircle,style=filled];
-    "Revisi Perkembangan" -> "Persetujuan User" [shape=doublecircle,style=filled];
-    "Revisi BASTP/B" -> "Persetujuan BASTP/B" [shape=doublecircle,style=filled];
+    "Start" -> "Verifikasi & Perhitungan Denda" [ label="Lanjutkan ke Perhitungan Denda",shape=doublecircle,style=filled ];
+    "Verifikasi & Perhitungan Denda" -> "Review User" [ label="Review User",shape=doublecircle,style=filled ];
+    "Verifikasi & Perhitungan Denda" -> "Review Bag. Keuangan" [ label="Review Bag. Keuangan",shape=doublecircle,style=filled ];
+    "Memo Pencairan Anggaran" -> "Setuju" [ label="Setuju",shape=doublecircle,style=filled ];
+    "Verifikasi & Perhitungan Denda" -> "Setuju" [ label="Setuju",shape=doublecircle,style=filled ];
+    "Setuju" -> "Finish" [ label="Selesai",shape=doublecircle,style=filled ];
+    "Memo Pencairan Anggaran" -> "Perlu Revisi" [ label="Perlu di Revisi",shape=doublecircle,style=filled ];
+    "Review User" -> "Review Bag. Keuangan" [ label="Lanjutkan ke Bag. Keuangan",shape=doublecircle,style=filled ];
+    "Review Bag. Keuangan" -> "Memo Pencairan Anggaran" [ label="Lanjutkan ke Pembuatan Memo Pencairan",shape=doublecircle,style=filled ];
+    "Perlu Revisi" -> "Verifikasi & Perhitungan Denda" [ label="Lanjutkan ke Perhitungan Denda",shape=doublecircle,style=filled ];
 }

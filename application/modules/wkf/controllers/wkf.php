@@ -118,7 +118,7 @@ class Wkf extends MX_Controller {
             array('from' => 'Persetujuan Registrasi', 'to' => 'Perbaikan data'),
         );
 
-        $sql = "select b.nama_aktifitas as \"from\", c.nama_aktifitas as \"to\", c.tipe as \"tipe\" 
+        $sql = "select b.nama_aktifitas as \"from\", c.nama_aktifitas as \"to\", c.tipe as \"tipe\", a.nama_transisi as \"label\" 
 				from ep_wkf_transisi a
                 inner join ep_wkf_aktifitas b on a.aktifitas_asal = b.kode_aktifitas
                 inner join ep_wkf_aktifitas c on a.aktifitas_tujuan = c.kode_aktifitas

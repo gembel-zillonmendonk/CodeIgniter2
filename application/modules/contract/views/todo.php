@@ -9,7 +9,7 @@
     <div></div>
     <h3 href="<?php echo site_url('/contract/grid/contract.vw_ep_todo_milestone') ?>"> DAFTAR PEKERJAAN PROGRESS</h3>
     <div></div>
-    <h3 href="<?php echo site_url('/contract/grid/contract.vw_ep_todo_invoice') ?>">  DAFTAR PEKERJAAN TAGIHAN</h3>
+    <h3 href="<?php echo site_url('/contract/grid/invoice.vw_ep_todo_tagihan') ?>">  DAFTAR PEKERJAAN TAGIHAN</h3>
     <div></div>
 </div>
 <script>

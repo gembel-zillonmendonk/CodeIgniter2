@@ -5,9 +5,9 @@ class ep_ktr_invoice extends MY_Model
     public $table = 'EP_KTR_INVOICE';
     public $elements_conf = array(
         'KODE_KONTRAK',
-//        'KODE_KANTOR',
-//        'KODE_VENDOR',
-        'NO_INVOICE',
+        'KODE_KANTOR',
+        'KODE_VENDOR',
+        'KODE_INVOICE',
         'TGL_INVOICE',
         'NAMA_VENDOR',
         'NO_KONTRAK',

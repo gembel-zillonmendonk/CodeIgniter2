@@ -1,11 +1,11 @@
 <?php
 
-class vw_ep_todo_milestone extends MY_Model {
+class vw_ep_todo_tagihan extends MY_Model {
 
     public $table = 'VW_EP_TODO_PERSETUJUAN_KONTRAK';
     
     public $sql_select = "( select x.*, y.*, '' as \"ACT\" from (
-                                select a.* ,c.NAMA_AKTIFITAS, b.url, d.value as KODE_KONTRAK_VALUE 
+                                select a.* ,c.NAMA_AKTIFITAS, b.url, d.value as KODE_INVOICE_VALUE 
                                 from EP_WKF_PROSES a
                                 inner join (
                                     select rtrim(xmlagg(xmlelement(e, '&' || key || '=' || value )).extract('//text()').extract('//text()') ,',') url, kode_proses 
@@ -13,15 +13,10 @@ class vw_ep_todo_milestone extends MY_Model {
                                     group by KODE_PROSES
                                 ) b on a.kode_proses = b.kode_proses
                                 inner join EP_WKF_AKTIFITAS c on A.KODE_AKTIFITAS = C.KODE_AKTIFITAS
-                                inner join EP_WKF_PROSES_VARS d on a.kode_proses = d.kode_proses and d.key = 'KODE_KONTRAK'
-                                where kode_wkf = 61 and tanggal_selesai is null
+                                inner join EP_WKF_PROSES_VARS d on a.kode_proses = d.kode_proses and d.key = 'KODE_INVOICE'
+                                where kode_wkf = 62 and tanggal_selesai is null
                             ) x
-                            inner join EP_KTR_JANGKA_KONTRAK y on y.KODE_KONTRAK = x.KODE_KONTRAK_VALUE
-                            inner join (
-                                select sum(persentasi) as persentasi, kode_jangka, kode_kontrak, kode_kantor 
-                                from EP_KTR_JANGKA_PERKEMBANGAN
-                                group by kode_jangka, kode_kantor , kode_kontrak
-                            ) z on z.KODE_KONTRAK = y.KODE_KONTRAK and z.kode_jangka = y.kode_jangka and z.kode_kantor = y.kode_kantor
+                            inner join EP_KTR_INVOICE y on y.KODE_INVOICE = x.KODE_INVOICE_VALUE
                           )";
     
     public $columns_conf = array(
@@ -30,13 +25,11 @@ class vw_ep_todo_milestone extends MY_Model {
         'KODE_VENDOR',
         'KODE_KONTRAK',
         'KODE_KANTOR',
-        'NAMA_VENDOR',
-        'JUDUL_PEKERJAAN',
-        'LINGKUP_KERJA',
+        'KODE_INVOICE',
         'URL',
         'ACT',
     );
-    public $dir = 'contract';
+    public $dir = 'invoice';
     
     function __construct() {
         parent::__construct();
